@@ -3,14 +3,14 @@
     <div class="main">
       <p class="g-cen-y">以下协议一经签订即可生效，请务必确认协议内容及条款</p>
       <ul v-ScrollMove>
-        <li class="g-cen-y g-border" v-for="(m,i) in arr" :key="i">
-          <i class="iconfont icon-dui"></i>
-          <span>借款协议</span>
+        <li class="g-cen-y g-border" v-for="(m,i) in arr" :key="i" ref="list" :id="m.id">
+          <i class="iconfont" :class="{'on icon-dui1':m.isCheck,'icon-dui':!m.isCheck}" @click="clickFn(m)"></i>
+          <span class="g-text-ove1">{{m.value}}</span>
         </li>
       </ul>
       <footer class="btn-box g-fen-box">
-        <span class="g-cen-y"><i class="iconfont icon-dui"></i>全选</span>
-        <button>我已知晓并确认</button>
+        <span class="g-cen-y" @click="clickAll(false)"><i class="iconfont" :class="{'on icon-dui1':allAsync,'icon-dui':!allAsync}"></i>全选</span>
+        <button :disabled="!allAsync" :class="{'on':allAsync}">我已知晓并确认</button>
       </footer>
     </div>
   </div>
@@ -23,15 +23,62 @@ export default {
     arr : {
       type :Array,
       default : function(){return []}
+    },
+    name : {
+      type :String,
+      default : ''
+    },
+    async : {
+      type :Boolean,
+      default : function(){return false}
     }
   },
   data () {
     return {
+      allAsync : false
     }
   },
   methods : {
     closeAsideFn () {
-      this.$emit('closeAsideFn')
+      this.$emit('closeAsideFn',this.allAsync,this.name);
+    },
+    clickFn (obj) {
+      let num =0;
+      this.arr.map((m,i) =>{
+        //对每项 取反
+        if(m.id == obj.id){
+          m.isCheck = !obj.isCheck;
+          //本地存储
+          this.setStorage();
+        }
+        //记录选中几个
+        if(m.isCheck){num++};
+      });
+
+      //如果全选中 判定全选;
+      this.allAsync = num == this.arr.length;
+    },
+    //点击全选
+    clickAll (async) {
+      //判断 默认还是点击
+      this.allAsync = async ? true: !this.allAsync;
+      //遍历所有
+      this.arr.map((m,i) =>{
+        m.isCheck = this.allAsync;
+      });
+      //本地存储
+      this.setStorage();
+    },
+    //设置本地存储
+    setStorage () {
+      localStorage.setItem(this.name,JSON.stringify(this.arr));
+    }
+  },
+  mounted () {
+    if(this.async){
+      this.clickAll(true);
+    } else{
+      this.clickFn({});
     }
   }
 }
@@ -68,16 +115,22 @@ export default {
         font-size: 30px;
         i{
           font-size: 48px;
+          &.on{
+            color:$col-blue;
+          }
         }
       }
       button{
-        background: $col-blue;
+        background: $col-9;
         color:$col-f;
         height: 64px;
         border: none;
         border-radius: 4px;
         width: 256px;
         font-size: 30px;
+        &.on{
+          background: $col-blue;
+        }
       }
     }
     ul{
@@ -90,6 +143,9 @@ export default {
         i{
           font-size: 48px;
           color:$col-9;
+          &.on{
+            color:$col-blue;
+          }
         }
         span{
          font-size: 28px;

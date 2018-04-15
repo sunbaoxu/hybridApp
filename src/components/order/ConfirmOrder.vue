@@ -26,7 +26,7 @@
               :class="(!xueAsync?'icon-dui':'icon-dui1 on')"
             ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn">
+          <span class="g-fen-cen" @click="openAsideFn('xuefei')">
             {{orDetail.contractMsg}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
@@ -50,19 +50,25 @@
         <!-- 服务信息订单 -->
         <order-xinxi :obj="fuwuObj"></order-xinxi>
         <div class="xieyi-box g-fen-cen-box">
-          <span>
-            <i class="iconfont icon-dui"></i>
+          <span @click="fuwuFn('fuwuAsync1')">
+            <i 
+              class="iconfont"
+              :class="(!fuwuAsync1?'icon-dui':'icon-dui1 on')"
+            ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn">
+          <span class="g-fen-cen" @click="openAsideFn('fuwu')">
             {{feeDetail.contractMsg_1}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
         </div>
         <div class="xieyi-box g-fen-cen-box">
-          <span>
-            <i class="iconfont icon-dui"></i>
+          <span @click="fuwuFn('fuwuAsync2')">
+            <i 
+              class="iconfont"
+              :class="(!fuwuAsync2?'icon-dui':'icon-dui1 on')"
+            ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn">
+          <span class="g-fen-cen" @click="openAsideFn('fuwu')">
             {{feeDetail.contractMsg_2}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
@@ -118,7 +124,7 @@
       </section>
     </footer>
     <!-- 协议 -侧边栏 -->
-    <xieyi-aside v-show="asideAsync" @closeAsideFn="closeAsideFn"></xieyi-aside>
+    <xieyi-aside v-if="asideAsync" @closeAsideFn="closeAsideFn" :arr="asideArr" :name ="asideName" :async="asideAll"></xieyi-aside>
 
     <!-- 弹框组件 - 订单 -->
     <alert-back class="order-alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
@@ -177,13 +183,16 @@ export default {
   data () {
     return {
       asideAsync : false,
+      asideName : 'xuefei',
+      asideArr  : [],//侧边栏
       alertAsync : false,
       xuefeiObj :{text:'xuefei'},
       fuwuObj :{text:'fuwu'},
-      xueAsync  : false ,//学费协议是否勾选
+      xueAsync   : false ,//学费协议是否勾选
+      fuwuAsync1 : false,//服务是否勾选
+      fuwuAsync2 : false,//服务是否勾选
       orDetail  :{} ,//学费订单
       feeDetail :{},//服务
-      // asideArr  : [],//侧边栏
       orderObj : {} ,
       identityText : '在校学生',
       inentityAsync : false
@@ -192,13 +201,51 @@ export default {
   methods : {
     ...mapActions(['setOrderRmpList']),
     //打开侧边栏
-    openAsideFn (arr) {
+    openAsideFn (name) {
       this.asideAsync = true;
-      // this.asideArr   = arr;
+      this.asideName  = name;
+      this.asideAll   = false;
+      let arr = JSON.parse(localStorage.getItem(name));
+      let xuefei = [
+            {id: '1',value: '香蕉',isCheck: false},
+            {id: '2',value: '苹果',isCheck: false},
+            {id: '3',value: '梨子',isCheck: false},
+            {id: '4',value: '菠萝',isCheck: false}
+          ],
+          fuwu   = [
+            {id: '1',value: '绿萝',isCheck: false},
+            {id: '2',value: '仙人泪',isCheck: false},
+            {id: '3',value: '观音竹',isCheck: false},
+            {id: '4',value: '栀子花',isCheck: false},
+            {id: '5',value: '夏荷',isCheck: false}
+          ];
+
+      if(name == 'xuefei'){
+        this.asideAll = this.xueAsync;
+      } else{
+        this.asideAll = this.fuwuAsync2 && this.fuwuAsync1;
+      }
+      //为侧边栏赋值
+      if(arr){
+        this.asideArr = arr;
+        return;
+      } else{
+        if(name = 'xuefei'){
+          this.asideArr = xuefei;
+        } else{
+          this.asideArr = fuwu;
+        }
+      }
     },
     //关闭侧边栏 
-    closeAsideFn () {
+    closeAsideFn (async,name) {
       this.asideAsync = false;
+      if(name == 'xuefei') {
+        this.xueAsync = async;
+      } else{
+        this.fuwuAsync2 = async;
+        this.fuwuAsync1 = async;
+      }
     },
     //关闭弹框提醒
     closeAlertFn () {
@@ -222,6 +269,10 @@ export default {
     //学费协议点击 
     xueXieyiFn () {
       this.xueAsync = !this.xueAsync;
+    },
+    //服务协议点击
+    fuwuFn    (name) {
+      this[name] = !this[name]
     },
     //查询还款详情以及费用详情(两笔)
     queryRepayDetails () {
