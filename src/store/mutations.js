@@ -10,3 +10,7 @@ export const setBusinessObj = (state, payload) => {
 export const setOrderRmpList = (state, payload) => {
   state.orderRmpList = payload.arr;
 }
+
+export const setToastObj = (state, payload) => {
+  state.toastObj = payload.obj;
+}

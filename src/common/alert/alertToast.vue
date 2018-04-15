@@ -1,5 +1,5 @@
 <template>
-  <div class="alert-back g-cen-cen-box" @touchmove.prevent @click.self="closeAlertFn">
+  <div class="alert-back g-cen-cen-box" @touchmove.prevent>
     <main class="main">
       <slot></slot>
     </main>
@@ -7,21 +7,16 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: 'state',
-  data () {
-    return {
-      
-    }
-  },
   methods : {
-    closeAlertFn () {
-      this.$emit('closeAlertFn')
-    }
-      
+    ...mapActions(['setToastObj'])
   },
   mounted () {
-    
+    setTimeout (() =>{
+      this.setToastObj({async:false});
+    },2000)
   }
 }
 </script>
@@ -37,7 +32,7 @@ export default {
     border-radius: 8px;
     max-width: 80%;
     background:rgba(0,0,0,0.8);
-    font-size: 34px;
+    font-size: 32px;
     color:$col-f;
     padding:10px 30px;
     line-height: 40px;

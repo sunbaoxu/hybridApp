@@ -5,3 +5,7 @@ export const msg    = state => state.msg;
 export const businessObj    = state => state.businessObj;
 //订单信息列表
 export const orderRmpList    = state => state.orderRmpList;
+
+
+//吐司是否显示
+export const toastObj    = state => state.toastObj;

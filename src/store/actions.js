@@ -5,8 +5,7 @@ export const fun = ({commit}) => {
     msg: '我是修改后的数据...'
   });
 };
-
-
+//商品 详情对象
 export const setBusinessObj = ({commit},obj) => {
   commit({
     type: 'setBusinessObj',     
@@ -14,10 +13,18 @@ export const setBusinessObj = ({commit},obj) => {
   });
 };
 
-
+//商品 订单列表
 export const setOrderRmpList = ({commit},arr) => {
   commit({
     type: 'setOrderRmpList',     
     arr
+  });
+};
+
+//吐司 弹框提醒
+export const setToastObj = ({commit},obj) => {
+  commit({
+    type: 'setToastObj',     
+    obj
   });
 };

@@ -37,7 +37,7 @@
           <span>提前结清金额</span>
         </nav>
         <ul>
-          <li class="g-fen-x" v-for="(m,i) in obj" :key="i">
+          <li class="g-fen-x" v-for="(m,i) in orderRmpList" :key="i">
             <span>{{m.retAmtDate}}</span>
             <span class="zhong"  v-if="tabText =='应还金额'">{{m.rePrincipal}}</span>
             <span class="zhong"  v-if="tabText =='应还金额'">{{m.reInterest}}</span>
@@ -63,15 +63,12 @@ export default {
     }
   },
   //获取订单数据
-  // computed: {...mapGetters(['orderRmpList'])},
+  computed: {...mapGetters(['orderRmpList'])},
   methods : {
     clickTab (str,name) {
       this.tabText = str;
       this.tishiText = str=='应还金额'?'以下每期应还金额含本息+利息':'可一次行提前结清所有借款';
     }
-  },
-  mounted () {
-    this.obj=JSON.parse(localStorage.getItem('orderRmpList'));
   }
 }
 </script>

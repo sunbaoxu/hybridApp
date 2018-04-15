@@ -179,10 +179,14 @@ export default {
     },
     //打开闲情
     openDetailFn (str) {
-      this.setOrderRmpList('orderRmpList',this[str].rmpList);
-      localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
+      // console.log(this[str].rmpList)
+      // this.setOrderRmpList(this[str].rmpList);
+      this.setOrderRmpList([1,2,3,4]);
+
+      return false
+      // localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
       // return 
-      this.$router.push({path:'/stillDetail'});
+      // this.$router.push({path:'/stillDetail'});
     },
     //点击提交订单
     submitFn () {
@@ -214,7 +218,7 @@ export default {
     }
   },
   mounted () {
-    this.queryRepayDetails()
+    // this.queryRepayDetails()
   }
 }
 </script>
