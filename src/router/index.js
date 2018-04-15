@@ -1,15 +1,38 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Vue from 'vue';
+import Router from 'vue-router';
+//商家推荐码
+const ShangCode            = resolve => require(['@/components/business/ShangCode.vue'], resolve);
+//商家列表
+const ShangList            = resolve => require(['@/components/business/ShangList.vue'], resolve);
+//商家列表
+const ShangDetail           = resolve => require(['@/components/business/ShangDetail.vue'], resolve);
 
-Vue.use(Router)
 
+
+//订单确认
+const ConfirmOrder    = resolve => require(['@/components/order/ConfirmOrder.vue'], resolve);
+//订单状态
+const OrderState    = resolve => require(['@/components/order/state/OrderState.vue'], resolve);
+//订单详情
+const OrderRecord    = resolve => require(['@/components/order/state/OrderRecord.vue'], resolve);
+//还款详情
+const stillDetail    = resolve => require(['@/components/order/details/stillDetail.vue'], resolve);
+Vue.use(Router);
 export default new Router({
+  mode :'history',
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+    //商家推荐码
+    {path: '/shangCode',name: 'shangCode',component: ShangCode},
+    //商家列表
+    {path: '/shangList',name: 'shangList',component: ShangList},
+    //商家详情
+    {path: '/shangDetail',name: 'shangDetail',component: ShangDetail},
+    //确认订单
+    {path: '/confirmOrder',name: 'confirmOrder',component: ConfirmOrder},
+    //订单状态
+    {path: '/orderState/',name: 'orderState',component: OrderState},
+    //订单详情
+    {path: '/orderRecord',name: 'orderRecord',component: OrderRecord},
+    {path: '/stillDetail',name: 'stillDetail',component: stillDetail},
   ]
-})
+});

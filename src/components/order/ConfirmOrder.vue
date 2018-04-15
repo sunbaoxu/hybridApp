@@ -1,0 +1,486 @@
+<template>
+  <div class="wrap">
+    <header class="header g-fen-cen-box">
+      <div class="g-cen-y">
+        <i class="g-back"></i>
+        <span>现场认函</span>
+      </div>
+      <div>去上传</div>
+    </header>
+    <main class="main">
+      <!-- 学费 -->
+      <section class="section-box">
+        <p class="top-back"></p>
+        <h4 class="title-box g-fen-cen-box g-border">
+          <span>学费分期订单信息</span>
+          <span class="g-cen-y" @click="openDetailFn('orDetail')">
+            <i class="iconfont icon-xiangqing"></i>详情
+          </span>
+        </h4>
+        <!-- 学费分期信息订单 -->
+        <order-xinxi :obj="xuefeiObj"></order-xinxi>
+        <div class="xieyi-box g-fen-cen-box">
+          <span @click="xueXieyiFn">
+            <i 
+              class="iconfont" 
+              :class="(!xueAsync?'icon-dui':'icon-dui1 on')"
+            ></i>
+          </span>
+          <span class="g-fen-cen" @click="openAsideFn">
+            {{orDetail.contractMsg}}
+            <i class="iconfont icon-jiao-rig"></i>
+          </span>
+        </div>
+        <p class="bot-back"></p>
+      </section>
+      <!-- 服务费 -->
+      <section class="section-box on">
+        <p class="top-back"></p>
+        <h4 class="tixing-box g-fen-cen-box g-border">
+          <span class="g-cen-y">
+            <i class="iconfont icon-xiangqing"></i>
+            温馨提醒
+            </span>
+          <p>以下为第三方机构专业的<span>服务套餐</span>，非玖富平台提供，会员客户选择并认可并自愿采购支付以下第三方服务消费</p>
+        </h4>
+        <h4 class="title-box g-fen-cen-box g-border">
+          <span>服务订单信息</span>
+          <span class="g-cen-y" @click="openDetailFn('feeDetail')"><i class="iconfont icon-xiangqing"></i>详情</span>
+        </h4>
+        <!-- 服务信息订单 -->
+        <order-xinxi :obj="fuwuObj"></order-xinxi>
+        <div class="xieyi-box g-fen-cen-box">
+          <span>
+            <i class="iconfont icon-dui"></i>
+          </span>
+          <span class="g-fen-cen" @click="openAsideFn">
+            {{feeDetail.contractMsg_1}}
+            <i class="iconfont icon-jiao-rig"></i>
+          </span>
+        </div>
+        <div class="xieyi-box g-fen-cen-box">
+          <span>
+            <i class="iconfont icon-dui"></i>
+          </span>
+          <span class="g-fen-cen" @click="openAsideFn">
+            {{feeDetail.contractMsg_2}}
+            <i class="iconfont icon-jiao-rig"></i>
+          </span>
+        </div>
+        <p class="bot-back"></p>
+      </section>
+    </main>
+    <!-- 借款人信息 -->
+    <section class="list-box">
+      <ul>
+        <li class="g-fen-cen-box g-border">
+          <span>借款人信息</span>
+          <i class="iconfont icon-wenhao"></i>
+        </li>
+        <li class="g-fen-cen-box g-border">
+          <span>主借款人</span>
+          <div>
+            <p>
+              <span>张三</span>
+              <span>422125**********0593</span>
+            </p>
+            <i class="iconfont icon-jiao-rig"></i>
+          </div>
+        </li>
+        <li class="g-fen-cen-box">
+          <span>共同借款人</span>
+          <div>
+            <p>
+              <span>张三</span>
+              <span>422125**********0593</span>
+            </p>
+            <i class="iconfont icon-jiao-rig"></i>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <!-- 文字声明 -->
+    <section class="text-box">
+      <p>以上费用均由<span>借款人自行承当</span></p>
+    </section>
+    <!-- 订单页脚 -->
+    <footer class="footer">
+      <section>网贷信息中介服务由玖富惠普提供</section>
+      <section>
+        <div class="money g-col-cen-y">
+          <p>
+            <span>订单总额</span>
+            <span>￥18232.99</span>
+          </p>
+          <p>含学费 ￥18000+服务费 ￥145.99</p>
+        </div>
+        <div class="btn" @click="clickBtnFn">提交订单</div>
+      </section>
+    </footer>
+    <!-- 协议 -侧边栏 -->
+    <xieyi-aside v-show="asideAsync" @closeAsideFn="closeAsideFn"></xieyi-aside>
+
+    <!-- 弹框组件 -->
+    <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
+      <h4 class="title">提示</h4>
+      <div class="cont g-border">
+        根据国家监管要求，您不能作为申请的主体，但可经您父母的授权，有大是否大师
+        傅打算发的说法地方萨芬多岁的方式的地方十大盛大发售大法师
+      </div>
+      <!-- <div class="btn-box" @click="closeAlertFn">知道了</div> -->
+      <div class="btn-boxs" >
+        <button @click="closeAlertFn">我再看看</button>
+        <button @click="submitFn">立即提交</button>
+      </div>
+    </alert-back>
+  </div>
+</template>
+
+<script>
+import api  from '@/api/api';
+import {mapActions} from 'vuex';
+import xieyiAside from '$order/common/Aside.vue';
+import orderXinxi from '$order/common/orderXinxi.vue';
+import alertBack from '@/common/alert/alertBack.vue';
+export default {
+  name: 'order',
+  components: {
+    xieyiAside,
+    alertBack,
+    orderXinxi
+  },
+  data () {
+    return {
+      asideAsync : false,
+      alertAsync : false,
+      xuefeiObj :{text:'xuefei'},
+      fuwuObj :{text:'fuwu'},
+      xueAsync  : false ,//学费协议是否勾选
+      orDetail  :{} ,//学费订单
+      feeDetail :{},//服务
+      // asideArr  : [],//侧边栏
+      orderObj : {}
+    }
+  },
+  methods : {
+    ...mapActions(['setOrderRmpList']),
+    //打开侧边栏
+    openAsideFn (arr) {
+      this.asideAsync = true;
+      // this.asideArr   = arr;
+    },
+    //关闭侧边栏 
+    closeAsideFn () {
+      this.asideAsync = false;
+    },
+    //关闭弹框提醒
+    closeAlertFn () {
+      this.alertAsync = false;
+    },
+    //打开闲情
+    openDetailFn (str) {
+      this.setOrderRmpList('orderRmpList',this[str].rmpList);
+      localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
+      // return 
+      this.$router.push({path:'/stillDetail'});
+    },
+    //点击提交订单
+    submitFn () {
+      
+      this.$router.push('/orderState');
+    },
+    //确定提交订单
+    clickBtnFn () {
+      this.alertAsync = true;
+    },
+    //学费协议点击 
+    xueXieyiFn () {
+      this.xueAsync = !this.xueAsync;
+    },
+    //查询还款详情以及费用详情(两笔)
+    queryRepayDetails () {
+      let obj =  {"bpcId":"cFh05LWhoTxRQLmRvdQ","businessType":"5","loanMoney":"20000","nper":"24","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","reqTime":"2018-04-13 15:49:58","sign":"3a781778cd3dcecf3cf78a885169235b","token":"6eb763411de240c9bde8729088499995"}
+      api.queryRepayDetails(obj).then((res) =>{
+        if(res.respCode =='000'){
+          // this.orderObj = res;
+          console.log(res);
+          this.orDetail = res.orDetail;
+          this.feeDetail = res.feeDetail;
+        }
+
+      },(error)=>{
+        console.log(error,'dfs')
+      });
+    }
+  },
+  mounted () {
+    this.queryRepayDetails()
+  }
+}
+</script>
+<style lang="scss" scoped>
+.wrap{
+  background: $col-f0;
+  padding-bottom: 180px;
+  .header{
+    height: 120px;
+    padding:0 30px;
+    width: 100%;
+    background: $col-f;
+    &>div{
+      &:first-child{
+        i{
+          background-image: url("/static/images/order/sure-fail.png");
+          width:35px;
+          height: 40px;
+          margin-right: 20px;
+        }
+        span{
+          font-size: 32px;
+          color:$col-3;
+        }
+      }
+      &:last-child{
+        width:120px;
+        height: 60px;
+        font-size: 28px;
+        color:#fb5151;
+        line-height: 60px;
+        text-align: center;
+        border:1px solid #fb5151;
+        border-radius: 4px;
+      }
+    }
+  }
+  .main{
+    padding:20px 16px;
+    box-sizing: border-box; 
+    .top-back{
+      height: 12px;
+      background: url('/static/images/order/blue-back.png') no-repeat top center;
+    }
+    .bot-back{
+      height: 12px;
+      background: url('/static/images/order/juchi-back.png') no-repeat top center;
+      background-color: $col-f0;
+    }
+    .section-box{
+      margin-bottom: 20px;
+      background:$col-f;
+      border-radius: 8px;
+      overflow: hidden;
+      &.on{
+        .top-back{
+          background: url('/static/images/order/origin-back.png') no-repeat top center;
+        }
+        .bot-back{
+          background: url('/static/images/order/juchi-back.png') no-repeat top center;
+          background-color: $col-f0;
+        }
+      }
+    }
+    
+    .title-box{
+      padding:0 30px;
+      height: 84px;
+      span{
+        font-size: 28px;
+        &:first-child{
+          color:$col-3;
+        }
+        &:last-child{
+          color:$col-blue;
+          height: 100%;
+          i{
+            font-size: 46px;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    .xieyi-box{
+      padding:20px 20px;
+      box-sizing: border-box;
+      span{
+        font-size: 24px;
+        color:$col-9;
+        &:first-child{
+          i{
+            margin-right: 8px;
+            font-size: 48px;
+            &.on{
+              color:$col-blue;
+            }
+          }
+        }
+        &:last-child{
+          flex:1;
+          i{
+            font-size: 34px;
+            margin-left:20px;
+          }
+        }
+      }
+    }
+    .tixing-box{
+      height:118px;
+      padding:0 20px 0 20px;
+      box-sizing: border-box;
+      background: #ffede5;
+      display: flex;
+      p{
+        font-size: 22px;
+        color:$col-6;
+        width: 0;
+        flex:1;
+        span{
+          color:$col-ori;
+        }
+      }
+      &>span{
+        font-size: 28px;
+        color:$col-ori;
+        margin-right: 32px;
+        i{
+          font-size: 48px;
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+  .list-box{
+    background: #fff;
+    ul{
+      li{
+        height: 96px;
+        padding:0 30px;
+        box-sizing: border-box;
+        &>span{
+          font-size: 30px;
+          color:$col-3;
+        }
+        &>i{
+          color:$col-blue;
+          font-size: 46px;
+        }
+        div{
+          display: flex;
+          color:$col-6;
+          align-items: center;
+          p{
+            text-align: right;
+            span{
+              display: block;
+              font-size: 28px;
+              line-height: 34px;
+            }
+          }
+          &>i{
+            font-size: 44px;
+            color:$col-9;
+          }
+        }
+      }
+    }
+  }
+  .text-box{
+    padding: 40px 60px;
+    P{
+      font-size: 24px;
+      line-height: 42px;
+      color:$col-9;
+      span{
+        color:$col-red;
+      }
+    }
+  }
+  .footer{
+    background: $col-f;
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    section{
+      &:first-child{
+        height: 60px;
+        text-align: center;
+        background: rgba(0,0,0,0.6);
+        font-size: 24px;
+        color:$col-f;
+        line-height: 60px;
+      }
+      &:last-child{
+        height: 120px;
+        display: flex;
+        .btn{
+          width: 216px;
+          line-height: 120px;
+          font-size: 36px;
+          color:$col-f;
+          text-align: center;
+          background: $col-blue;
+        }
+        .money{
+          width: 0;
+          flex:1;
+          height: 100%;
+          padding-left: 30px;
+          p{
+            padding:4px 0;
+            &:first-child{
+              font-size: 34px;
+              span{
+                &:first-child{
+                  color:$col-3;
+                }
+                &:last-child{
+                  color:$col-red;
+                }
+              }
+            }
+            &:last-child{
+              font-size: 22px;
+              color:$col-9;
+            }
+          }
+        }
+      }
+    }
+  }
+  .alert-back{
+    .title{
+      line-height: 100px;
+      text-align: center;
+      font-size: 40px;
+    }
+    .cont{
+      line-height: 44px;
+      font-size: 24px;
+      color:$col-9;
+      padding:0 40px 20px;
+    }
+    .btn-box{
+      line-height: 100px;
+      text-align: center;
+      color:$col-blue;
+      font-size: 32px;
+    }
+    .btn-boxs{
+      height: 100px;
+      display: flex;
+      padding:20px 0;
+      button{
+        width: 0;
+        flex:1;
+        font-size: 32px;
+        border:none;
+        background: $col-f;
+        color:$col-blue;
+        &:last-child{
+          border-left: 2px solid $col-e;
+        }
+      }
+    }
+  }
+}
+</style>
