@@ -1,5 +1,6 @@
 <template>
   <div class="state-wrap" >
+    <p class="xiyi g-cen-y"><i class="iconfont icon-tixing"></i><span>查看协议</span></p>
     <header class="header-state">
       <!-- 订单 信息 -->
       <section class="detail">
@@ -76,6 +77,7 @@
           </li>
         </ul>
       </section>
+      <!-- 提示性文字 -->
       <section class="tishi">
         <h4>温馨提示：</h4>
         <p>您的分期申请已经发第三方撒地方设定浮动搜房
@@ -110,16 +112,9 @@
     <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
       <h4 class="title">详情</h4>
       <section class="box g-border">
-        <ul>
-          <li>
-            <h5 class="g-fen-cen">
-              <span><i class="iconfont icon-clock"></i>2017-02-23</span>
-              <span>已逾期</span>
-            </h5>
-            <p>应还本息：189.93元</p>
-            <p>逾期费用：189.93元</p>
-          </li>
-          <li>
+        <ul v-ScrollMove>
+          <li v-for="(m,i) in 2" :key="i">
+            <i class="xian"></i>
             <h5 class="g-fen-cen">
               <span><i class="iconfont icon-clock"></i>2017-02-23</span>
               <span>已逾期</span>
@@ -222,6 +217,22 @@ export default {
 <style lang="scss" scoped>
 .state-wrap{
   padding:20px 0 100px;
+  &>.xiyi{
+    color:$col-6;
+    padding:0 0 20px 30px;
+    display: none;
+    &.on{
+      display: flex;
+    }
+    i{
+      font-size: 40px;
+      color:$col-blue;
+      margin-right: 10px;
+    }
+    span{
+      font-size:24px;
+    }
+  }
   .header-state{
     background: $col-f;
     padding-top:30px;
@@ -346,7 +357,7 @@ export default {
               height: 100%;
               padding-right: 10px;
               i{
-                font-size: 46px;
+                font-size: 50px;
               }
             }
             &:last-child{
@@ -402,10 +413,17 @@ export default {
     .box{
       padding:0 30px 58px;
       ul{
+        height: 410px;
+        overflow-y:auto;
         li{
           padding-bottom: 66px;
+          position: relative;
+          box-sizing: border-box;
           &:last-child{
             padding-bottom: 0;
+            &>.xian{
+              display: none;
+            }
           }
           h5{
             height: 88px;
@@ -418,6 +436,7 @@ export default {
                 i{
                   font-size: 40px;
                   margin-right: 10px;
+                  background: $col-f;
                 }
               }
               &:last-child{
@@ -430,6 +449,14 @@ export default {
             font-size: 28px;
             padding-left: 50px;
             line-height: 44px;
+          }
+          &>.xian{
+            position: absolute;
+            height: 100%;
+            width:2px;
+            background: $col-c;
+            left:18px;
+            top:62px;
           }
         }
       }
