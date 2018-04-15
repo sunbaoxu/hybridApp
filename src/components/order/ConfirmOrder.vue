@@ -120,8 +120,8 @@
     <!-- 协议 -侧边栏 -->
     <xieyi-aside v-show="asideAsync" @closeAsideFn="closeAsideFn"></xieyi-aside>
 
-    <!-- 弹框组件 -->
-    <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
+    <!-- 弹框组件 - 订单 -->
+    <alert-back class="order-alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
       <h4 class="title">提示</h4>
       <div class="cont g-border">
         根据国家监管要求，您不能作为申请的主体，但可经您父母的授权，有大是否大师
@@ -132,6 +132,31 @@
         <button @click="closeAlertFn">我再看看</button>
         <button @click="submitFn">立即提交</button>
       </div>
+    </alert-back>
+
+    <!-- 弹框组件 - 身份 -->
+    <alert-back class="identity-alert-back" @closeAlertFn="closeIdentity" v-if="inentityAsync">
+      <h4 class="title g-border">请选择您当前的职业</h4>
+      <main class="identity-main">
+        <ul class="g-fen-cen">
+          <li class="g-col-cen-cen-box" @click="identityFn('在校学生')" :class="{'on':identityText =='在校学生'}">
+            <i class="jiao"></i>
+            <i class="g-back icon" :style="{'background-image':'url(/static/images/identity/'+(identityText=='在校学生' ?'student-full':'student-fail')+'.png)'}"></i>
+            <span>我是在校学生</span>
+          </li>
+          <li class="g-col-cen-cen-box" @click="identityFn('社会人士')" :class="{'on':identityText == '社会人士'}">
+            <i class="jiao"></i>
+            <i class="g-back icon" :style="{'background-image':'url(/static/images/identity/'+(identityText=='社会人士' ?'social-full':'social-fail')+'.png)'}"></i>
+            <span>我是社会人士</span>
+          </li>
+        </ul>
+        <!-- 根据不同角色，显示不同提醒 -->
+        <p class="text" v-if="identityText =='在校学生'">感谢您选择蜡笔分期，根据国家监管要求，禁止向<span>全日制在校学生</span>提供分期服务。</p>
+        <p class="text" v-else>请您务必按照真实情况选择，您的所有操作过程都将被系统记录，并与您最终签署的相关协议具有同等的法律效力。</p>
+
+        <p class="btn"><button>我知道了</button></p>
+        <p class="tongyi" :class="{'on':identityText =='在校学生'}">我的父亲/母亲同意作为主借款人申请》</p>
+      </main>
     </alert-back>
   </div>
 </template>
@@ -159,7 +184,9 @@ export default {
       orDetail  :{} ,//学费订单
       feeDetail :{},//服务
       // asideArr  : [],//侧边栏
-      orderObj : {}
+      orderObj : {} ,
+      identityText : '在校学生',
+      inentityAsync : false
     }
   },
   methods : {
@@ -179,18 +206,13 @@ export default {
     },
     //打开闲情
     openDetailFn (str) {
-      // console.log(this[str].rmpList)
-      // this.setOrderRmpList(this[str].rmpList);
-      this.setOrderRmpList([1,2,3,4]);
-
       return false
-      // localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
-      // return 
-      // this.$router.push({path:'/stillDetail'});
+      this.setOrderRmpList(this[str].rmpList);
+      localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
+      this.$router.push({path:'/stillDetail'});
     },
     //点击提交订单
     submitFn () {
-      
       this.$router.push('/orderState');
     },
     //确定提交订单
@@ -215,6 +237,13 @@ export default {
       },(error)=>{
         console.log(error,'dfs')
       });
+    },
+    //选择职业
+    identityFn (str) {
+      this.identityText = str;
+    },
+    closeIdentity () {
+      this.inentityAsync = false;
     }
   },
   mounted () {
@@ -256,7 +285,7 @@ export default {
       }
     }
   }
-  .main{
+  &>.main{
     padding:20px 16px;
     box-sizing: border-box; 
     .top-back{
@@ -451,7 +480,7 @@ export default {
       }
     }
   }
-  .alert-back{
+  .order-alert-back{
     .title{
       line-height: 100px;
       text-align: center;
@@ -482,6 +511,95 @@ export default {
         color:$col-blue;
         &:last-child{
           border-left: 2px solid $col-e;
+        }
+      }
+    }
+  }
+  .identity-alert-back{
+    .title{
+      height: 108px;
+      font-size: 32px;
+      text-align: center;
+      line-height: 108px;
+    }
+    .identity-main{
+      padding:20px 40px 0;
+      ul{
+        li{
+          width:0;
+          flex:1;
+          border:2px solid $col-c;
+          background:$col-f0;
+          border-radius: 8px;
+          height: 180px;
+          color:$col-9;
+          font-size: 26px;
+          position: relative;
+          &>.icon{
+            width: 68px;
+            height: 56px;
+            margin-bottom: 10px;
+          }
+          &.on{
+            color:$col-blue;
+            border-color: $col-blue;
+            .jiao{
+              display: block;
+            }
+          }
+          &:first-child{
+            margin-right: 10px;
+          }
+          &:last-child{
+            margin-left:10px;
+          }
+          .jiao{
+            border-left:2px solid $col-blue;
+            border-bottom:2px solid $col-blue;
+            position: absolute;
+            width:20px;
+            height: 20px;
+            bottom:-4px;
+            transform: rotate(-45deg) translate(-50%,0);
+            background:$col-f0;
+            border-radius: 0 0 0 4px;
+            display: none;
+            left:50%;
+          }
+        }
+      }
+      p{
+        &.text{
+          font-size: 23px;
+          color:$col-6;
+          line-height: 34px;
+          padding:30px 0;
+          span{
+            color:$col-red;
+          }
+        }
+        &.btn{
+          button{
+            width:100%;
+            height: 80px;
+            border:none;
+            border-radius: 40px;
+            background:$col-blue;
+            color:$col-f;
+            font-size:36px;
+            color:$col-f;
+          }
+        }
+        &.tongyi{
+          height: 84px;
+          line-height: 84px;
+          font-size: 24px;
+          color:$col-blue;
+          padding:0 40px;
+          opacity: 0;
+          &.on{
+            opacity: 1;
+          }
         }
       }
     }

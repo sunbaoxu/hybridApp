@@ -25,7 +25,7 @@ Vue.config.productionTip = false;
 
 
 // 引入静态资源
-require('@/assets/css/reset.css');
+require('@/assets/css/reset.scss');
 
 /* eslint-disable no-new */
 new Vue({

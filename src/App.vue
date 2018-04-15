@@ -23,4 +23,5 @@ export default {
 body{
   background: $col-f0;
 }
+
 </style>

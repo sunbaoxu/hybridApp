@@ -16,42 +16,7 @@ $col-blue:#3080ff;
 $col-red:#f05b5a;
 $col-yel:#f8f6b8;
 
-.g-border:after{content:'';position: absolute;bottom:0;width:100%;height:2px;background: #EAEAEA;;overflow: hidden;left:0;transform:translate(0%,0) scale(1,1);}
-.g-border{position: relative;}.g-border1{position: relative;}
-.g-border1:after{content:'';position: absolute;top:0;width:100%;height:2px;background: #EAEAEA;;overflow: hidden;left:0;transform:translate(0%,0) scale(1,1);}
-.g-text-ove2{display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: 2;overflow: hidden;}
-.g-text-ove1{overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
-.g-back-cover{background-position: center center;background-repeat: no-repeat;background-size:cover;}
-.g-back{background-position: center center;background-repeat: no-repeat;background-size:100%;}
 
-
-.g-col{display: flex;flex-direction: column;}//纵向
-.g-col-fen{display: flex;flex-direction: column;justify-content: space-between;}//纵向均分
-.g-col-cen-x{display: flex;flex-direction: column;align-items: center;}//纵向居中
-.g-col-cen-y{display: flex;flex-direction: column;justify-content: center;}//纵向居中
-.g-col-fen-box{display: flex;flex-direction: column;justify-content: space-between;box-sizing: border-box;}//纵向均分挤压
-.g-col-fen-cen-box{display: flex;flex-direction: column;justify-content: space-between;align-items: center;box-sizing: border-box;}//纵向均分挤压
-.g-col-cen-box{display: flex;flex-direction: column;justify-content: center;box-sizing: border-box;}//纵向居中挤压
-.g-col-cen-cen-box{display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box;}//纵向居中挤压
-
-.g-fen-box{display: flex;justify-content: space-between;box-sizing: border-box;}//横向均分挤压
-.g-cen-x{display: flex;justify-content: center;}//横向居中
-.g-fen-x{display: flex;justify-content: space-between;}//横向均分
-.g-cen-y{display: flex;align-items: center;}
-.g-cen-box{display: flex;justify-content: center;box-sizing: border-box;}//横向居中挤压
-.g-fen-cen{display: flex;justify-content: space-between;align-items: center;}//横向垂直均分
-.g-fen-cen-box{display: flex;justify-content: space-between;align-items: center;box-sizing: border-box;}//横向垂直均分挤压
-.g-cen-cen{display: flex;justify-content: center;align-items: center;}//横向居中
-.g-cen-cen-box{display: flex;justify-content: center;align-items: center;box-sizing: border-box;}//横向居中
-.g-cen-cen-wid{display: flex;justify-content: center;align-items: center;width:100%;}//横向居中,width 100%
-.g-cen-box-wid{display: flex;align-items: center; box-sizing:border-box;width:100%;}//横向 居中挤压
-
-.g-box-duo{display: flex;flex-wrap: wrap;}//flex 换行
-
-input:-ms-input-placeholder{color:#999;}
-input::-webkit-input-placeholder{color:#999;}
-input:-moz-placeholder{color:#999;}
-input::-moz-placeholder{color:#999;}
 
 
 
