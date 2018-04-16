@@ -26,7 +26,7 @@
               :class="(!xueAsync?'icon-dui':'icon-dui1 on')"
             ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn('xuefei')">
+          <span class="g-fen-cen" @click="openAsideFn('asideXueObj')">
             {{orDetail.contractMsg}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
@@ -56,7 +56,7 @@
               :class="(!fuwuAsync1?'icon-dui':'icon-dui1 on')"
             ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn('fuwu')">
+          <span class="g-fen-cen" @click="openAsideFn('asideFuObj')">
             {{feeDetail.contractMsg_1}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
@@ -68,7 +68,7 @@
               :class="(!fuwuAsync2?'icon-dui':'icon-dui1 on')"
             ></i>
           </span>
-          <span class="g-fen-cen" @click="openAsideFn('fuwu')">
+          <span class="g-fen-cen" @click="openAsideFn('asideFuObj')">
             {{feeDetail.contractMsg_2}}
             <i class="iconfont icon-jiao-rig"></i>
           </span>
@@ -195,56 +195,37 @@ export default {
       feeDetail :{},//服务
       orderObj : {} ,
       identityText : '在校学生',
-      inentityAsync : false
+      inentityAsync : false,
+      asideXueObj :{},
+      asideFuObj  :{},
+      asideAll :false
     }
   },
   methods : {
     ...mapActions(['setOrderRmpList']),
     //打开侧边栏
     openAsideFn (name) {
-      this.asideAsync = true;
-      this.asideName  = name;
-      this.asideAll   = false;
-      let arr = JSON.parse(localStorage.getItem(name));
-      let xuefei = [
-            {id: '1',value: '香蕉',isCheck: false},
-            {id: '2',value: '苹果',isCheck: false},
-            {id: '3',value: '梨子',isCheck: false},
-            {id: '4',value: '菠萝',isCheck: false}
-          ],
-          fuwu   = [
-            {id: '1',value: '绿萝',isCheck: false},
-            {id: '2',value: '仙人泪',isCheck: false},
-            {id: '3',value: '观音竹',isCheck: false},
-            {id: '4',value: '栀子花',isCheck: false},
-            {id: '5',value: '夏荷',isCheck: false}
-          ];
-
-      if(name == 'xuefei'){
-        this.asideAll = this.xueAsync;
+      //如果没有值，请求数据
+      if(JSON.stringify(this[name]) == "{}"){
+        this.bfContractLink(name);
       } else{
-        this.asideAll = this.fuwuAsync2 && this.fuwuAsync1;
-      }
-      //为侧边栏赋值
-      if(arr){
-        this.asideArr = arr;
-        return;
-      } else{
-        if(name = 'xuefei'){
-          this.asideArr = xuefei;
-        } else{
-          this.asideArr = fuwu;
-        }
-      }
+        this.asideAsync = true;
+        this.asideName  = name;
+        this.asideArr   = this[name];
+      };
+      //判断是否全选
+      this.asideAll = name =='asideXueObj' ?this.xueAsync : this.fuwuAsync1 && this.fuwuAsync2
     },
     //关闭侧边栏 
-    closeAsideFn (async,name) {
+    closeAsideFn (arr,name,async) {
+      this[name] = arr;
       this.asideAsync = false;
-      if(name == 'xuefei') {
+      
+      if(name =='asideXueObj'){
         this.xueAsync = async;
       } else{
-        this.fuwuAsync2 = async;
         this.fuwuAsync1 = async;
+        this.fuwuAsync2 = async;
       }
     },
     //关闭弹框提醒
@@ -253,7 +234,7 @@ export default {
     },
     //打开闲情
     openDetailFn (str) {
-      return false
+
       this.setOrderRmpList(this[str].rmpList);
       localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
       this.$router.push({path:'/stillDetail'});
@@ -279,10 +260,26 @@ export default {
       let obj =  {"bpcId":"cFh05LWhoTxRQLmRvdQ","businessType":"5","loanMoney":"20000","nper":"24","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","reqTime":"2018-04-13 15:49:58","sign":"3a781778cd3dcecf3cf78a885169235b","token":"6eb763411de240c9bde8729088499995"}
       api.queryRepayDetails(obj).then((res) =>{
         if(res.respCode =='000'){
-          // this.orderObj = res;
-          console.log(res);
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
+        }
+
+      },(error)=>{
+        console.log(error,'dfs')
+      });
+    },
+    //下单前合同地址展示
+    bfContractLink (name) {
+      let obj =  {"ctSign":"9","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","reqTime":"2018-04-16 10:02:43","sign":"75468fa344115d29c2d4a6fe1e98d9eb","token":"6eb763411de240c9bde8729088499995"}
+      api.bfContractLink(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this[name]    = res.contractList;
+          this[name].map((m)=>{
+            m.isCheck = false;
+          });   
+          this.asideArr = this[name]
+          this.asideAsync = true;
+          this.asideName  = name;
         }
 
       },(error)=>{
@@ -298,7 +295,8 @@ export default {
     }
   },
   mounted () {
-    // this.queryRepayDetails()
+    //查询还款详情以及费用详情(两笔)
+    this.queryRepayDetails()
   }
 }
 </script>

@@ -3,9 +3,9 @@
     <div class="main">
       <p class="g-cen-y">以下协议一经签订即可生效，请务必确认协议内容及条款</p>
       <ul v-ScrollMove>
-        <li class="g-cen-y g-border" v-for="(m,i) in arr" :key="i" ref="list" :id="m.id">
+        <li class="g-cen-y g-border" v-for="(m,i) in arr" :key="i" ref="list">
           <i class="iconfont" :class="{'on icon-dui1':m.isCheck,'icon-dui':!m.isCheck}" @click="clickFn(m)"></i>
-          <span class="g-text-ove1">{{m.value}}</span>
+          <a :href="m.url" class="g-text-ove1">{{m.name}}</a>
         </li>
       </ul>
       <footer class="btn-box g-fen-box">
@@ -40,16 +40,14 @@ export default {
   },
   methods : {
     closeAsideFn () {
-      this.$emit('closeAsideFn',this.allAsync,this.name);
+      this.$emit('closeAsideFn',this.arr,this.name,this.allAsync);
     },
     clickFn (obj) {
       let num =0;
       this.arr.map((m,i) =>{
         //对每项 取反
-        if(m.id == obj.id){
+        if(m.name == obj.name){
           m.isCheck = !obj.isCheck;
-          //本地存储
-          this.setStorage();
         }
         //记录选中几个
         if(m.isCheck){num++};
@@ -66,15 +64,10 @@ export default {
       this.arr.map((m,i) =>{
         m.isCheck = this.allAsync;
       });
-      //本地存储
-      this.setStorage();
-    },
-    //设置本地存储
-    setStorage () {
-      localStorage.setItem(this.name,JSON.stringify(this.arr));
     }
   },
   mounted () {
+    //判断是否全选
     if(this.async){
       this.clickAll(true);
     } else{
@@ -147,7 +140,7 @@ export default {
             color:$col-blue;
           }
         }
-        span{
+        a{
          font-size: 28px;
          color:$col-blue;
         }

@@ -11,6 +11,8 @@ export default {
   
   //查询还款详情以及费用详情(两笔)
   queryRepayDetails(params) {return fetch('custodyController/queryRepayDetails', params,'post')},
+  //下单前合同地址展示
+  bfContractLink(params) {return fetch('custodyController/bfContractLink', params,'post')},
 
 
   
