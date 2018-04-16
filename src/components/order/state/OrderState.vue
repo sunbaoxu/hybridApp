@@ -1,20 +1,20 @@
 <template>
   <div class="state-wrap" >
-    <p class="xiyi g-cen-y"><i class="iconfont icon-tixing"></i><span>查看协议</span></p>
+    <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}"><i class="iconfont icon-tixing"></i><span>查看协议</span></p>
     <header class="header-state">
       <!-- 订单 信息 -->
       <section class="detail">
         <dl>
-          <dt class="g-back" style="background-image:url(/static/images/order/ios-icon.png)"></dt>
+          <dt class="g-back" :style="{'background-image':'url('+obj.orgImgPath+')'}"></dt>
           <dd>
             <h4 class="g-fen-cen">
-              <span>第三方服务费用套餐</span>
+              <span>{{obj.cName}}</span>
               <span
-              :class="classFn(stateObj)"
-              >{{stateObj.str}}</span>
+              :class="classFn(obj.retStatus)"
+              >{{obj.retMsg}}</span>
             </h4>
-            <p class="bianhao">订单编号：LB120884</p>
-            <p class="date">交易时间：2017-03-03 18:00:32</p>
+            <p class="bianhao">订单编号：{{obj.loanCode}}</p>
+            <p class="date">交易时间：{{obj.createDate}}</p>
           </dd>
         </dl>
       </section>
@@ -23,22 +23,22 @@
         <ul class="g-fen-cen">
           <li class="g-col-cen-cen-box">
             <span>分期期数</span>
-            <span>18期</span>
+            <span>{{obj.totalNper}}期</span>
           </li>
           <li class="g-col-cen-cen-box">
             <span>分期金额（元）</span>
-            <span>￥13000</span>
+            <span>￥{{obj.loanMoney}}</span>
           </li>
           <li class="g-col-cen-cen-box">
             <span>个人还款期数</span>
-            <span>12期</span>
+            <span>{{obj.personalNper}}期</span>
           </li>
         </ul>
       </section>
       <!-- 订单逾期 -->
       <section class="yuqi g-fen-cen" v-if="true">
         <span>当前应还（元）：</span>
-        <span>￥134.87</span>
+        <span>￥{{obj.totalRetAmt}}</span>
       </section>
       <!-- 订单结算 -->
       <section class="jiesuan g-fen-cen" v-if="false">
@@ -49,20 +49,20 @@
     <main class="main-state">
       <section class="huankuan">
         <ul>
-          <li>
-            <div class="g-cen-y"><i class="iconfont icon-dui"></i></div>
+          <li v-if="orderObj.settleFlag =='1'">
+            <div class="g-cen-y"><i class="iconfont icon-dui" ></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
-                <span>按期还款</span>
-                <span class="hui">￥134123.23</span>
+                <span class="g-cen-y">按期还款<i v-if="orderObj.overFlag =='0'">已逾期</i></span>
+                <span class="hui">￥{{orderObj.scheduleAmt}}</span>
               </p>
               <p class="g-fen-x">
                 <span>账单已逾期，快去还款吧</span>
-                <span>共1期</span>
+                <span>共{{orderObj.scheduleNper}}期</span>
               </p>
             </div>
           </li>
-          <li>
+          <li v-if="orderObj.scheduleFlag == '1'">
             <div class="g-cen-y"><i class="iconfont icon-dui"></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
@@ -79,11 +79,8 @@
       </section>
       <!-- 提示性文字 -->
       <section class="tishi">
-        <h4>温馨提示：</h4>
-        <p>您的分期申请已经发第三方撒地方设定浮动搜房
-          是发生的发多少撒地方渡水复渡水发多少分
-          大师傅大师傅大师傅地方 发送分阿道夫分的发多少发多
-          少发多少发多少发多少</p>
+        <h4>温馨提醒：</h4>
+        <p>{{orderObj.reasonMesg}}</p>
       </section>
     </main>
     <!-- 重新申请 -->
@@ -96,13 +93,13 @@
         <div class="g-fen-y">
           <p>
             <span>待支付</span>
-            <span>￥232.34</span>
+            <span>￥{{orderObj.overdueTotalAmt}}</span>
           </p>
           <p @click="downDetail" class="g-cen-y">
             详情<i class="iconfont icon-jiao-rig"></i>
           </p>
         </div>
-        <p>含逾期费 ￥343.33</p>
+        <p>含逾期费 ￥{{orderObj.overAmt}}</p>
       </div>
       <div>
         <button @click="submitFn">立即还款</button>
@@ -113,20 +110,20 @@
       <h4 class="title">详情</h4>
       <section class="box g-border">
         <ul v-ScrollMove>
-          <li v-for="(m,i) in 2" :key="i">
+          <li v-for="(m,i) in alertArr" :key="i">
             <i class="xian"></i>
             <h5 class="g-fen-cen">
-              <span><i class="iconfont icon-clock"></i>2017-02-23</span>
-              <span>已逾期</span>
+              <span><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
+              <span>{{m.overdueMess}}</span>
             </h5>
-            <p>应还本息：189.93元</p>
-            <p>逾期费用：189.93元</p>
+            <p>应还本息：{{m.retAmt}}元</p>
+            <p>逾期费用：{{m.overdueAmt}}元</p>
           </li>
         </ul>
       </section>
       <section class="money g-fen-cen">
         <span>合计(含逾期费)</span>
-        <span>345.53元</span>
+        <span>{{orderObj.overdueTotalAmt}}元</span>
       </section>
     </alert-back>
   </div>
@@ -134,6 +131,7 @@
 
 <script>
 import api  from '@/api/api';
+import {mapActions} from 'vuex';
 import globalFn from '@/assets/javascripts/globalFn';
 import alertBack from '@/common/alert/alertBack.vue';
 export default {
@@ -155,42 +153,55 @@ export default {
       ],
       stateObj : {},
       obj :{},
-      alertAsync : false
+      orderObj : {},
+      alertAsync : false,
+      alertArr   : []
     }
   },
   methods : {
-    classFn (obj) {
-      switch (obj.num) {
+    classFn (status) {
+      switch (status) {
         case 5:
           return 'state-hui'
-        case 2:
-        case 8:
+        case '3':
+        case '4':
           return 'state-ori'
-        case 3:
+        case 2:
         case 6:
           return 'state-red'
-        case 4:
+        case '8':
         case 7:
           return 'state-blue'
       }
     },
     //获取 订单状态详情
     getOrderState () {
-      // console.log(new Date())
-      let sign = globalFn.getmd5('15809090909'+'2016-08-29 15:51:11')
-      return false
-
-      let obj = {
-        "loginPhone": "15809090909",
-        "token": "088b0a9ed6f946deae12a88281bbe4c8",
-        "chanType": "APP4.0",
-        "entranceID": "40",
-        "reqTime": "2016-08-29 15:51:11",
-        sign,
-        "loanId":'qwnId7GhQu8bNfmSH8Y'
-      }
+      let obj = globalFn.concatObj({
+        loanId : '3W41cbivBAjwJUG1xac'
+      });
       api.getOrderState(obj).then((res) =>{
-        console.log(res)
+        if(res.respCode =='000'){
+          this.obj = res.loanInfo;
+
+          if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
+            this.activePayDetail();
+          }
+        }
+      },(error)=>{
+        console.log(error,'dfs')
+      });
+    },
+    //主动还款列表
+    activePayDetail () {
+      let obj = globalFn.concatObj({
+        loanID : '3W41cbivBAjwJUG1xac'
+      });
+      api.activePayDetail(obj).then((res) =>{
+        console.log(res,'dfsa')
+        if(res.respCode =='000'){
+          this.orderObj= res;
+          this.alertArr = res.overdueInfoList;
+        }
       },(error)=>{
         console.log(error,'dfs')
       });
@@ -246,6 +257,8 @@ export default {
             height: 104px;
             width:104px;
             margin-right: 20px;
+            border:1px solid $col-c;
+            border-radius: 100%;
           }
           dd{
             width:0;
@@ -368,6 +381,15 @@ export default {
                 &:first-child{
                   font-size: 34px;
                   color:$col-3;
+                  i{
+                    font-style: normal;
+                    font-size: 22px;
+                    background:$col-red;
+                    color:$col-f;
+                    padding:4px 10px;
+                    border-radius:6px;
+                    margin-left: 14px;
+                  }
                 }
                 &:last-child{
                   font-size: 24px;

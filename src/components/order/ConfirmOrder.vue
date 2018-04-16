@@ -174,10 +174,10 @@
 <script>
 import api  from '@/api/api';
 import {mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 import xieyiAside from '$order/common/Aside.vue';
 import orderXinxi from '$order/common/orderXinxi.vue';
 import alertBack from '@/common/alert/alertBack.vue';
-import globalFn from '@/assets/javascripts/globalFn';
 export default {
   name: 'order',
   components: {
