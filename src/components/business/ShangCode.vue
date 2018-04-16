@@ -15,6 +15,9 @@
 </template>
 
 <script>
+import api  from '@/api/api';
+import {mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 export default {
   name: 'shangCode',
   data () {
@@ -24,6 +27,7 @@ export default {
     }
   },
   methods : {
+    ...mapActions(['setToastObj']),
     //用户输入内容
     changFn () {
       if(this.text.length >=6 && this.text.length <=11){
@@ -34,7 +38,22 @@ export default {
     },
     //下一步
     submitFn () {
-      this.$router.push('/shangList');
+      let obj =  globalFn.concatObj({
+        QRcode :this.text
+      });
+      this.queryBusinessInfoAndProgram(obj);
+    },
+    //下单前合同地址展示
+    queryBusinessInfoAndProgram (obj) {
+      api.queryBusinessInfoAndProgram(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.$router.push({path:'/shangList',query:{recoCode:this.text}});
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error,'dfs')
+      });
     }
   }
 }

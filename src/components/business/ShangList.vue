@@ -24,8 +24,9 @@
 
 <script>
 import api  from '@/api/api';
-import headerDetail from "$business/common/HeaderDetail";
 import {mapGetters,mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
+import headerDetail from "$business/common/HeaderDetail";
 export default {
   name: 'lists',
   components : {
@@ -43,7 +44,10 @@ export default {
     ...mapActions(['setBusinessObj']),
     //1.根据机构推荐码查询商户信息及商品各个方案
     queryBusinessInfoAndProgram () {
-      let obj = {"QRcode":"sgkj001","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","reqTime":"2018-04-13 12:43:08","sign":"9824fb1581602b804fc74408b91552f4","token":"20dcd4c3984f454fac6f298e3b15bd48"}
+      let obj =  globalFn.concatObj({
+        QRcode :this.$route.query.recoCode
+      });
+      
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
         this.shangObj = res;
         this.shangArr = res.lCommodities;
@@ -57,7 +61,7 @@ export default {
     }
   },
   mounted () {
-    this.queryBusinessInfoAndProgram()
+    this.queryBusinessInfoAndProgram();
   }
 }
 </script>

@@ -29,6 +29,6 @@ export default {
   
   //根据机构推荐码查询商户信息及商品各个方案
   queryBusinessInfoAndProgram(params) {return fetch('basicFController/queryBusinessInfoAndProgram', params,'post')},
-  //2.根据方案查低高额还款期
+  //根据方案查低高额还款期
   queriesProgramListNew(params) {return fetch('/borrowerController/queriesProgramListNew', params,'post')},
 }

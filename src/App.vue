@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <alert-toast v-if="toastObj.async">{{toastObj.text}}</alert-toast>
+    <alert-toast v-if="toastObj.async">{{toastObj.respMesg}}</alert-toast>
   </div>
 </template>
 
