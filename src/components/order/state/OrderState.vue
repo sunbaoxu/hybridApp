@@ -1,6 +1,8 @@
 <template>
   <div class="state-wrap" >
+    <!-- 协议是否显示 -->
     <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}"><i class="iconfont icon-tixing"></i><span>查看协议</span></p>
+    <!-- 头部主体内容 -->
     <header class="header-state">
       <!-- 订单 信息 -->
       <section class="detail">
@@ -50,7 +52,7 @@
       <section class="huankuan">
         <ul>
           <li v-if="orderObj.settleFlag =='1'">
-            <div class="g-cen-y"><i class="iconfont icon-dui" ></i></div>
+            <div class="g-cen-y" @click="clickAsyncFn('按期')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='按期','icon-dui':asyncText !='按期'}"></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
                 <span class="g-cen-y">按期还款<i v-if="orderObj.overFlag =='0'">已逾期</i></span>
@@ -63,7 +65,7 @@
             </div>
           </li>
           <li v-if="orderObj.scheduleFlag == '1'">
-            <div class="g-cen-y"><i class="iconfont icon-dui"></i></div>
+            <div class="g-cen-y" @click="clickAsyncFn('提前')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='提前','icon-dui':asyncText !='提前'}"></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
                 <span>提前结清</span>
@@ -141,21 +143,12 @@ export default {
   },
   data () {
     return {
-      stateArr : [
-        {num:1,str:'成功'},
-        {num:2,str:'审核中',footer:'',con:'有内容'},
-        {num:3,str:'审核未通过',footer:'重新申请',con:''},
-        {num:4,str:'已还清',footer:'重新申请'},
-        {num:5,str:'已取消'},
-        {num:6,str:'逾期中'},
-        {num:7,str:'分期成功'},
-        {num:8,str:'还款中'}
-      ],
       stateObj : {},
       obj :{},
       orderObj : {},
-      alertAsync : false,
-      alertArr   : []
+      alertAsync : false,//详情弹框
+      alertArr   : [] , //详情数据
+      asyncText : '按期'
     }
   },
   methods : {
@@ -217,10 +210,13 @@ export default {
     //详情
     downDetail () {
       this.alertAsync = true;
+    },
+    //更改状态
+    clickAsyncFn (str) {
+      this.asyncText = str;
     }
   },
   mounted () {
-    this.stateObj = this.stateArr[5];
     this.getOrderState();
   }
 }
@@ -371,6 +367,9 @@ export default {
               padding-right: 10px;
               i{
                 font-size: 50px;
+                &.on{
+                  color:$col-blue;
+                }
               }
             }
             &:last-child{
@@ -435,7 +434,7 @@ export default {
     .box{
       padding:0 30px 58px;
       ul{
-        height: 410px;
+        max-height: 410px;
         overflow-y:auto;
         li{
           padding-bottom: 66px;

@@ -284,7 +284,6 @@ export default {
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
           this.pageObj = res;
-          console.log(res)
         }
 
       },(error)=>{
