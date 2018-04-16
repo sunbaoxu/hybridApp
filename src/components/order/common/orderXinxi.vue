@@ -2,19 +2,23 @@
   <div class="cont-box g-border">
     <dl>
       <dt class="g-fen-cen-box g-border">
+        <!-- 学费 -->
         <span class="g-cen-y title" v-if="obj.text == 'xuefei'">
           <i style="background:url(/static/images/order/ios-icon.png)"></i>
           IOS 180天集训营
         </span>
-        <div class="fuwu title g-cen-y" v-else-if="obj.text == 'fuwu'">
+        <!-- 服务费 -->
+        <div class="fuwu title g-cen-y" v-else>
           <i style="background:url(/static/images/order/ios-icon.png)"></i>
           <div>
             <h6>第三方服务费用套餐</h6>
-            <p>网贷信息中介服务费   ￥100</p>
-            <p>保障计划专款   ￥68.56</p>
+            <p>网贷信息中介服务费   ￥{{obj.mediservFee}}</p>
+            <p>保障计划专款   ￥{{obj.securityFee}}</p>
           </div>
         </div>
-        <span class="money">￥180000</span>
+        <!-- 学费-服务费不同价格 -->
+        <span class="money" v-if="obj.text == 'xuefei'">￥123412</span>
+        <span class="money" v-else>￥{{obj.servConsumFee}}</span>
       </dt>
       <dd>
         <p class="g-col-cen-cen-box">

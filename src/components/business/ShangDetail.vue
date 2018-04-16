@@ -161,7 +161,7 @@ export default {
             "bpcId":this.planObj.id,
             "businessType":this.$route.query.businessType,
             "loanMoney":this.moneyValStr,
-            "nper":this.planObj.userNper //个人还款期数
+            "nper":this.planObj.userNper
           }})
         } else{
            this.setToastObj({async:true,respMesg:res.respMesg});

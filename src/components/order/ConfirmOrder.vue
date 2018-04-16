@@ -2,8 +2,8 @@
   <div class="wrap">
     <header class="header g-fen-cen-box">
       <div class="g-cen-y">
-        <i class="g-back"></i>
-        <span>现场认函</span>
+        <i class="g-back" style="background-image:url(/static/images/shenfenzheng.png)"></i>
+        <span>手持身份证照片</span>
       </div>
       <div>去上传</div>
     </header>
@@ -48,7 +48,7 @@
           <span class="g-cen-y" @click="openDetailFn('feeDetail')"><i class="iconfont icon-xiangqing"></i>详情</span>
         </h4>
         <!-- 服务信息订单 -->
-        <order-xinxi :obj="fuwuObj"></order-xinxi>
+        <order-xinxi :obj="feeDetail"></order-xinxi>
         <div class="xieyi-box g-fen-cen-box">
           <span @click="fuwuFn('fuwuAsync1')">
             <i 
@@ -116,9 +116,9 @@
         <div class="money g-col-cen-y">
           <p>
             <span>订单总额</span>
-            <span>￥18232.99</span>
+            <span>￥{{pageObj.totalMoney}}</span>
           </p>
-          <p>含学费 ￥18000+服务费 ￥145.99</p>
+          <p>含学费 ￥{{feeDetail.servConsumFee}}+服务费 ￥{{pageObj.totalMoney - feeDetail.servConsumFee}}</p>
         </div>
         <div class="btn" @click="clickBtnFn">提交订单</div>
       </section>
@@ -130,10 +130,11 @@
     <alert-back class="order-alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
       <h4 class="title">提示</h4>
       <div class="cont g-border">
-        根据国家监管要求，您不能作为申请的主体，但可经您父母的授权，有大是否大师
-        傅打算发的说法地方萨芬多岁的方式的地方十大盛大发售大法师
+        <ul>
+          <li class="g-fen-cen"><span>教育分期</span><span>￥134.34 | 18期</span></li>
+          <li class="g-fen-cen"><span>三方服务费</span><span>￥134.34 | 18期</span></li>
+        </ul>
       </div>
-      <!-- <div class="btn-box" @click="closeAlertFn">知道了</div> -->
       <div class="btn-boxs" >
         <button @click="closeAlertFn">我再看看</button>
         <button @click="submitFn">立即提交</button>
@@ -191,7 +192,6 @@ export default {
       asideArr  : [],//侧边栏
       alertAsync : false,
       xuefeiObj :{text:'xuefei'},
-      fuwuObj :{text:'fuwu'},
       xueAsync   : false ,//学费协议是否勾选
       fuwuAsync1 : false,//服务是否勾选
       fuwuAsync2 : false,//服务是否勾选
@@ -202,7 +202,9 @@ export default {
       inentityAsync : false,
       asideXueObj :{},
       asideFuObj  :{},
-      asideAll :false
+      asideAll :false,
+      pageObj  :{}
+
     }
   },
   methods : {
@@ -281,6 +283,8 @@ export default {
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
+          this.pageObj = res;
+          console.log(res)
         }
 
       },(error)=>{
@@ -334,9 +338,9 @@ export default {
       &:first-child{
         i{
           background-image: url("/static/images/order/sure-fail.png");
-          width:35px;
+          width:40px;
           height: 40px;
-          margin-right: 20px;
+          margin-right: 10px;
         }
         span{
           font-size: 32px;
@@ -551,10 +555,12 @@ export default {
     }
   }
   .order-alert-back{
+    padding:0 80px;
     .title{
       line-height: 100px;
       text-align: center;
       font-size: 40px;
+      color:$col-3;
     }
     .cont{
       line-height: 44px;
