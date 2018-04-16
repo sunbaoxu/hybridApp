@@ -5,7 +5,7 @@
     <main class="main">
       <ul>
         <li class="g-col-cen-y g-border" v-for="(m,i) in shangArr" :key="i">
-          <router-link :to="{path:'/shangDetail',query:{id:m.id}}">
+          <router-link :to="{path:'/shangDetail',query:{commodityId:m.id,orgId:shangObj.id,cName:m.cName}}">
             <h4 class="g-text-ove1">{{m.cName}}</h4>
             <div>
               <p>可选<span v-for="(item,ind) in m.nperList" :key="ind">{{ind!=m.nperList.length-1?item+'/':item}}</span> 期</p>
@@ -33,7 +33,7 @@ export default {
     headerDetail
   },
   //获取商家信息
-  computed: {...mapGetters(['businessObj'])},
+  computed: {...mapGetters(['businessObj','setToastObj'])},
   data () {
     return {
       shangObj : {},
@@ -56,7 +56,7 @@ export default {
         localStorage.setItem('setBusinessObj',JSON.stringify(this.shangObj))
 
       },(error)=>{
-        console.log(error,'dfs')
+        this.setToastObj({async:true,respMesg:res.respMesg});
       });
     }
   },

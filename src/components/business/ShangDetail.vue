@@ -6,7 +6,7 @@
       <ul>
         <li class="g-border g-fen-cen">
           <span class="g-cen-y"><i class="icon shang g-back"></i>商品名称</span>
-          <span>iOS 180天集训营</span>
+          <span>{{$route.query.cName}}</span>
         </li>
         <li class="g-fen-cen">
           <span class="g-cen-y"><i class="icon fen g-back"></i>分期方案</span>
@@ -91,10 +91,11 @@
 
 <script>
 import api  from '@/api/api';
+import {mapGetters,mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 import headerDetail from "$business/common/HeaderDetail";
 import fenqiPlan from "$business/common/FenqiPlan";
 import alertBack from '@/common/alert/alertBack.vue';
-import {mapGetters,mapActions} from 'vuex';
 export default {
   name: 'detail',
   //获取商家信息
@@ -133,7 +134,10 @@ export default {
     },
     //根据方案查低高额还款期
     queriesProgramListNew () {
-      let obj = {"commodityId":"TqVvwrxPn6xkp8IrPOB","orgId":"O000000000000000084","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","reqTime":"2018-04-13 12:57:24","sign":"e48c4329656d276d0e264ee6f840e941","token":"20dcd4c3984f454fac6f298e3b15bd48"}
+      let obj =  globalFn.concatObj({
+        commodityId :this.$route.query.commodityId,
+        orgId       :this.$route.query.orgId
+      });
       api.queriesProgramListNew(obj).then((res) =>{
         console.log(res)
         if(res.respCode == '000'){
