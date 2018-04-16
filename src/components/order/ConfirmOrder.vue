@@ -235,7 +235,6 @@ export default {
     },
     //打开闲情
     openDetailFn (str) {
-
       this.setOrderRmpList(this[str].rmpList);
       localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
       this.$router.push({path:'/stillDetail'});
@@ -258,7 +257,12 @@ export default {
     },
     //查询还款详情以及费用详情(两笔)
     queryRepayDetails () {
-      let obj =  {"bpcId":"cFh05LWhoTxRQLmRvdQ","businessType":"5","loanMoney":"20000","nper":"24","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","reqTime":"2018-04-13 15:49:58","sign":"3a781778cd3dcecf3cf78a885169235b","token":"6eb763411de240c9bde8729088499995"}
+      let obj =  globalFn.concatObj({
+        "bpcId":"cFh05LWhoTxRQLmRvdQ",
+        "businessType":"5",
+        "loanMoney":"20000",
+        "nper":"24"
+      });
       api.queryRepayDetails(obj).then((res) =>{
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
@@ -271,13 +275,9 @@ export default {
     },
     //下单前合同地址展示
     bfContractLink (name) {
-      let obj =  globalFn.concatObj();
-      obj['ctSign'] = '9';
-
-
+      let obj =  globalFn.concatObj({ctSign : '9'});
       api.bfContractLink(obj).then((res) =>{
         if(res.respCode =='000'){
-          console.log(res)
           this[name]    = res.contractList;
           this[name].map((m)=>{
             m.isCheck = false;

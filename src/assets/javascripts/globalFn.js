@@ -5,13 +5,13 @@ function getmd5(str) {
 }
 
 //参数合并
-function concatObj() {
+function concatObj(res) {
   let loginPhone = localStorage.getItem('loginPhone')!=null ?localStorage.getItem('loginPhone'):'18900000066' ,
       token      = localStorage.getItem('token')!=null ?localStorage.getItem('token'):'6eb763411de240c9bde8729088499995' ,
       reqTime       = getFormateDate(),
       sign       = getmd5(loginPhone+reqTime);
 
-   return {
+   let obj = {
     "chanName":"website",
     "chanType":"APP4.11.4",
     "entranceID":"41",
@@ -20,6 +20,10 @@ function concatObj() {
     reqTime,
     sign
   }
+
+  Object.assign(obj,res);
+
+  return obj;
 }
 
 //转译  时间
