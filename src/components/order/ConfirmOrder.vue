@@ -173,6 +173,7 @@ import {mapActions} from 'vuex';
 import xieyiAside from '$order/common/Aside.vue';
 import orderXinxi from '$order/common/orderXinxi.vue';
 import alertBack from '@/common/alert/alertBack.vue';
+import globalFn from '@/assets/javascripts/globalFn';
 export default {
   name: 'order',
   components: {
@@ -270,9 +271,13 @@ export default {
     },
     //下单前合同地址展示
     bfContractLink (name) {
-      let obj =  {"ctSign":"9","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","reqTime":"2018-04-16 10:02:43","sign":"75468fa344115d29c2d4a6fe1e98d9eb","token":"6eb763411de240c9bde8729088499995"}
+      let obj =  globalFn.concatObj();
+      obj['ctSign'] = '9';
+
+
       api.bfContractLink(obj).then((res) =>{
         if(res.respCode =='000'){
+          console.log(res)
           this[name]    = res.contractList;
           this[name].map((m)=>{
             m.isCheck = false;
@@ -296,7 +301,7 @@ export default {
   },
   mounted () {
     //查询还款详情以及费用详情(两笔)
-    this.queryRepayDetails()
+    this.queryRepayDetails();
   }
 }
 </script>
