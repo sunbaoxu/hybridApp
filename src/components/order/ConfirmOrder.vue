@@ -5,7 +5,7 @@
         <i class="g-back" style="background-image:url(/static/images/shenfenzheng.png)"></i>
         <span>手持身份证照片</span>
       </div>
-      <div>去上传</div>
+      <router-link to="/uploadeImg" class="a">去上传</router-link>
     </header>
     <main class="main">
       <!-- 学费 -->
@@ -334,28 +334,26 @@ export default {
     width: 100%;
     background: $col-f;
     &>div{
-      &:first-child{
-        i{
-          background-image: url("/static/images/order/sure-fail.png");
-          width:40px;
-          height: 40px;
-          margin-right: 10px;
-        }
-        span{
-          font-size: 32px;
-          color:$col-3;
-        }
+      i{
+        background-image: url("/static/images/order/sure-fail.png");
+        width:40px;
+        height: 40px;
+        margin-right: 10px;
       }
-      &:last-child{
-        width:120px;
-        height: 60px;
-        font-size: 28px;
-        color:#fb5151;
-        line-height: 60px;
-        text-align: center;
-        border:1px solid #fb5151;
-        border-radius: 4px;
+      span{
+        font-size: 32px;
+        color:$col-3;
       }
+    }
+    a{
+      width:120px;
+      height: 60px;
+      font-size: 28px;
+      color:#fb5151;
+      line-height: 60px;
+      text-align: center;
+      border:1px solid #fb5151;
+      border-radius: 4px;
     }
   }
   &>.main{

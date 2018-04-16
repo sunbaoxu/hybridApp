@@ -7,7 +7,8 @@ const ShangList            = resolve => require(['@/components/business/ShangLis
 //商家列表
 const ShangDetail           = resolve => require(['@/components/business/ShangDetail.vue'], resolve);
 
-
+//上传照片
+const UploadeImg    = resolve => require(['@/components/order/UploadeImg.vue'], resolve);
 
 //订单确认
 const ConfirmOrder    = resolve => require(['@/components/order/ConfirmOrder.vue'], resolve);
@@ -27,6 +28,9 @@ export default new Router({
     {path: '/shangList',name: 'shangList',component: ShangList},
     //商家详情
     {path: '/shangDetail',name: 'shangDetail',component: ShangDetail},
+    //上传照片
+    {path: '/uploadeImg',name: 'uploadeImg',component: UploadeImg},
+
     //确认订单
     {path: '/confirmOrder',name: 'confirmOrder',component: ConfirmOrder},
     //订单状态
