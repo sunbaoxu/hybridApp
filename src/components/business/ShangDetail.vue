@@ -42,7 +42,7 @@
     </section>
     <!-- 下一步 -->
     <section class="btn-box">
-      <button @click="submitFn">下一步</button>
+      <button @click="submitFn" :disabled="planText==''" :class="{'on':planText!=''}">下一步</button>
     </section>
     <!-- 分期方案 组件 -->
     <fenqi-plan v-if="planAsync" @closePlan="closePlan" :planObj="planObj" :planArr="planArr"></fenqi-plan>
@@ -296,11 +296,14 @@ export default {
     button{
       color:$col-f;
       font-size: 34px;
-      background: $col-blue;
       border-radius: 50px;
       height: 100px;
       border:none;
       width: 100%;
+      background: $col-c;
+      &.on{
+        background: $col-blue;
+      }
     }
   }
   .fangan-alert-back{
