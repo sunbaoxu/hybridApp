@@ -157,7 +157,12 @@ export default {
     loanCheckInstall (obj) {
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
-          this.$router.push('/confirmOrder')
+          this.$router.push({path:'/confirmOrder',query:{
+            "bpcId":this.planObj.id,
+            "businessType":this.$route.query.businessType,
+            "loanMoney":this.moneyValStr,
+            "nper":this.planObj.userNper //个人还款期数
+          }})
         } else{
            this.setToastObj({async:true,respMesg:res.respMesg});
         }

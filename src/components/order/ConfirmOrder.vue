@@ -258,10 +258,10 @@ export default {
     //查询还款详情以及费用详情(两笔)
     queryRepayDetails () {
       let obj =  globalFn.concatObj({
-        "bpcId":"cFh05LWhoTxRQLmRvdQ",
-        "businessType":"5",
-        "loanMoney":"20000",
-        "nper":"24"
+        "bpcId":this.$route.query.bpcId,
+        "businessType":this.$route.query.businessType,
+        "loanMoney":this.$route.query.loanMoney,
+        "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
         if(res.respCode =='000'){
