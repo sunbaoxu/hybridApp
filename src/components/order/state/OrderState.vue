@@ -38,12 +38,12 @@
         </ul>
       </section>
       <!-- 订单逾期 -->
-      <section class="yuqi g-fen-cen" v-if="true">
+      <section class="yuqi g-fen-cen" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
         <span>当前应还（元）：</span>
         <span>￥{{obj.totalRetAmt}}</span>
       </section>
       <!-- 订单结算 -->
-      <section class="jiesuan g-fen-cen" v-if="false">
+      <section class="jiesuan g-fen-cen" v-else-if="obj.retStatus =='7'">
         <span class="g-cen-y"><i class="iconfont icon-jie"></i>结算证明</span>
         <span>下载</span>
       </section>
@@ -82,15 +82,12 @@
       <!-- 提示性文字 -->
       <section class="tishi">
         <h4>温馨提醒：</h4>
-        <p>{{orderObj.reasonMesg}}</p>
+        <p v-if="listAsync">{{orderObj.reasonMesg}}</p>
+        <p v-else>{{obj.notify}}</p>
       </section>
     </main>
-    <!-- 重新申请 -->
-    <footer class="footer-state" v-if="false">
-      <button>重新申请</button>
-    </footer>
     <!-- 立即还款 -->
-    <footer class="footer-state footer-money" v-if="true">
+    <footer class="footer-state footer-money" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
       <div class="g-col-cen-y">
         <div class="g-fen-y">
           <p>
@@ -106,6 +103,10 @@
       <div>
         <button @click="submitFn">立即还款</button>
       </div>
+    </footer> 
+    <!-- 重新申请 -->
+    <footer class="footer-state" v-else-if="obj.retStatus =='5' ||obj.retStatus =='6' ||obj.retStatus =='7' ">
+      <button>重新申请</button>
     </footer>
     <!-- 引入弹框组件 -->
     <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
@@ -148,7 +149,8 @@ export default {
       orderObj : {},
       alertAsync : false,//详情弹框
       alertArr   : [] , //详情数据
-      asyncText : '按期'
+      asyncText : '按期' ,
+      listAsync : false
     }
   },
   methods : {
@@ -158,6 +160,7 @@ export default {
           return 'state-hui'
         case '3':
         case '4':
+        case '1':
           return 'state-ori'
         case 2:
         case 6:
@@ -167,16 +170,18 @@ export default {
           return 'state-blue'
       }
     },
-    //获取 订单状态详情
-    getOrderState () {
+    //根据订单ID查看详细信息
+    queryOrderByLoanIDNew () {
       let obj = globalFn.concatObj({
-        loanId : '3W41cbivBAjwJUG1xac'
+        loanId : '1PWtrLqny02i1pGJn0y'
       });
-      api.getOrderState(obj).then((res) =>{
+      api.queryOrderByLoanIDNew(obj).then((res) =>{
+        console.log(res.loanInfo)
         if(res.respCode =='000'){
           this.obj = res.loanInfo;
 
           if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
+            this.listAsync = true;
             this.activePayDetail();
           }
         }
@@ -187,7 +192,7 @@ export default {
     //主动还款列表
     activePayDetail () {
       let obj = globalFn.concatObj({
-        loanID : '3W41cbivBAjwJUG1xac'
+        loanID : '1PWtrLqny02i1pGJn0y'
       });
       api.activePayDetail(obj).then((res) =>{
         console.log(res,'dfsa')
@@ -217,7 +222,8 @@ export default {
     }
   },
   mounted () {
-    this.getOrderState();
+    //根据订单ID查看详细信息
+    this.queryOrderByLoanIDNew();
   }
 }
 </script>

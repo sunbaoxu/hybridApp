@@ -32,7 +32,7 @@ export default {
     border-radius: 8px;
     max-width: 80%;
     background:rgba(0,0,0,0.8);
-    font-size: 32px;
+    font-size: 24px;
     color:$col-f;
     padding:10px 30px;
     line-height: 40px;

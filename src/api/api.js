@@ -1,11 +1,11 @@
 import {fetch} from './config.js';
 export default {
-  //获取订单详情
-  getOrderState(params) {return fetch('basicFController/queryOrderByLoanIDNew', params,'post')},
+  //4．根据订单ID查看详细信息
+  queryOrderByLoanIDNew(params) {return fetch('basicFController/queryOrderByLoanIDNew', params,'post')},
 
   
   //获取还款详情
-  getOrderRecord(params) {return fetch('activePayController/activePayRecord', params,'post')},
+  activePayRecord(params) {return fetch('activePayController/activePayRecord', params,'post')},
   //1.主动还款列表
   activePayDetail(params) {return fetch('activePayController/activePayDetail', params,'post')},
 

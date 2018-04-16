@@ -145,7 +145,6 @@ export default {
         orgId       :this.$route.query.orgId
       });
       api.queriesProgramListNew(obj).then((res) =>{
-        console.log(res)
         if(res.respCode == '000'){
           this.planArr = res.plans;
         }
