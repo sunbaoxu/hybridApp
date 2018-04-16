@@ -38,9 +38,11 @@ export default {
     },
     //下一步
     submitFn () {
+      
       let obj =  globalFn.concatObj({
         QRcode :this.text
       });
+
       this.queryBusinessInfoAndProgram(obj);
     },
     //下单前合同地址展示

@@ -31,8 +31,8 @@
       <p><span>4.照片文件大小不要超过5M。</span></p>
     </div>
 
-    <div>
-      <p class="btn-save" @click="saveImg"><span>保存</span></p>
+    <div class="btn-save" @click="saveImg">
+      <button :class="{'on':isLoad}">保存</button>
     </div>
 
     <div class="back" v-if="backAsync" @click="backFn(false)">
@@ -44,52 +44,67 @@
 
 <script>
 
-    export default {
-      data(){
-        return{
-          imgUrl:'/static/images/img/default_bg.png',
-          isLoad:false,
-          backAsync:false,
-        }
-      },
-
-      methods : {
-        goNative:function () {
-            window.LabiWinJSI.showImgPickDialog();
-          },
-
-          ImgPickCallBack:function (str) {
-            if (str!=null){
-              this.isLoad=true;
-              this.imgUrl = "data:image/gif;base64,"+str;
-
-            }else{
-              this.isLoad=false;
-            }
-
-        },
-        backFn (async) {
-            this.backAsync = async;
-            // alert('dsf')
-        },
-        saveImg(){
-
-          if (this.isLoad){
-            //保存图片
-          }else{
-            alert("我去")
-          }
-        }
-      },
-      mounted () {
-        window.ImgPickCallBack=this.ImgPickCallBack;
-      }
-
+import api  from '@/api/api';
+import globalFn from '@/assets/javascripts/globalFn';
+export default {
+  data(){
+    return{
+      imgUrl:'/static/images/img/default_bg.png',
+      isLoad:false,
+      backAsync:false,
     }
+  },
+
+  methods : {
+    goNative:function () {
+      window.LabiWinJSI.showImgPickDialog();
+    },
+    ImgPickCallBack:function (str) {
+      if (str!=null){
+        this.isLoad=true;
+        this.imgUrl = "data:image/gif;base64,"+str;
+      }else{
+        this.isLoad=false;
+      }
+    },
+    backFn (async) {
+        this.backAsync = async;
+    },
+    saveImg(){
+      if (this.isLoad){
+        let obj =  globalFn.concatObj({
+          imgPath1 : this.imgUrl
+        });
+        this.uploadConfirmation(obj);
+      }else{
+        alert("我去")
+      }
+    },
+    //下单前合同地址展示
+    uploadConfirmation (obj) {
+      api.uploadConfirmation(obj).then((res) =>{
+
+          alert('dfas',res);
+        if(res.respCode =='000'){
+
+          alert(res.respCode)
+        }
+
+      },(error)=>{
+        alert(error)
+        console.log(error,'dfs')
+      });
+    }
+  },
+  mounted () {
+    window.ImgPickCallBack=this.ImgPickCallBack;
+  }
+
+}
 
 </script>
 
-<style scoped >
+<style scoped lang="scss">
 
   .wrap-div{
     background: #ffF0F0F0;
@@ -184,16 +199,19 @@
   }
 
   .btn-save{
-    background: #0284FE;
-    color: #fff;
-    border-radius:50px;
-    display: flex;
-    padding: 24px;
-    align-items: center;
-    justify-content: center;
-    margin-left: 30px;
-    margin-right: 30px;
-    box-sizing: border-box;
+    padding:0 30px;
+    button{
+      background: $col-c;
+      color: #fff;
+      border:none;
+      border-radius:50px;
+      font-size: 30px;
+      height: 100px;
+      width:100%;
+      &.on{
+        background: $col-blue;
+      }
+    }
   }
 
   .back{

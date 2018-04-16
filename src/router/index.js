@@ -36,7 +36,9 @@ export default new Router({
     //订单状态
     {path: '/orderState/',name: 'orderState',component: OrderState},
     //订单详情
-    {path: '/orderRecord',name: 'orderRecord',component: OrderRecord},
     {path: '/stillDetail',name: 'stillDetail',component: stillDetail},
+
+    //还款记录
+    {path: '/orderRecord',name: 'orderRecord',component: OrderRecord},
   ]
 });

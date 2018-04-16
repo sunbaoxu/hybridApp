@@ -1,6 +1,6 @@
 import {fetch} from './config.js';
 export default {
-  //4．根据订单ID查看详细信息
+  //根据订单ID查看详细信息
   queryOrderByLoanIDNew(params) {return fetch('basicFController/queryOrderByLoanIDNew', params,'post')},
 
   
@@ -10,6 +10,8 @@ export default {
   activePayDetail(params) {return fetch('activePayController/activePayDetail', params,'post')},
 
 
+  //14.上传确认函
+  uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmation', params,'post')},
 
 
   

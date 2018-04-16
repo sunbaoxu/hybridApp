@@ -5,10 +5,17 @@ function getmd5(str) {
 }
 //参数合并
 function concatObj(res) {
-  let loginPhone = localStorage.getItem('loginPhone')!=null ?localStorage.getItem('loginPhone'):'18900000068' ,
-      token      = localStorage.getItem('token')!=null ?localStorage.getItem('token'):'e0ca0c3bcace4044b363046e570a55e1' ,
-      reqTime       = getFormateDate(),
-      sign       = getmd5(loginPhone+reqTime);
+  let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+  
+
+  // let loginPhone = localStorage.getItem('loginPhone')!=null ?localStorage.getItem('loginPhone'):'18900000068' ,
+  // token      = localStorage.getItem('token')!=null ?localStorage.getItem('token'):'e0ca0c3bcace4044b363046e570a55e1' ;
+
+  let loginPhone = GetRequestObjs.loginPhone ,
+      token      = GetRequestObjs.token ;
+
+  let   reqTime    = getFormateDate(),
+        sign       = getmd5(loginPhone+reqTime);
 
    let obj = {
     "chanName":"website",
@@ -20,7 +27,8 @@ function concatObj(res) {
     sign
   }
 
-  Object.assign(obj,res);
+
+  Object.assign(obj,res,GetRequestObjs);
 
   return obj;
 }
