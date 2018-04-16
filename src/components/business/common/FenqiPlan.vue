@@ -81,9 +81,7 @@ export default {
     }
   },
   created () {
-    // this.obj = 
     JSON.stringify(this.planObj) =='{}'? this.obj= this.planArr[0]: this.obj=this.planObj;
-    console.log(this.planArr,this.planObj)
   }
 }
 </script>

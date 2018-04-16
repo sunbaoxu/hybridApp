@@ -118,6 +118,7 @@ export default {
     }
   },
   methods : {
+    ...mapActions(['setToastObj']),
     //关闭方案弹窗
     closePlan (async,obj) {
       this.planAsync = false;
@@ -130,7 +131,12 @@ export default {
     },
     //点击下一步
     submitFn () {
-      this.$router.push('/confirmOrder')
+      let obj =  globalFn.concatObj({
+        loanMoney    :this.moneyValStr,
+        businessType :this.$route.query.businessType,
+        bpcId        :this.planObj.id
+      });
+      this.loanCheckInstall(obj);
     },
     //根据方案查低高额还款期
     queriesProgramListNew () {
@@ -144,7 +150,19 @@ export default {
           this.planArr = res.plans;
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
+      });
+    },
+    //学贷检查是否可以下单
+    loanCheckInstall (obj) {
+      api.loanCheckInstall(obj).then((res) =>{
+        if(res.respCode == '000'){
+          this.$router.push('/confirmOrder')
+        } else{
+           this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
       });
     },
     //关闭方案弹窗
@@ -170,9 +188,6 @@ export default {
   mounted () {
     //根据方案查低高额还款期
     this.queriesProgramListNew();
-  },
-  fn () {
-    return 2
   }
 }
 </script>
