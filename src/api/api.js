@@ -16,16 +16,6 @@ export default {
 
 
   
-  //查询共同借款人
-  queryBorrowers(params) {return fetch('borrowerController/queryBorrowers', params,'post')},
-
-
-
-
-
-
-
-
   
   //根据机构推荐码查询商户信息及商品各个方案
   queryBusinessInfoAndProgram(params) {return fetch('basicFController/queryBusinessInfoAndProgram', params,'post')},
@@ -33,4 +23,6 @@ export default {
   queriesProgramListNew(params) {return fetch('borrowerController/queriesProgramListNew', params,'post')},
   //4.学贷检查是否可以下单
   loanCheckInstall(params) {return fetch('rulecheckController/loanCheckInstall', params,'post')},
+   //查询共同借款人
+   queryBorrowers(params) {return fetch('borrowerController/queryBorrowers', params,'post')},
 }

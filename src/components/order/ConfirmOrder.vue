@@ -77,7 +77,7 @@
       </section>
     </main>
     <!-- 借款人信息 -->
-    <section class="list-box">
+    <section class="list-box" v-if="inentityAsync">
       <ul>
         <li class="g-fen-cen-box g-border">
           <span>借款人信息</span>
@@ -160,7 +160,10 @@
         <p class="text" v-if="identityText =='在校学生'">感谢您选择蜡笔分期，根据国家监管要求，禁止向<span>全日制在校学生</span>提供分期服务。</p>
         <p class="text" v-else>请您务必按照真实情况选择，您的所有操作过程都将被系统记录，并与您最终签署的相关协议具有同等的法律效力。</p>
 
-        <p class="btn"><button>我知道了</button></p>
+        <p class="btn">
+          <button onclick="javascript:history.back(-1);" v-if="identityText =='在校学生'">我知道了</button>
+          <button @click="inentityAsync = false" v-else>继续申请</button>
+        </p>
         <p class="tongyi" :class="{'on':identityText =='在校学生'}">我的父亲/母亲同意作为主借款人申请》</p>
       </main>
     </alert-back>
@@ -255,6 +258,17 @@ export default {
     fuwuFn    (name) {
       this[name] = !this[name]
     },
+    //查询共同借款人(两笔)
+    queryBorrowers () {
+      let obj =  globalFn.concatObj({});
+      api.queryBorrowers(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.inentityAsync = res.showStatus;
+        }
+      },(error)=>{
+        console.log(error,'dfs')
+      });
+    },
     //查询还款详情以及费用详情(两笔)
     queryRepayDetails () {
       let obj =  globalFn.concatObj({
@@ -300,6 +314,8 @@ export default {
     }
   },
   mounted () {
+    //查询共同借款人(两笔)
+    this.queryBorrowers();
     //查询还款详情以及费用详情(两笔)
     this.queryRepayDetails();
   }
@@ -340,7 +356,7 @@ export default {
     }
   }
   &>.main{
-    padding:20px 16px;
+    padding:20px 16px 0;
     box-sizing: border-box; 
     .top-back{
       height: 12px;
