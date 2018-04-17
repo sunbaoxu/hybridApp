@@ -280,10 +280,12 @@ export default {
         "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
+          console.log(res)
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
           this.pageObj = res;
+
         }
 
       },(error)=>{
@@ -297,9 +299,10 @@ export default {
         if(res.respCode =='000'){
           this[name]    = res.contractList;
           this[name].map((m)=>{
-            m.isCheck = false;
+            m['isCheck'] = false;
           });   
-          this.asideArr = this[name]
+          this.asideArr = this[name];
+          console.log(this.asideArr)
           this.asideAsync = true;
           this.asideName  = name;
         }
