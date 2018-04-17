@@ -73,8 +73,13 @@ export default {
     saveImg(){
       if (this.isLoad){
         let obj =  globalFn.concatObj({
-          imgPath1 : this.imgUrl
+          imgPath1 : this.imgUrl,
+          imgPath2 :'',
+          loanId   : '',
+          imgId1   : '',
+          imgId2   : ''
         });
+        // alert('dfsfdsfads');
         this.uploadConfirmation(obj);
       }else{
         alert("我去")
@@ -83,15 +88,15 @@ export default {
     //下单前合同地址展示
     uploadConfirmation (obj) {
       api.uploadConfirmation(obj).then((res) =>{
-
-          alert('dfas',res);
+          alert(res.respMesg)
+          
         if(res.respCode =='000'){
 
           alert(res.respCode)
         }
 
       },(error)=>{
-        alert(error)
+        alert('qweqeqweqweerror')
         console.log(error,'dfs')
       });
     }
