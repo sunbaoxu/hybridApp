@@ -14,6 +14,8 @@ export default {
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
   //2.保存借款人
   saveBorrowers(params) {return fetch('borrowerController/saveBorrowers', params,'post')},
+  //2.查询银行卡（主卡）
+  queryUserBankByPhone(params) {return fetch('tradeController/queryUserBankByPhone', params,'post')},
 
 
   

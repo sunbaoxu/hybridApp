@@ -90,8 +90,9 @@
     </main>
     <!-- 立即还款 -->
     <footer class="footer-state footer-money" v-if="obj.retStatus =='4'|| obj.retStatus =='3'">
-      <div class="g-col-cen-y">
-        <div class="g-fen-y">
+      <!-- 逾期中 -->
+      <div class="g-col-cen-y" v-if="obj.retStatus =='4'">
+        <div class="g-fen-y" >
           <p>
             <span>待支付</span>
             <span>￥{{orderObj.overdueTotalAmt}}</span>
@@ -102,8 +103,13 @@
         </div>
         <p>含逾期费 ￥{{orderObj.overAmt}}</p>
       </div>
+      <!-- 还款中 -->
+      <div class="g-cen-y huan">
+        <span>待支付</span>
+        <span>￥{{obj.totalRetAmt}}</span>
+      </div>
       <div>
-        <button @click="submitFn">立即还款</button>
+        <button @click="queryUserBankByPhone">立即还款</button>
       </div>
     </footer> 
     <!-- 重新申请 -->
@@ -131,6 +137,34 @@
         <span>{{orderObj.overdueTotalAmt}}元</span>
       </section>
     </alert-back>
+    <!-- 银行卡 支付 -->
+    <div class="bank-back" v-if="bankAsync" @click.self="bankAsync =false">
+      <section class="main">
+        <h4 class="title g-border">还款确认</h4>
+        <div class="money-box">
+          <P>我已经确认并同意还款</P>
+          <p>17.26元</p>
+        </div>
+        <div class="from-box">
+          <p class="g-border1 g-fen-cen-box">
+            <span>还款方式</span>
+            <span>银行划扣</span>
+          </p>
+          <p class="g-border1 g-fen-cen-box">
+            <span>还款银行卡</span>
+            <span class="g-cen-y">
+              <i class="g-back" :style="{'background-image':'url('+bankObj.bankIcon+')'}"></i>
+              {{bankObj.bankName}}
+            </span>
+          </p>
+        </div>
+        <div class="btn-box">
+          <p>您本月还有<span>{{orderObj.availNum}}</span>次主动还款机会</p>
+          <p><button>立即还款</button></p>
+        </div>
+        <div class="text-box">{{bankObj.warmMesg}}</div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -152,7 +186,9 @@ export default {
       alertAsync : false,//详情弹框
       alertArr   : [] , //详情数据
       asyncText : '按期' ,
-      listAsync : false
+      listAsync : false,
+      bankAsync : false,
+      bankObj : {}
     }
   },
   methods : {
@@ -206,13 +242,27 @@ export default {
         console.log(error,'dfs')
       });
     },
+    //主动还款列表
+    queryUserBankByPhone () {
+      let obj = globalFn.concatObj({});
+      api.queryUserBankByPhone(obj).then((res) =>{
+        console.log(res,'dfsa')
+        if(res.respCode =='000'){
+          this.bankAsync = true;
+          this.bankObj = res;
+        }
+      },(error)=>{
+        console.log(error,'dfs')
+      });
+    },
     //关闭弹框
     closeAlertFn () {
       this.alertAsync = false;
     },
     //立即还款
     submitFn () {
-      this.$router.push('/orderRecord')
+      
+      // this.$router.push('/orderRecord')
     },
     //详情
     downDetail () {
@@ -555,6 +605,98 @@ export default {
       }
       &:last-child{
         width: 200px;
+      }
+    }
+    .huan{
+      span{
+        font-size: 26px;
+        &:first-child{
+          color:$col-3;
+        }
+        &:last-child{
+          color:$col-red;
+        }
+      }
+    }
+  }
+  .bank-back{
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: flex-end;
+    .main{
+      background: $col-f;
+      width:100%;
+      .title{
+        height: 100px;
+        text-align: center;
+        line-height: 100px;
+        font-size: 30px;
+      }
+      .money-box{
+        padding:30px 0;
+        p{
+          text-align: center;
+          &:first-child{
+            font-size: 24px;
+            padding-bottom: 10px;
+          }
+          &:last-child{
+            color:$col-red;
+            font-size: 28px;
+          }
+        }
+      }
+      .from-box{
+        p{
+          height: 80px;
+          padding:0 30px;
+          span{
+            color:$col-3;
+            font-size: 24px;
+            i{
+              width:36px;
+              height: 36px;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+      .btn-box{
+        padding-top:30px;
+        p{
+          &:first-child{
+            line-height: 60px;
+            text-align: center;
+            font-size: 20px;
+            color:$col-9;
+            span{
+              color:$col-blue;
+              padding:0 4px;
+            }
+          }
+          &:last-child{
+            padding:0 30px;
+            button{
+              width: 100%;
+              height: 80px;
+              border-radius: 40px;
+              border:none;
+              background: $col-blue;
+              font-size: 26px;
+              color:$col-f;
+            }
+          }
+        }
+      }
+      .text-box{
+        padding:40px 30px;
+        font-size: 24px;
+        color:$col-9;
       }
     }
   }
