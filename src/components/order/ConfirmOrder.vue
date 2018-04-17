@@ -265,7 +265,7 @@ export default {
       let obj =  globalFn.concatObj({});
       api.queryBorrowers(obj).then((res) =>{
         if(res.respCode =='000'){
-          this.inentityAsync = !res.showStatus;
+          this.inentityAsync = res.showStatus;
         }
       },(error)=>{
         console.log(error,'dfs')

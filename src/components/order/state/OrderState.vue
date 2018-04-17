@@ -1,7 +1,9 @@
 <template>
   <div class="state-wrap" >
     <!-- 协议是否显示 -->
-    <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}"><i class="iconfont icon-tixing"></i><span>查看协议</span></p>
+    <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}" @click="agreementFn">
+      <i class="iconfont icon-tixing"></i><span>查看协议</span>
+    </p>
     <!-- 头部主体内容 -->
     <header class="header-state">
       <!-- 订单 信息 -->
@@ -87,7 +89,7 @@
       </section>
     </main>
     <!-- 立即还款 -->
-    <footer class="footer-state footer-money" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
+    <footer class="footer-state footer-money" v-if="obj.retStatus =='4'|| obj.retStatus =='3'">
       <div class="g-col-cen-y">
         <div class="g-fen-y">
           <p>
@@ -106,7 +108,7 @@
     </footer> 
     <!-- 重新申请 -->
     <footer class="footer-state" v-else-if="obj.retStatus =='5' ||obj.retStatus =='6' ||obj.retStatus =='7' ">
-      <button>重新申请</button>
+      <button @click="routerFn">重新申请</button>
     </footer>
     <!-- 引入弹框组件 -->
     <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
@@ -219,6 +221,14 @@ export default {
     //更改状态
     clickAsyncFn (str) {
       this.asyncText = str;
+    },
+    //跳转商家页
+    routerFn () {
+      this.$router.push({path:'/shangList',query:{recoCode:this.obj.recoCode}})
+    },
+    //跳转协议页
+    agreementFn () {
+      this.$router.push({path:'/agreement',query:{id:this.obj.id}})
     }
   },
   mounted () {

@@ -10,8 +10,10 @@ export default {
   activePayDetail(params) {return fetch('activePayController/activePayDetail', params,'post')},
 
 
-  //14.上传确认函
+  //上传确认函
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
+  //2.保存借款人
+  saveBorrowers(params) {return fetch('borrowerController/saveBorrowers', params,'post')},
 
 
   
@@ -19,6 +21,8 @@ export default {
   queryRepayDetails(params) {return fetch('custodyController/queryRepayDetails', params,'post')},
   //下单前合同地址展示
   bfContractLink(params) {return fetch('custodyController/bfContractLink', params,'post')},
+  //下单前合同地址展示
+  afContractLink(params) {return fetch('custodyController/afContractLink', params,'post')},
 
 
   

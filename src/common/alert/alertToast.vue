@@ -30,7 +30,7 @@ export default {
   padding: 0 30px;
   .main{
     border-radius: 8px;
-    max-width: 80%;
+    max-width: 90%;
     background:rgba(0,0,0,0.8);
     font-size: 24px;
     color:$col-f;

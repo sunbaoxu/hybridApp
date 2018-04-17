@@ -13,6 +13,8 @@ const UploadeImg    = resolve => require(['@/components/order/UploadeImg.vue'], 
 
 //保存借款信息
 const LoanBaocun    = resolve => require(['@/components/order/LoanBaocun.vue'], resolve);
+//协议页
+const Agreement    = resolve => require(['@/components/order/state/Agreement.vue'], resolve);
 
 //订单确认
 const ConfirmOrder    = resolve => require(['@/components/order/ConfirmOrder.vue'], resolve);
@@ -49,5 +51,7 @@ export default new Router({
 
     //保存借款信息
     {path: '/loanBaocun',name: 'loanBaocun',component: LoanBaocun},
+    //协议页
+    {path: '/agreement',name: 'agreement',component: Agreement},
   ]
 });
