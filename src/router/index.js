@@ -10,6 +10,10 @@ const ShangDetail           = resolve => require(['@/components/business/ShangDe
 //上传照片
 const UploadeImg    = resolve => require(['@/components/order/UploadeImg.vue'], resolve);
 
+
+//保存借款信息
+const LoanBaocun    = resolve => require(['@/components/order/LoanBaocun.vue'], resolve);
+
 //订单确认
 const ConfirmOrder    = resolve => require(['@/components/order/ConfirmOrder.vue'], resolve);
 //订单状态
@@ -40,5 +44,10 @@ export default new Router({
 
     //还款记录
     {path: '/orderRecord',name: 'orderRecord',component: OrderRecord},
+
+
+
+    //保存借款信息
+    {path: '/loanBaocun',name: 'loanBaocun',component: LoanBaocun},
   ]
 });

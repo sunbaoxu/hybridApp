@@ -11,7 +11,7 @@ export default {
 
 
   //14.上传确认函
-  uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmation', params,'post')},
+  uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
 
 
   

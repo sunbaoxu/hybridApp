@@ -3,8 +3,8 @@
     <div class="main">
       <p class="g-cen-y">以下协议一经签订即可生效，请务必确认协议内容及条款</p>
       <ul v-ScrollMove>
-        <li class="g-cen-y g-border" v-for="(m,i) in Arrs" :key="i">
-          <i class="iconfont" :class="{'on icon-dui1':m.isCheck,'icon-dui':!m.isCheck}" @click="clickFn(m)"></i>
+        <li class="g-cen-y g-border" v-for="(m,i) in arr" :key="i" ref="list">
+          <i class="iconfont" :class="{'on icon-dui1':m.isCheck,'icon-dui':!m.isCheck}" @click="clickFn(m,i)"></i>
           <a :href="m.url" class="g-text-ove1">{{m.name}}</a>
         </li>
       </ul>
@@ -36,46 +36,48 @@ export default {
   },
   data () {
     return {
-      allAsync : false,
-      Arrs : []
+      allAsync : false
     }
+  },
+  computed :{
+    fullName: function () {
+      
+
+    }
   },
   methods : {
     closeAsideFn () {
-      this.$emit('closeAsideFn',this.Arrs,this.name,this.allAsync);
+      this.$emit('closeAsideFn',this.arr,this.name,this.allAsync);
     },
-    clickFn (obj) {
-      let num =0;
-      // this.$nextTick(() =>{
-      //   Vue.set(obj,'isCheck',!obj.isCheck);
-      // });
-      // cons
-      this.Arrs.map((m,i) =>{
-        //对每项 取反
-        if(m.name == obj.name){
-          m.isCheck = !obj.isCheck;
-          console.log(m)
-        }
-
-        //记录选中几个
-        if(m.isCheck){num++};
+    clickFn (obj,index) {
+      // let num =0;
+      this.$nextTick(() =>{
+        Vue.set(obj,'isCheck',!obj.isCheck);
       });
+      // this.arr.map((m,i) =>{
+      //   //对每项 取反
+      //   if(m.name == obj.name){
+      //     m.isCheck = !obj.isCheck;
+      //   }
+
+      //   //记录选中几个
+      //   if(m.isCheck){num++};
+      // });
 
       // //如果全选中 判定全选;
-      this.allAsync = num == this.Arrs.length;
+      // this.allAsync = num == this.arr.length;
     },
     //点击全选
     clickAll (async) {
       //判断 默认还是点击
       this.allAsync = async ? true: !this.allAsync;
       //遍历所有
-      this.Arrs.map((m,i) =>{
+      this.arr.map((m,i) =>{
         m.isCheck = this.allAsync;
       });
     }
   },
   mounted () {
-    this.Arrs = this.arr;
     //判断是否全选
     if(this.async){
       this.clickAll(true);

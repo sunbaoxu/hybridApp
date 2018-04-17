@@ -165,7 +165,7 @@
           <button onclick="javascript:history.back(-1);" v-if="identityText =='在校学生'">我知道了</button>
           <button @click="inentityAsync = false" v-else>继续申请</button>
         </p>
-        <p class="tongyi" :class="{'on':identityText =='在校学生'}">我的父亲/母亲同意作为主借款人申请》</p>
+        <p class="tongyi" :class="{'on':identityText =='在校学生'}"><router-link to="/LoanBaocun">我的父亲/母亲同意作为主借款人申请 》</router-link> </p>
       </main>
     </alert-back>
   </div>
@@ -265,7 +265,7 @@ export default {
       let obj =  globalFn.concatObj({});
       api.queryBorrowers(obj).then((res) =>{
         if(res.respCode =='000'){
-          this.inentityAsync = res.showStatus;
+          this.inentityAsync = !res.showStatus;
         }
       },(error)=>{
         console.log(error,'dfs')
@@ -675,6 +675,9 @@ export default {
           opacity: 0;
           &.on{
             opacity: 1;
+          }
+          a{
+            color:$col-blue;
           }
         }
       }
