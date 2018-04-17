@@ -124,7 +124,7 @@
       </section>
     </footer>
     <!-- 协议 -侧边栏 -->
-    <xieyi-aside v-if="asideAsync" @closeAsideFn="closeAsideFn" :arr="asideArr" :name ="asideName" :async="asideAll"></xieyi-aside>
+    <xieyi-aside v-if="asideAsync" @closeAsideFn="closeAsideFn" :arr="asideArr" :name ="asideName" :async="asideAll" ref="xieyi"></xieyi-aside>
 
     <!-- 弹框组件 - 订单 -->
     <alert-back class="order-alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
@@ -214,7 +214,8 @@ export default {
       //如果没有值，请求数据
       if(JSON.stringify(this[name]) == "{}"){
         this.bfContractLink(name);
-      } else{
+      } 
+      else{
         this.asideAsync = true;
         this.asideName  = name;
         this.asideArr   = this[name];
@@ -302,7 +303,6 @@ export default {
             m['isCheck'] = false;
           });   
           this.asideArr = this[name];
-          console.log(this.asideArr)
           this.asideAsync = true;
           this.asideName  = name;
         }
@@ -683,5 +683,8 @@ export default {
       }
     }
   }
+
+
+
 }
 </style>

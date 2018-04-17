@@ -39,33 +39,24 @@ export default {
       allAsync : false
     }
   },
-  computed :{
-    fullName: function () {
-      
-
-    }
-  },
   methods : {
     closeAsideFn () {
       this.$emit('closeAsideFn',this.arr,this.name,this.allAsync);
     },
-    clickFn (obj,index) {
-      // let num =0;
-      this.$nextTick(() =>{
-        Vue.set(obj,'isCheck',!obj.isCheck);
+    clickFn (obj) {
+      let num =0;
+      this.arr.map((m,i) =>{
+        //对每项 取反
+        if(m.name == obj.name){
+          m.isCheck = !obj.isCheck;
+          this.$set(this.arr,i,m);
+        }
+        //记录选中几个
+        if(m.isCheck){num++};
       });
-      // this.arr.map((m,i) =>{
-      //   //对每项 取反
-      //   if(m.name == obj.name){
-      //     m.isCheck = !obj.isCheck;
-      //   }
 
-      //   //记录选中几个
-      //   if(m.isCheck){num++};
-      // });
-
-      // //如果全选中 判定全选;
-      // this.allAsync = num == this.arr.length;
+      //如果全选中 判定全选;
+      this.allAsync = num == this.arr.length;
     },
     //点击全选
     clickAll (async) {
@@ -75,9 +66,9 @@ export default {
       this.arr.map((m,i) =>{
         m.isCheck = this.allAsync;
       });
-    }
+    },
   },
-  mounted () {
+  created () {
     //判断是否全选
     if(this.async){
       this.clickAll(true);
