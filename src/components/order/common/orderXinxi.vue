@@ -5,7 +5,7 @@
         <!-- 学费 -->
         <span class="g-cen-y title" v-if="obj.text == 'xuefei'">
           <i style="background:url(/static/images/order/ios-icon.png)"></i>
-          IOS 180天集训营
+          {{obj.name}}
         </span>
         <!-- 服务费 -->
         <div class="fuwu title g-cen-y" v-else>
@@ -17,13 +17,13 @@
           </div>
         </div>
         <!-- 学费-服务费不同价格 -->
-        <span class="money" v-if="obj.text == 'xuefei'">￥123412</span>
+        <span class="money" v-if="obj.text == 'xuefei'">￥{{obj.money}}</span>
         <span class="money" v-else>￥{{obj.servConsumFee}}</span>
       </dt>
       <dd>
         <p class="g-col-cen-cen-box">
           <span>分期方案</span>
-          <span>6+0+12 期</span>
+          <span>{{obj.planText}} 期</span>
         </p>
         <p class="g-col-cen-cen-box">
           <span>分期期数</span>

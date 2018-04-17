@@ -18,7 +18,7 @@
           </span>
         </h4>
         <!-- 学费分期信息订单 -->
-        <order-xinxi :obj="xuefeiObj"></order-xinxi>
+        <order-xinxi :obj="orDetail"></order-xinxi>
         <div class="xieyi-box g-fen-cen-box">
           <span @click="xueXieyiFn">
             <i 
@@ -118,9 +118,16 @@
             <span>订单总额</span>
             <span>￥{{pageObj.totalMoney}}</span>
           </p>
-          <p>含学费 ￥{{feeDetail.servConsumFee}}+服务费 ￥{{pageObj.totalMoney - feeDetail.servConsumFee}}</p>
+          <p>含学费 ￥{{feeDetail.servConsumFee}}+服务费 ￥{{$route.query.money}}</p>
         </div>
-        <div class="btn" @click="clickBtnFn">提交订单</div>
+        <!-- <div class="btn" @click="clickBtnFn" >提交订单</div> -->
+        <!-- 订单协议全部选中  允许点击 -->
+        <button 
+          class="btn" 
+          @click="clickBtnFn" 
+          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync" 
+          :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync }"
+        >提交订单</button>
       </section>
     </footer>
     <!-- 协议 -侧边栏 -->
@@ -191,7 +198,6 @@ export default {
       asideName : 'xuefei',
       asideArr  : [],//侧边栏
       alertAsync : false,
-      xuefeiObj :{text:'xuefei'},
       xueAsync   : false ,//学费协议是否勾选
       fuwuAsync1 : false,//服务是否勾选
       fuwuAsync2 : false,//服务是否勾选
@@ -281,11 +287,24 @@ export default {
         "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
-          console.log(res)
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
           this.pageObj = res;
+
+          //学费
+           Object.assign(this.orDetail,{
+             text:'xuefei',
+             name : this.$route.query.name,
+             planText : this.$route.query.planText,
+             money    : this.$route.query.money
+           });
+
+          //服务
+           Object.assign(this.feeDetail,{
+             planText : this.$route.query.planText,
+           });
+          
 
         }
 
@@ -521,11 +540,13 @@ export default {
         display: flex;
         .btn{
           width: 216px;
-          line-height: 120px;
           font-size: 36px;
           color:$col-f;
-          text-align: center;
-          background: $col-blue;
+          background: $col-c;
+          border:none;
+          &.on{
+            background: $col-blue;
+          }
         }
         .money{
           width: 0;

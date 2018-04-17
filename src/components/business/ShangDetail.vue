@@ -157,13 +157,16 @@ export default {
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
           this.$router.push({path:'/confirmOrder',query:{
-            "bpcId":this.planObj.id,
+            "bpcId"       :this.planObj.id,
             "businessType":this.$route.query.businessType,
-            "loanMoney":this.moneyValStr,
-            "nper":this.planObj.userNper
+            "loanMoney"   :this.moneyValStr,
+            "nper"     : this.planObj.userNper,
+            "planText" : this.planText,
+            "name"     : this.$route.query.cName,
+            "money"    : this.moneyValNum
           }})
         } else{
-           this.setToastObj({async:true,respMesg:res.respMesg});
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
