@@ -13,3 +13,7 @@ export const toastObj    = state => state.toastObj;
 
 //上传图片
 export const UploadImg    = state => state.UploadImg;
+
+
+//保存借款人
+export const loancunAsync    = state => state.loancunAsync;

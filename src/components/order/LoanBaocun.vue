@@ -52,7 +52,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setToastObj']),
+    ...mapActions(['setToastObj','setLoancunAsync']),
     submit () {
     if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.relationPhone))){ 
       this.setToastObj({
@@ -84,6 +84,7 @@ export default {
     saveBorrowers (obj) {
       api.saveBorrowers(obj).then((res) =>{
         if(res.respCode =='000'){
+          this.setLoancunAsync('true')
           history.go(-1);
         } else {
           this.setToastObj({

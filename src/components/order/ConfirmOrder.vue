@@ -77,7 +77,7 @@
       </section>
     </main>
     <!-- 借款人信息 -->
-    <section class="list-box" v-if="inentityAsync">
+    <section class="list-box" v-if="loancunAsync!=''">
       <ul>
         <li class="g-fen-cen-box g-border">
           <span>借款人信息</span>
@@ -202,7 +202,7 @@ export default {
     alertBack,
     orderXinxi
   },
-  computed: {...mapGetters(['UploadImg'])},
+  computed: {...mapGetters(['UploadImg','loancunAsync'])},
   data () {
     return {
       asideAsync : false,

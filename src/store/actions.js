@@ -30,10 +30,19 @@ export const setToastObj = ({commit},obj) => {
 };
 
 
-//吐司 弹框提醒
+//上传图片
 export const setUploadImg = ({commit},str) => {
   commit({
     type: 'setUploadImg',     
+    str
+  });
+};
+
+
+//保存借款人
+export const setLoancunAsync = ({commit},str) => {
+  commit({
+    type: 'setLoancunAsync',     
     str
   });
 };
