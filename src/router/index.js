@@ -29,7 +29,7 @@ export default new Router({
   mode :'history',
   routes: [
     //商家推荐码
-    {path: '/shangCode',name: 'shangCode',component: ShangCode},
+    {path: '/',name: 'shangCode',component: ShangCode},
     //商家列表
     {path: '/shangList',name: 'shangList',component: ShangList},
     //商家详情
@@ -53,5 +53,9 @@ export default new Router({
     {path: '/loanBaocun',name: 'loanBaocun',component: LoanBaocun},
     //协议页
     {path: '/agreement',name: 'agreement',component: Agreement},
+
+
+    //协议页
+    {path: '*',name: '404',component: ShangCode},
   ]
 });
