@@ -211,7 +211,8 @@ export default {
     //根据订单ID查看详细信息
     queryOrderByLoanIDNew () {
       let obj = globalFn.concatObj({
-        loanId : '1PWtrLqny02i1pGJn0y'
+        // loanId : this.$route.query.loanId '1PWtrLqny02i1pGJn0y' 
+        loanId :  '1PWtrLqny02i1pGJn0y' 
       });
       api.queryOrderByLoanIDNew(obj).then((res) =>{
         console.log(res.loanInfo)

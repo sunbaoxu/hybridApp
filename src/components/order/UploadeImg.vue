@@ -90,7 +90,7 @@ export default {
       this.isLoad  = false;
       api.uploadConfirmation(obj).then((res) =>{
         if(res.respCode =='000'){
-          this.setUploadImg('true');
+          this.setUploadImg(res.loanId);
           history.back(-1);
         }
       },(error)=>{

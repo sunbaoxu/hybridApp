@@ -125,8 +125,8 @@
         <button 
           class="btn" 
           @click="clickBtnFn" 
-          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync && UploadImg=='true'" 
-          :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync && UploadImg=='true'}"
+          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync && UploadImg!=''" 
+          :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync && UploadImg!=''}"
         >提交订单</button>
       </section>
     </footer>
@@ -215,7 +215,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setOrderRmpList']),
+    ...mapActions(['setOrderRmpList','setUploadImg']),
     //打开侧边栏
     openAsideFn (name) {
       //如果没有值，请求数据
@@ -254,7 +254,18 @@ export default {
     },
     //点击提交订单
     submitFn () {
-      // this.$router.push('/orderState');
+      let obj =  globalFn.concatObj({
+        loanMoney    : this.pageObj.totalMoney,
+        bpcId        : this.$route.query.bpcId,
+        nper         : this.orDetail.userNper,
+        businessType : this.$route.query.businessType,
+        loanId       : this.UploadImg,
+        pstSign      : this.inentityAsync?'1':'2'
+      });
+
+      
+
+      this.loanInstallOrder(obj);
     },
     //确定提交订单
     clickBtnFn () {
@@ -272,11 +283,30 @@ export default {
     queryBorrowers () {
       let obj =  globalFn.concatObj({});
       api.queryBorrowers(obj).then((res) =>{
+        console.log(res)
         if(res.respCode =='000'){
           this.inentityAsync = res.showStatus;
         }
       },(error)=>{
         console.log(error,'dfs')
+      });
+    },
+    //学贷下订单
+    loanInstallOrder (obj) {
+      api.loanInstallOrder(obj).then((res) =>{
+        // alert(res.respCode)
+        if(res.respCode =='000'){
+          // alert(res.respCode)
+          //成功后上传图片 为空
+          this.setUploadImg('');
+          this.$router.push({path:'/orderState',
+            query:{
+              loanId : res.loanId
+            }
+          });
+        }
+      },(error)=>{
+        alert(error,'dfsa')
       });
     },
     //查询还款详情以及费用详情(两笔)

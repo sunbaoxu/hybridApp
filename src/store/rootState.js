@@ -22,6 +22,6 @@ const state = {
   businessObj  :localStorage.getItem('setBusinessObj')?JSON.parse(localStorage.getItem('setBusinessObj')):{},
   orderRmpList :localStorage.getItem('orderRmpList')?JSON.parse(localStorage.getItem('orderRmpList')):[],
   toastObj :{async:false},
-  UploadImg :'false'
+  UploadImg :''
 }
 export default state;

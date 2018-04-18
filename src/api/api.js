@@ -10,6 +10,10 @@ export default {
   activePayDetail(params) {return fetch('activePayController/activePayDetail', params,'post')},
 
 
+  
+  //5.学贷下订单
+  loanInstallOrder(params) {return fetch('rulecheckController/loanInstallOrder', params,'post')},
+
   //上传确认函
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
   //2.保存借款人
