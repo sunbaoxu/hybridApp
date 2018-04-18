@@ -28,3 +28,12 @@ export const setToastObj = ({commit},obj) => {
     obj
   });
 };
+
+
+//吐司 弹框提醒
+export const setUploadImg = ({commit},str) => {
+  commit({
+    type: 'setUploadImg',     
+    str
+  });
+};

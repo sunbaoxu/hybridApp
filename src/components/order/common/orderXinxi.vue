@@ -27,11 +27,11 @@
         </p>
         <p class="g-col-cen-cen-box">
           <span>分期期数</span>
-          <span> 18 期</span>
+          <span> {{obj.fenNper}} 期</span>
         </p>
         <p class="g-col-cen-cen-box">
           <span>个人还款期数</span>
-          <span>12期</span>
+          <span>{{obj.userNper}}期</span>
         </p>
       </dd>
     </dl>

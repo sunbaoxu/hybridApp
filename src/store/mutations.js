@@ -14,3 +14,7 @@ export const setOrderRmpList = (state, payload) => {
 export const setToastObj = (state, payload) => {
   state.toastObj = payload.obj;
 }
+
+export const setUploadImg = (state, payload) => {
+  state.UploadImg = payload.str;
+}

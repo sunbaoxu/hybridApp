@@ -10,7 +10,7 @@
       </ul>
       <footer class="btn-box g-fen-box">
         <span class="g-cen-y" @click="clickAll(false)"><i class="iconfont" :class="{'on icon-dui1':allAsync,'icon-dui':!allAsync}"></i>全选</span>
-        <button :disabled="!allAsync" :class="{'on':allAsync}">我已知晓并确认</button>
+        <button :disabled="!allAsync" :class="{'on':allAsync}" @click="closeAsideFn">我已知晓并确认</button>
       </footer>
     </div>
   </div>

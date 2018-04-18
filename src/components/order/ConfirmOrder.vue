@@ -125,8 +125,8 @@
         <button 
           class="btn" 
           @click="clickBtnFn" 
-          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync" 
-          :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync }"
+          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync && UploadImg=='true'" 
+          :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync && UploadImg=='true'}"
         >提交订单</button>
       </section>
     </footer>
@@ -138,8 +138,8 @@
       <h4 class="title">提示</h4>
       <div class="cont g-border">
         <ul>
-          <li class="g-fen-cen"><span>教育分期</span><span>￥134.34 | 18期</span></li>
-          <li class="g-fen-cen"><span>三方服务费</span><span>￥134.34 | 18期</span></li>
+          <li class="g-fen-cen"><span>教育分期</span><span>￥{{orDetail.money}} | {{orDetail.userNper}}期</span></li>
+          <li class="g-fen-cen"><span>三方服务费</span><span>￥{{feeDetail.servConsumFee}} | {{orDetail.userNper}}期</span></li>
         </ul>
       </div>
       <div class="btn-boxs" >
@@ -180,7 +180,7 @@
 
 <script>
 import api  from '@/api/api';
-import {mapActions} from 'vuex';
+import {mapActions,mapGetters} from 'vuex';
 import globalFn from '@/assets/javascripts/globalFn';
 import xieyiAside from '$order/common/Aside.vue';
 import orderXinxi from '$order/common/orderXinxi.vue';
@@ -192,6 +192,7 @@ export default {
     alertBack,
     orderXinxi
   },
+  computed: {...mapGetters(['UploadImg'])},
   data () {
     return {
       asideAsync : false,
@@ -253,7 +254,7 @@ export default {
     },
     //点击提交订单
     submitFn () {
-      this.$router.push('/orderState');
+      // this.$router.push('/orderState');
     },
     //确定提交订单
     clickBtnFn () {
@@ -291,21 +292,22 @@ export default {
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
           this.pageObj = res;
-
           //学费
            Object.assign(this.orDetail,{
              text:'xuefei',
              name : this.$route.query.name,
              planText : this.$route.query.planText,
-             money    : this.$route.query.money
+             money    : this.$route.query.money,
+             fenNper  : this.$route.query.fenNper,
+             userNper  : this.$route.query.userNper
            });
 
           //服务
            Object.assign(this.feeDetail,{
              planText : this.$route.query.planText,
+             fenNper  : this.$route.query.fenNper,
+             userNper  : this.$route.query.userNper
            });
-          
-
         }
 
       },(error)=>{

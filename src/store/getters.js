@@ -9,3 +9,7 @@ export const orderRmpList    = state => state.orderRmpList;
 
 //吐司是否显示
 export const toastObj    = state => state.toastObj;
+
+
+//上传图片
+export const UploadImg    = state => state.UploadImg;

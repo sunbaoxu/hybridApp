@@ -7,6 +7,7 @@
         v-model="text" 
         v-on:input ="changFn"
         maxlength="11">
+        <i class="iconfont icon-guanbi guan" @click="text =''" :class="{'on':text!=''}"></i>
     </p>
     <p>
       <button :class="{on:btnAsync}" @click="submitFn" :disabled="!btnAsync">下一步</button>
@@ -38,7 +39,6 @@ export default {
     },
     //下一步
     submitFn () {
-      
       let obj =  globalFn.concatObj({
         QRcode :this.text
       });
@@ -67,6 +67,7 @@ export default {
     &:first-child{
       height: 108px;
       border-bottom: 1px solid #e5e5e5;
+      position: relative;
       input{
         padding-left:30px;
         width:100%;
@@ -75,6 +76,17 @@ export default {
         border:none;
         background: $col-f;
         font-size: 30px;
+      }
+      .guan{
+        position: absolute;
+        font-size: 40px;
+        color:$col-6;
+        right:20px;
+        top:30px;
+        display: none;
+        &.on{
+          display: block;
+        }
       }
     }
     &:last-child{

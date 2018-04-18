@@ -32,9 +32,8 @@
     </div>
 
     <div class="btn-save" @click="saveImg">
-      <button :class="{'on':isLoad}">保存</button>
+      <button :class="{'on':isLoad}" :disabled="!isLoad">保存</button>
     </div>
-
     <div class="back" v-if="backAsync" @click="backFn(false)">
       <img :src="imgUrl" alt="">
     </div>
@@ -45,6 +44,7 @@
 <script>
 
 import api  from '@/api/api';
+import {mapActions} from 'vuex';
 import globalFn from '@/assets/javascripts/globalFn';
 export default {
   data(){
@@ -56,6 +56,7 @@ export default {
   },
 
   methods : {
+    ...mapActions(['setUploadImg']),
     goNative:function () {
       window.LabiWinJSI.showImgPickDialog();
     },
@@ -79,7 +80,6 @@ export default {
           imgId1   : '',
           imgId2   : ''
         });
-        // alert('dfsfdsfads');
         this.uploadConfirmation(obj);
       }else{
         alert("我去")
@@ -87,17 +87,14 @@ export default {
     },
     //下单前合同地址展示
     uploadConfirmation (obj) {
+      this.isLoad  = false;
       api.uploadConfirmation(obj).then((res) =>{
-          alert(res.respMesg)
-          
         if(res.respCode =='000'){
-
-          alert(res.respCode)
+          this.setUploadImg('true');
+          history.back(-1);
         }
-
       },(error)=>{
-        alert('qweqeqweqweerror')
-        console.log(error,'dfs')
+        console.log(error)
       });
     }
   },

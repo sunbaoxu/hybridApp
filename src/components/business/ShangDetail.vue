@@ -156,6 +156,17 @@ export default {
     loanCheckInstall (obj) {
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
+          let fenNper ='';
+          if(this.planObj.lowRate>0 && this.planObj.highRate>0){
+            fenNper = this.planObj.userNper
+          } else if(this.planObj.lowRate>0){
+            fenNper = this.planObj.lowNper
+          }else if(this.planObj.highRate>0){
+            fenNper = this.planObj.highNper
+          } else{
+            fenNper =0;
+          }
+
           this.$router.push({path:'/confirmOrder',query:{
             "bpcId"       :this.planObj.id,
             "businessType":this.$route.query.businessType,
@@ -163,7 +174,9 @@ export default {
             "nper"     : this.planObj.userNper,
             "planText" : this.planText,
             "name"     : this.$route.query.cName,
-            "money"    : this.moneyValNum
+            "money"    : this.moneyValNum,
+            userNper   : this.planObj.userNper ,//个人还款期数
+            fenNper    
           }})
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});

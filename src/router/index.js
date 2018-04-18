@@ -29,7 +29,7 @@ export default new Router({
   mode :'history',
   routes: [
     //商家推荐码
-    {path: '/',name: 'shangCode',component: ShangCode},
+    {path: '/shangCode',name: 'shangCode',component: ShangCode},
     //商家列表
     {path: '/shangList',name: 'shangList',component: ShangList},
     //商家详情
