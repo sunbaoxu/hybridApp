@@ -87,8 +87,8 @@
           <span>主借款人</span>
           <div>
             <p>
-              <span>张三</span>
-              <span>422125**********0593</span>
+              <span>{{inentityObj.relationName}}</span>
+              <span>{{inentityObj.relationIdCard}}</span>
             </p>
             <i class="iconfont icon-jiao-rig"></i>
           </div>
@@ -97,8 +97,8 @@
           <span>共同借款人</span>
           <div>
             <p>
-              <span>张三</span>
-              <span>422125**********0593</span>
+              <span>{{inentityObj.realName}}</span>
+              <span>{{inentityObj.idNum}}</span>
             </p>
             <i class="iconfont icon-jiao-rig"></i>
           </div>
@@ -149,7 +149,7 @@
     </alert-back>
 
     <!-- 弹框组件 - 身份 -->
-    <alert-back class="identity-alert-back" @closeAlertFn="closeIdentity" v-if="inentityAsync">
+    <alert-back class="identity-alert-back"  v-if="inentityAsync">
       <h4 class="title g-border">请选择您当前的职业</h4>
       <main class="identity-main">
         <ul class="g-fen-cen">
@@ -207,6 +207,7 @@ export default {
       orderObj : {} ,
       identityText : '在校学生',
       inentityAsync : false,
+      inentityObj :{},
       asideXueObj :{},
       asideFuObj  :{},
       asideAll :false,
@@ -214,6 +215,14 @@ export default {
 
     }
   },
+  // watch : {
+  //   '$route' (to,from) {
+  //     console.log(to,from)
+  //     if(from.name == 'loanBaocun'){
+  //       console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
+  //     }
+  //   }
+  // },
   methods : {
     ...mapActions(['setOrderRmpList','setUploadImg']),
     //打开侧边栏
@@ -283,9 +292,12 @@ export default {
     queryBorrowers () {
       let obj =  globalFn.concatObj({});
       api.queryBorrowers(obj).then((res) =>{
-        console.log(res)
         if(res.respCode =='000'){
           this.inentityAsync = res.showStatus;
+          this.inentityObj = res.borrowers;
+
+          this.inentityObj['idNum'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
+          this.inentityObj['relationName'] = globalFn.plusXing(this.inentityObj.relationName,4,4);
         }
       },(error)=>{
         console.log(error,'dfs')
@@ -294,9 +306,7 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
-        // alert(res.respCode)
         if(res.respCode =='000'){
-          // alert(res.respCode)
           //成功后上传图片 为空
           this.setUploadImg('');
           this.$router.push({path:'/orderState',
@@ -306,7 +316,7 @@ export default {
           });
         }
       },(error)=>{
-        alert(error,'dfsa')
+        alert(error)
       });
     },
     //查询还款详情以及费用详情(两笔)

@@ -82,10 +82,10 @@ export default {
       });
     }
   },
-  mounted () {
-    //默认请求还款计划
-    // this.getOrderState()
-  }
+  // mounted () {
+  //   //默认请求还款计划
+  //   // this.getOrderState()
+  // }
 }
 </script>
 <style lang="scss" scoped>

@@ -211,8 +211,8 @@ export default {
     //根据订单ID查看详细信息
     queryOrderByLoanIDNew () {
       let obj = globalFn.concatObj({
-        // loanId : this.$route.query.loanId '1PWtrLqny02i1pGJn0y' 
-        loanId :  '1PWtrLqny02i1pGJn0y' 
+        loanId : this.$route.query.loanId 
+        // loanId :  '1PWtrLqny02i1pGJn0y' 
       });
       api.queryOrderByLoanIDNew(obj).then((res) =>{
         console.log(res.loanInfo)
@@ -225,35 +225,33 @@ export default {
           }
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
     },
     //主动还款列表
     activePayDetail () {
       let obj = globalFn.concatObj({
-        loanID : '1PWtrLqny02i1pGJn0y'
+        loanID : this.$route.query.loanId
       });
       api.activePayDetail(obj).then((res) =>{
-        console.log(res,'dfsa')
         if(res.respCode =='000'){
           this.orderObj= res;
           this.alertArr = res.overdueInfoList;
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
     },
     //主动还款列表
     queryUserBankByPhone () {
       let obj = globalFn.concatObj({});
       api.queryUserBankByPhone(obj).then((res) =>{
-        console.log(res,'dfsa')
         if(res.respCode =='000'){
           this.bankAsync = true;
           this.bankObj = res;
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
     },
     //关闭弹框
