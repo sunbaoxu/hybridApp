@@ -39,7 +39,10 @@
         <div class="text g-fen-cen">
           <p>个人还款期数：</p>
           <p>
-            <span>{{obj.userNper}}期</span>
+            <span class="line" v-if="(obj.lowRate<=0 && obj.highRate<=0)">{{obj.userNper}}期</span>
+
+
+
             <span v-if="(obj.lowRate>0 && obj.highRate>0)">{{obj.userNper}}期</span>
             <span v-else-if="obj.lowRate>0">{{obj.lowNper}}期</span>
             <span v-else-if="obj.highRate>0">{{obj.highNper}}期</span>
@@ -67,8 +70,7 @@ export default {
   },
   data () {
     return {
-      obj: '',
-      lineHighNper:''
+      obj: ''
     }
   },
   methods : {
@@ -121,7 +123,7 @@ export default {
           }
           &:last-child{
             span{
-              &:first-child{
+              &.line{
                 color:$col-9;
                 text-decoration:line-through;
               }

@@ -300,8 +300,6 @@ export default {
 
           this.inentityObj['idNum1'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
           this.inentityObj['relationIdCard1'] = globalFn.plusXing(this.inentityObj.relationIdCard,4,4);
-
-          console.log(this.inentityObj)
         }
       },(error)=>{
         console.log(error,'dfs')

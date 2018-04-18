@@ -19,11 +19,14 @@
           <span>个人还款期数：</span>
         </p>
         <p class="g-cen-y">
-          <span>{{planObj.userNper}}期</span>
+          <span class="line" v-if="(planObj.lowRate<=0 && planObj.highRate<=0)">{{planObj.highNper}}期</span>
+
+
           <span class="money" v-if="(planObj.lowRate>0 && planObj.highRate>0)">{{planObj.userNper}}期</span>
           <span class="money" v-else-if="planObj.lowRate>0">{{planObj.lowNper}}期</span>
           <span class="money" v-else-if="planObj.highRate>0">{{planObj.highNper}}期</span>
           <span class="money" v-else>0期</span>
+
           <span class="iconfont icon-tixing" @click="fanganAsync = true"></span>
         </p>
       </div>
@@ -58,7 +61,8 @@
       <div class="g-fen-cen g-border1">
         <p>个人还款期</p>
         <p>
-          <span>{{planObj.highNper}}期</span>
+          <span class="line" v-if="(planObj.lowRate<=0 && planObj.highRate<=0)">{{planObj.highNper}}期</span>
+
           <span v-if="(planObj.lowRate>0 && planObj.highRate>0)">{{planObj.userNper}}期</span>
           <span v-else-if="planObj.lowRate>0">{{planObj.lowNper}}期</span>
           <span v-else-if="planObj.highRate>0">{{planObj.highNper}}期</span>
@@ -271,12 +275,12 @@ export default {
         }
         &:last-child{
           span{
-            &:first-child{
+            &.line{
               font-size: 28px;
               text-decoration: line-through;
               color:$col-9;
             }
-            &:nth-child(2){
+            &.money{
               color:$col-ori;
               padding:0 14px;
             }
@@ -372,7 +376,7 @@ export default {
         &:last-child{
           font-size: 28px;
           span{
-            &:first-child{
+            &.line{
               color:$col-9;
               text-decoration: line-through;
             }
