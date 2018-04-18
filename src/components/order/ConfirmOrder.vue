@@ -77,7 +77,7 @@
       </section>
     </main>
     <!-- 借款人信息 -->
-    <section class="list-box" v-if="loancunAsync!=''">
+    <section class="list-box" v-if="loancunAsync=='true'">
       <ul>
         <li class="g-fen-cen-box g-border">
           <span>借款人信息</span>
@@ -149,7 +149,7 @@
     </alert-back>
 
     <!-- 弹框组件 - 身份 -->
-    <alert-back class="identity-alert-back"  v-if="inentityAsync">
+    <alert-back class="identity-alert-back"  v-if="inentityAsync && loancunAsync==''">
       <h4 class="title g-border">请选择您当前的职业</h4>
       <main class="identity-main">
         <ul class="g-fen-cen">
@@ -170,7 +170,7 @@
 
         <p class="btn">
           <button onclick="javascript:history.back(-1);" v-if="identityText =='在校学生'">我知道了</button>
-          <button @click="inentityAsync = false" v-else>继续申请</button>
+          <button @click="shehuiFn" v-else>继续申请</button>
         </p>
         <p class="tongyi" :class="{'on':identityText =='在校学生'}">
           <router-link 
@@ -225,16 +225,8 @@ export default {
 
     }
   },
-  // watch : {
-  //   '$route' (to,from) {
-  //     console.log(to,from)
-  //     if(from.name == 'loanBaocun'){
-  //       console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
-  //     }
-  //   }
-  // },
   methods : {
-    ...mapActions(['setOrderRmpList','setUploadImg']),
+    ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync']),
     //打开侧边栏
     openAsideFn (name) {
       //如果没有值，请求数据
@@ -351,7 +343,8 @@ export default {
              planText : this.$route.query.planText,
              money    : this.$route.query.money,
              fenNper  : this.$route.query.fenNper,
-             userNper  : this.$route.query.userNper
+             userNper  : this.$route.query.userNper,
+             imgurl :this.$route.query.orgImgPath
            });
 
           //服务
@@ -390,6 +383,11 @@ export default {
     },
     closeIdentity () {
       this.inentityAsync = false;
+    },
+    //社会人 身份确定
+    shehuiFn (){
+      this.inentityAsync = false;
+      this.setLoancunAsync('false');
     }
   },
   mounted () {

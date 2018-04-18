@@ -63,6 +63,7 @@ export default {
 <style lang="scss" scoped>
 .code-wrap{
   padding-top:20px;
+  background: red;
   p{
     &:first-child{
       height: 108px;

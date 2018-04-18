@@ -4,12 +4,12 @@
       <dt class="g-fen-cen-box g-border">
         <!-- 学费 -->
         <span class="g-cen-y title" v-if="obj.text == 'xuefei'">
-          <i style="background:url(/static/images/order/ios-icon.png)"></i>
+          <i :style="{'background':'url('+obj.imgurl+')'}"></i>
           {{obj.name}}
         </span>
         <!-- 服务费 -->
         <div class="fuwu title g-cen-y" v-else>
-          <i style="background:url(/static/images/order/ios-icon.png)"></i>
+          <i style="background:url(/static/images/order/fuwu-icon.png)"></i>
           <div>
             <h6>第三方服务费用套餐</h6>
             <p>网贷信息中介服务费   ￥{{obj.mediservFee}}</p>

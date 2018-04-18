@@ -67,7 +67,8 @@ export default {
   },
   data () {
     return {
-      obj: ''
+      obj: '',
+      lineHighNper:''
     }
   },
   methods : {

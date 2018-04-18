@@ -51,13 +51,19 @@
     <alert-back class="fangan-alert-back" @closeAlertFn="closeFangan" v-if="fanganAsync">
       <h4 class="title">详情</h4>
       <ul>
-        <li class="g-fen-cen"><span>机构代偿期</span><span>0期</span></li>
-        <li class="g-fen-cen"><span>机构代偿期</span><span>0期</span></li>
-        <li class="g-fen-cen"><span>机构代偿期</span><span>0期</span></li>
+        <li class="g-fen-cen"><span>机构代偿期</span><span>{{planObj.orgNper}}期</span></li>
+        <li class="g-fen-cen"><span>低额还款期</span><span>{{planObj.lowNper}}期</span></li>
+        <li class="g-fen-cen"><span>高额还款期</span><span>{{planObj.highNper}}期</span></li>
       </ul>
       <div class="g-fen-cen g-border1">
         <p>个人还款期</p>
-        <p><span>18期</span><span>12期</span></p>
+        <p>
+          <span>{{planObj.highNper}}期</span>
+          <span v-if="(planObj.lowRate>0 && planObj.highRate>0)">{{planObj.userNper}}期</span>
+          <span v-else-if="planObj.lowRate>0">{{planObj.lowNper}}期</span>
+          <span v-else-if="planObj.highRate>0">{{planObj.highNper}}期</span>
+          <span v-else>0期</span>
+        </p>
       </div>
     </alert-back>
     <!-- 引入金额 弹唱 -->
@@ -127,6 +133,7 @@ export default {
         this.planObj  = obj;
         this.moneyValNum = obj.money;
         this.moneyValStr = String(this.moneyValNum);
+
       }
     },
     //点击下一步
@@ -176,7 +183,8 @@ export default {
             "name"     : this.$route.query.cName,
             "money"    : this.moneyValNum,
             userNper   : this.planObj.userNper ,//个人还款期数
-            fenNper    
+            fenNper    ,
+            orgImgPath : this.businessObj.orgImgPath
           }})
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
