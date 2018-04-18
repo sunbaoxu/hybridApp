@@ -88,7 +88,7 @@
           <div>
             <p>
               <span>{{inentityObj.relationName}}</span>
-              <span>{{inentityObj.relationIdCard}}</span>
+              <span>{{inentityObj.relationIdCard1}}</span>
             </p>
             <i class="iconfont icon-jiao-rig"></i>
           </div>
@@ -98,7 +98,7 @@
           <div>
             <p>
               <span>{{inentityObj.realName}}</span>
-              <span>{{inentityObj.idNum}}</span>
+              <span>{{inentityObj.idNum1}}</span>
             </p>
             <i class="iconfont icon-jiao-rig"></i>
           </div>
@@ -172,7 +172,17 @@
           <button onclick="javascript:history.back(-1);" v-if="identityText =='在校学生'">我知道了</button>
           <button @click="inentityAsync = false" v-else>继续申请</button>
         </p>
-        <p class="tongyi" :class="{'on':identityText =='在校学生'}"><router-link to="/LoanBaocun">我的父亲/母亲同意作为主借款人申请 》</router-link> </p>
+        <p class="tongyi" :class="{'on':identityText =='在校学生'}">
+          <router-link 
+            :to="{path:'/LoanBaocun',
+              query:{
+                relationIdCard:this.inentityObj.relationIdCard,
+                relationName:this.inentityObj.relationName,
+                relationPhone:this.inentityObj.relationPhone,
+                relationship :this.inentityObj.relationship
+              }
+            }">我的父亲/母亲同意作为主借款人申请  》</router-link> 
+        </p>
       </main>
     </alert-back>
   </div>
@@ -296,8 +306,10 @@ export default {
           this.inentityAsync = res.showStatus;
           this.inentityObj = res.borrowers;
 
-          this.inentityObj['idNum'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
-          this.inentityObj['relationName'] = globalFn.plusXing(this.inentityObj.relationName,4,4);
+          this.inentityObj['idNum1'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
+          this.inentityObj['relationIdCard1'] = globalFn.plusXing(this.inentityObj.relationIdCard,4,4);
+
+          console.log(this.inentityObj)
         }
       },(error)=>{
         console.log(error,'dfs')

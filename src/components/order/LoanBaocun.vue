@@ -3,7 +3,8 @@
     <section class="from-box">
       <P class="g-fen-cen-box g-border">
         <span>与本人的关系</span>
-        <input type="text" placeholder="请输入与本人的关系" v-model="relationship">
+        <span class="guan g-cen-y" @click="alertFn">{{guanxiName}} <i class="iconfont icon-jiao-rig"></i></span>
+        <!-- <input type="text" placeholder="请输入与本人的关系" v-model="relationship"> -->
       </P>
       <P class="g-fen-cen-box g-border">
         <span>姓名</span>
@@ -18,10 +19,18 @@
         <input type="text" placeholder="请输入身份证号码" v-model="relationIdCard" maxlength="20">
       </P>
     </section>
-    <section class="btn-box"><button :class="{'on': relationship!='' && relationName!='' && relationPhone!='' && relationIdCard!=''}" @click="submit">保存</button></section>
+    <section class="btn-box">
+      <button :class="{'on': relationship!='' && relationName!='' && relationPhone!='' && relationIdCard!=''}" @click="submit" :disabled="relationship=='' && relationName=='' && relationPhone=='' && relationIdCard==''">保存</button>
+    </section>
     <section class="text-box">
       <h4>温馨提示：</h4>
       <p>为了保证合同有效性，我公司将于借款人电话核实并录音。</p>
+    </section>
+    <section class="alertBack g-cen-cen" v-show="alertAsync">
+      <div>
+        <p class="g-border" @click="xuanze('0')">父亲</p>
+        <p @click="xuanze('1')">母亲</p>
+      </div>
     </section>
   </div>
 </template>
@@ -34,10 +43,12 @@ export default {
   name: 'state',
   data () {
     return {
-     relationPhone   :'',
-     relationName    : '',
-     relationship : '', //关系
-     relationIdCard  :'' //身份证
+     relationPhone   : this.$route.query.relationPhone,
+     relationName    : this.$route.query.relationName,
+     relationship    : this.$route.query.relationship !='1'?this.$route.query.relationship:'', //关系
+     relationIdCard  : this.$route.query.relationIdCard ,//身份证
+     guanxiName      : '',
+     alertAsync : false
     }
   },
   methods : {
@@ -49,6 +60,8 @@ export default {
         respMesg:'手机号输入不正确'
       });
       this.relationPhone = '';
+
+      return false;
       
     } else if(!(/(^(\\d{14}|\\d{17})(\\d|[X])$)/.test(this.relationIdCard))) {
       this.setToastObj({
@@ -56,6 +69,7 @@ export default {
         respMesg:'身份证号输入不正确'
       });
       this.relationIdCard = '';
+      return false;
     }
 
       let obj =  globalFn.concatObj({
@@ -80,12 +94,31 @@ export default {
       },(error)=>{
         console.log(error)
       });
+    },
+    alertFn () {
+      this.alertAsync = true;
+    },
+    xuanze (str) {
+      if(str =='0'){
+        this.guanxiName = '父亲';
+        this.relationship = '0'
+      } else {
+        this.guanxiName = '母亲'
+        this.relationship = '1'
+      }
+
+      this.alertAsync = false
     }
   },
-  // mounted () {
-  //   //默认请求还款计划
-  //   // this.getOrderState()
-  // }
+  mounted () {
+    if(this.relationship=='0'){
+      this.guanxiName = '父亲'
+    }else if(this.relationship=='1'){
+      this.guanxiName = '母亲'
+    } else{
+      this.guanxiName ='请输入与本人的关系'
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -109,6 +142,15 @@ export default {
         text-align: right;
         font-size: 24px;
         padding-left:20px;
+      }
+      .guan{
+        width:0;
+        flex:1;
+        height: 100%;
+        justify-content: flex-end;
+        i{
+          font-size: 30px;
+        }
       }
     }
   }
@@ -136,6 +178,25 @@ export default {
     }
     p{
       font-size: 24px;
+    }
+  }
+  .alertBack{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.7);
+    div{
+      background:$col-f;
+      width:80%;
+      border-radius: 8px;
+      p{
+        height: 80px;
+        line-height: 80px;
+        font-size: 24px;
+        text-align: center;
+      }
     }
   }
 }
