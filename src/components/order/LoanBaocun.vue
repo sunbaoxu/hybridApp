@@ -97,6 +97,7 @@ export default {
         console.log(error)
       });
     },
+    //点击关系
     alertFn () {
       this.getIosSelect();
     },

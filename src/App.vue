@@ -23,6 +23,7 @@ export default {
 
 <style lang="scss">
 @import './lib/icon/iconfont.css';
+@import './lib/iosSelect/iosSelect.css';
 body{
   background: $col-f0;
 }

@@ -5,7 +5,7 @@
         <i class="g-back" style="background-image:url(/static/images/shenfenzheng.png)"></i>
         <span>手持身份证照片</span>
       </div>
-      <router-link to="/uploadeImg" class="a">去上传</router-link>
+      <router-link to="/h5-app/uploadeImg" class="a">去上传</router-link>
     </header>
     <main class="main">
       <!-- 学费 -->
@@ -174,7 +174,7 @@
         </p>
         <p class="tongyi" :class="{'on':identityText =='在校学生'}">
           <router-link 
-            :to="{path:'/LoanBaocun',
+            :to="{path:'/h5-app/LoanBaocun',
               query:{
                 relationIdCard:this.inentityObj.relationIdCard,
                 relationName:this.inentityObj.relationName,
@@ -261,7 +261,7 @@ export default {
     openDetailFn (str) {
       this.setOrderRmpList(this[str].rmpList);
       localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
-      this.$router.push({path:'/order/orderDetail'});
+      this.$router.push({path:'/h5-app/order/orderDetail'});
     },
     //点击提交订单
     submitFn () {
@@ -312,7 +312,7 @@ export default {
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
-          this.$router.push({path:'/order/orderState',query:{loanId : res.loanId}});
+          this.$router.push({path:'/h5-app/order/orderState',query:{loanId : res.loanId}});
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -330,7 +330,6 @@ export default {
         "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
-        
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;

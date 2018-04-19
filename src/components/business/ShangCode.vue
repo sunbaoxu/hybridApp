@@ -46,7 +46,7 @@ export default {
 
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
         if(res.respCode =='000'){
-          this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
+          this.$router.push({path:'/h5-app/business/shangList',query:{recoCode:this.text}});
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
