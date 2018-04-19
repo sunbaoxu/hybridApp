@@ -97,7 +97,8 @@ export default {
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
-        console.log(error)
+
+        this.setToastObj({async:true,respMesg:res.respMesg});
       });
     }
   },
