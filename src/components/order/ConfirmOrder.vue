@@ -308,6 +308,7 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
+        // alert(res.respCode,JSON.stringify(res))
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');

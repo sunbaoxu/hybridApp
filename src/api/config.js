@@ -6,9 +6,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 //A
 // axios.defaults.baseURL = 'http://101.201.77.80:9810/gateway2server/';   
 //B
-//axios.defaults.baseURL = 'http://39.107.202.1:7716/gateway2server/';   
+axios.defaults.baseURL = 'http://39.107.202.1:7716/gateway2server/';   
 //C
-axios.defaults.baseURL = 'http://39.107.202.87:7720/gateway2server/'; 
+// axios.defaults.baseURL = 'http://39.107.202.87:7720/gateway2server/'; 
 //D
 // axios.defaults.baseURL = 'http://192.168.70.11/gateway2server/';   
 
