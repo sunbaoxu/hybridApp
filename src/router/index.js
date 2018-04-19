@@ -66,7 +66,7 @@ export default new Router({
 
 
     //保存借款信息
-    {path: '/loanBaocun',name: 'loanBaocun',component: LoanBaocun},
+    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun},
     //协议页
     {path: '/agreement',name: 'agreement',component: Agreement},
     //上传照片

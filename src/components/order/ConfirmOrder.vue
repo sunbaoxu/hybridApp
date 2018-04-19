@@ -226,7 +226,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync']),
+    ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync','setToastObj']),
     //打开侧边栏
     openAsideFn (name) {
       //如果没有值，请求数据
@@ -309,7 +309,6 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
-        // alert(res.respCode,JSON.stringify(res))
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
@@ -317,6 +316,11 @@ export default {
             query:{
               loanId : res.loanId
             }
+          });
+        } else{
+          this.setToastObj({
+            async:true,
+            respMesg:res.respMesg
           });
         }
       },(error)=>{

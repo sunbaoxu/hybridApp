@@ -65,6 +65,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ])
+    // ,
+    // //新增 插件方法
+    // new webpack.ProvidePlugin({
+    //   IosSelect: "IosSelect"
+    // })
   ]
 })
 

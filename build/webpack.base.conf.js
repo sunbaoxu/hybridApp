@@ -24,11 +24,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
+    // fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       '$order': resolve('src/components/order'),
       '$business': resolve('src/components/business'),
+      // '$business': resolve('src/components/business')
     }
   },
   module: {

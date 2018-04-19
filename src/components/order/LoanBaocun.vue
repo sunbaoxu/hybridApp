@@ -26,12 +26,14 @@
       <h4>温馨提示：</h4>
       <p>为了保证合同有效性，我公司将于借款人电话核实并录音。</p>
     </section>
-    <section class="alertBack g-cen-cen" v-show="alertAsync">
+    <!-- <section class="alertBack g-cen-cen" v-show="alertAsync" >
       <div>
         <p class="g-border" @click="xuanze('0')">父亲</p>
         <p @click="xuanze('1')">母亲</p>
       </div>
-    </section>
+    </section> -->
+
+    <section id="container" class="iosselect-box"></section>
   </div>
 </template>
 
@@ -48,29 +50,29 @@ export default {
      relationship    : this.$route.query.relationship !='1'?this.$route.query.relationship:'', //关系
      relationIdCard  : this.$route.query.relationIdCard ,//身份证
      guanxiName      : '',
-     alertAsync : false
+     alertAsync      : false
     }
   },
   methods : {
     ...mapActions(['setToastObj','setLoancunAsync']),
     submit () {
-    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.relationPhone))){ 
-      this.setToastObj({
-        async:true,
-        respMesg:'手机号输入不正确'
-      });
-      this.relationPhone = '';
+      if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.relationPhone))){ 
+        this.setToastObj({
+          async:true,
+          respMesg:'手机号输入不正确'
+        });
+        this.relationPhone = '';
 
-      return false;
-      
-    } else if(!(/(^(\\d{14}|\\d{17})(\\d|[X])$)/.test(this.relationIdCard))) {
-      this.setToastObj({
-        async:true,
-        respMesg:'身份证号输入不正确'
-      });
-      this.relationIdCard = '';
-      return false;
-    }
+        return false;
+        
+      } else if(!(/(^(\\d{14}|\\d{17})(\\d|[X])$)/.test(this.relationIdCard))) {
+        this.setToastObj({
+          async:true,
+          respMesg:'身份证号输入不正确'
+        });
+        this.relationIdCard = '';
+        return false;
+      }
 
       let obj =  globalFn.concatObj({
           relationship     : this.relationship,
@@ -97,21 +99,35 @@ export default {
       });
     },
     alertFn () {
-      this.alertAsync = true;
+      this.getIosSelect();
     },
-    xuanze (str) {
-      if(str =='0'){
-        this.guanxiName = '父亲';
-        this.relationship = '0'
-      } else {
-        this.guanxiName = '母亲'
-        this.relationship = '1'
-      }
+    //引用iOSselect
+    getIosSelect () {
+      let arr = [
+        {'id': '0', 'value': '父亲'},
+        {'id': '1', 'value': '母亲'}
+      ]
+      
+      new IosSelect(1,[arr],{
+          container: '#container',
+          title: '与本人的关系',
+          itemHeight: 100,
+          headerHeight:88,
+          itemShowCount: 3,
+          oneLevelId:'0',
+          oneLevelId: this.relationship,
+          callback:  (res) =>{
 
-      this.alertAsync = false
+            this.guanxiName = res.value;
+            this.relationship = res.id 
+          }
+        });
     }
   },
   mounted () {
+
+    
+
     if(this.relationship=='0'){
       this.guanxiName = '父亲'
     }else if(this.relationship=='1'){
@@ -198,6 +214,22 @@ export default {
         font-size: 24px;
         text-align: center;
       }
+    }
+  }
+
+
+}
+</style>
+<style lang="scss">
+.iosselect-box{
+  .iosselect-header{
+    a,h2{
+      font-size:32px!important;
+    }
+  }
+  .iosselect-box{
+    li{
+      font-size:32px!important;
     }
   }
 }
