@@ -261,7 +261,7 @@ export default {
     //立即还款
     submitFn () {
       
-      // this.$router.push('/orderRecord')
+      // this.$router.push('/order/orderRecord')
     },
     //详情
     downDetail () {

@@ -28,7 +28,7 @@ const OrderState    = resolve => require(['@/components/order/state/OrderState.v
 //订单详情
 const OrderRecord    = resolve => require(['@/components/order/state/OrderRecord.vue'], resolve);
 //还款详情
-const stillDetail    = resolve => require(['@/components/order/details/stillDetail.vue'], resolve);
+const OrderDetail    = resolve => require(['@/components/order/details/OrderDetail.vue'], resolve);
 
 
 
@@ -52,13 +52,13 @@ export default new Router({
 
     //订单
     //确认订单
-    {path: '/confirmOrder',name: '确认订单',component: ConfirmOrder},
+    {path: '/order/orderConfirm',name: '确认订单',component: ConfirmOrder},
     //订单状态
-    {path: '/orderState',name: '订单状态',component: OrderState},
+    {path: '/order/orderState',name: '订单状态',component: OrderState},
     //订单详情
-    {path: '/stillDetail',name: '订单详情',component: stillDetail},
+    {path: '/order/orderDetail',name: '订单详情',component: OrderDetail},
     //还款记录
-    {path: '/orderRecord',name: '还款记录',component: OrderRecord},
+    {path: '/order/orderRecord',name: '订单还款记录',component: OrderRecord},
 
 
     //银行卡

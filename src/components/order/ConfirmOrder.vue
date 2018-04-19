@@ -125,7 +125,7 @@
         <button 
           class="btn" 
           @click="clickBtnFn" 
-          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync && UploadImg!=''" 
+          :disabled ="!fuwuAsync1 && !fuwuAsync2 && !xueAsync && UploadImg==''" 
           :class="{'on':fuwuAsync1 && fuwuAsync2 && xueAsync && UploadImg!=''}"
         >提交订单</button>
       </section>
@@ -261,7 +261,7 @@ export default {
     openDetailFn (str) {
       this.setOrderRmpList(this[str].rmpList);
       localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
-      this.$router.push({path:'/stillDetail'});
+      this.$router.push({path:'/order/orderDetail'});
     },
     //点击提交订单
     submitFn () {
@@ -313,7 +313,7 @@ export default {
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
-          this.$router.push({path:'/orderState',
+          this.$router.push({path:'/order/orderState',
             query:{
               loanId : res.loanId
             }

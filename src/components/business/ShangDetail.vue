@@ -178,7 +178,7 @@ export default {
             fenNper =0;
           }
 
-          this.$router.push({path:'/confirmOrder',query:{
+          this.$router.push({path:'/order/orderConfirm',query:{
             "bpcId"       :this.planObj.id,
             "businessType":this.$route.query.businessType,
             "loanMoney"   :this.moneyValStr,

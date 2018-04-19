@@ -8,8 +8,8 @@ function concatObj(res) {
   //{"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000066","token":"bf61f31e47ef45508b2dc721edb2191e","reqTime":"2018-04-19 10:51:32","sign":"313555c7e973144737882fd40ce5c2b3","QRcode":"trda001"}
   // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
   // {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"67b2a9c9ffec48d8b5b9bef676e584e7","reqTime":"2018-04-18 10:18:08","sign":"7f26cc97c05bba247c5f6928a4feed97","QRcode":"trda001"}
-  // let loginPhone = '18900000066' ,
-  // token      = 'bf61f31e47ef45508b2dc721edb2191e' ;
+  let loginPhone = '18900000066' ,
+  token      = 'bf61f31e47ef45508b2dc721edb2191e' ;
 
   // let loginPhone = GetRequestObjs.loginPhone ,
   //     token      = GetRequestObjs.token ;
