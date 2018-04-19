@@ -43,11 +43,11 @@ export default new Router({
   routes: [
     //商家
     //商家推荐码
-    {path: '/shangCode',name: '商家推荐码',component: ShangCode},
+    {path: '/business/shangCode',name: '商家推荐码',component: ShangCode},
     //商家列表
-    {path: '/shangList',name: '商家列表',component: ShangList},
+    {path: '/business/shangList',name: '商家列表',component: ShangList},
     //商家详情
-    {path: '/shangDetail',name: '商家详情',component: ShangDetail},
+    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail},
 
 
     //订单

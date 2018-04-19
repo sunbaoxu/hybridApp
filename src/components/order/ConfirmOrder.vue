@@ -271,7 +271,8 @@ export default {
         nper         : this.orDetail.userNper,
         businessType : this.$route.query.businessType,
         loanId       : this.UploadImg,
-        pstSign      : this.inentityAsync?'1':'2'
+        pstSign      : this.inentityAsync?'1':'2',
+        dnyCode      : '9410'
       });
 
       

@@ -49,7 +49,7 @@ export default {
     queryBusinessInfoAndProgram (obj) {
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
         if(res.respCode =='000'){
-          this.$router.push({path:'/shangList',query:{recoCode:this.text}});
+          this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }

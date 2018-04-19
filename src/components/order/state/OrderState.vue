@@ -273,7 +273,7 @@ export default {
     },
     //跳转商家页
     routerFn () {
-      this.$router.push({path:'/shangList',query:{recoCode:this.obj.recoCode}})
+      this.$router.push({path:'/business/shangList',query:{recoCode:this.obj.recoCode}})
     },
     //跳转协议页
     agreementFn () {
