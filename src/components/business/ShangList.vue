@@ -5,7 +5,7 @@
     <main class="main">
       <ul>
         <li class="g-col-cen-y g-border" v-for="(m,i) in shangArr" :key="i">
-          <router-link :to="{path:'/business/shangDetail',query:{commodityId:m.id,orgId:shangObj.id,cName:m.cName,businessType:shangObj.businessType}}">
+          <a @click="routerLink(m)" href="javascript:;">
             <h4 class="g-text-ove1">{{m.cName}}</h4>
             <div>
               <p>可选<span v-for="(item,ind) in m.nperList" :key="ind">{{ind!=m.nperList.length-1?item+'/':item}}</span> 期</p>
@@ -15,7 +15,7 @@
                 <i class="iconfont icon-jiao-rig"></i>
               </p>
             </div>
-          </router-link>
+          </a>
         </li>
       </ul>
     </main>
@@ -33,7 +33,7 @@ export default {
     headerDetail
   },
   //获取商家信息
-  computed: {...mapGetters(['businessObj','setToastObj'])},
+  computed: {...mapGetters(['businessObj','toastObj'])},
   data () {
     return {
       shangObj : {},
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setBusinessObj']),
+    ...mapActions(['setBusinessObj','setLodingAsync','setToastObj']),
     //1.根据机构推荐码查询商户信息及商品各个方案
     queryBusinessInfoAndProgram () {
       let obj =  globalFn.concatObj({
@@ -49,15 +49,35 @@ export default {
       });
       
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
-        this.shangObj = res;
-        this.shangArr = res.lCommodities;
-        //存储商家基本信息
-        this.setBusinessObj(this.shangObj);
-        localStorage.setItem('setBusinessObj',JSON.stringify(this.shangObj))
-
+        if(res.respCode == '000'){
+          this.shangObj = res;
+          this.shangArr = res.lCommodities;
+          //存储商家基本信息
+          this.setBusinessObj(this.shangObj);
+          localStorage.setItem('setBusinessObj',JSON.stringify(this.shangObj));
+          //隐藏loading
+          this.setLodingAsync(false);
+        } else{
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
       },(error)=>{
         this.setToastObj({async:true,respMesg:res.respMesg});
       });
+    },
+    //点击list 跳转url 传参
+    routerLink (m) {
+      this.$router.push({
+        path:'/business/shangDetail',
+        query:{
+          commodityId:m.id,
+          orgId:this.shangObj.id,
+          cName:m.cName,
+          businessType:this.shangObj.businessType
+        }}
+      );
+      //显示loading
+      this.setLodingAsync(true);
     }
   },
   mounted () {

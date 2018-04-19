@@ -10,7 +10,7 @@
         <i class="iconfont icon-guanbi guan" @click="text =''" :class="{'on':text!=''}"></i>
     </p>
     <p>
-      <button :class="{on:btnAsync}" @click="submitFn" :disabled="!btnAsync">下一步</button>
+      <button :class="{on:btnAsync}" @click="queryBusinessInfoAndProgram" :disabled="!btnAsync">下一步</button>
     </p>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setToastObj']),
+    ...mapActions(['setToastObj','setLodingAsync']),
     //用户输入内容
     changFn () {
       if(this.text.length >=6 && this.text.length <=11){
@@ -37,20 +37,18 @@ export default {
         this.btnAsync = false;
       }
     },
-    //下一步
-    submitFn () {
-      let obj =  globalFn.concatObj({
-        QRcode :this.text
-      });
+    //根据机构推荐码查询商户信息及商品各个方案
+    queryBusinessInfoAndProgram () {
+      //显示loading
+      this.setLodingAsync(true);
 
-      this.queryBusinessInfoAndProgram(obj);
-    },
-    //下单前合同地址展示
-    queryBusinessInfoAndProgram (obj) {
+      let obj =  globalFn.concatObj({QRcode :this.text});
+
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
         if(res.respCode =='000'){
           this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
         } else{
+          this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{

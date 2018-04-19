@@ -107,7 +107,7 @@ import headerDetail from "$business/common/HeaderDetail";
 import fenqiPlan from "$business/common/FenqiPlan";
 import alertBack from '@/common/alert/alertBack.vue';
 export default {
-  name: 'detail',
+  name: 'detailss',
   //获取商家信息
   computed: {...mapGetters(['businessObj'])},
   components : {
@@ -128,7 +128,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setToastObj']),
+    ...mapActions(['setToastObj','setLodingAsync']),
     //关闭方案弹窗
     closePlan (async,obj) {
       this.planAsync = false;
@@ -137,7 +137,6 @@ export default {
         this.planObj  = obj;
         this.moneyValNum = obj.money;
         this.moneyValStr = String(this.moneyValNum);
-
       }
     },
     //点击下一步
@@ -158,6 +157,11 @@ export default {
       api.queriesProgramListNew(obj).then((res) =>{
         if(res.respCode == '000'){
           this.planArr = res.plans;
+          //隐藏loading
+          this.setLodingAsync(false);
+        } else{
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
@@ -165,6 +169,8 @@ export default {
     },
     //学贷检查是否可以下单
     loanCheckInstall (obj) {
+      //显示loading
+      this.setLodingAsync(true);
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
           let fenNper ='';
@@ -189,8 +195,10 @@ export default {
             userNper   : this.planObj.userNper ,//个人还款期数
             fenNper    ,
             orgImgPath : this.businessObj.orgImgPath
-          }})
+          }});
         } else{
+          //隐藏loading
+          this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
