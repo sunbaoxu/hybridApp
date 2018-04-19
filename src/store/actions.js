@@ -46,3 +46,11 @@ export const setLoancunAsync = ({commit},str) => {
     str
   });
 };
+
+//loding 图片显示隐藏
+export const setLodingAsync = ({commit},str) => {
+  commit({
+    type: 'setLodingAsync',     
+    async
+  });
+};

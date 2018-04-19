@@ -17,3 +17,7 @@ export const UploadImg    = state => state.UploadImg;
 
 //保存借款人
 export const loancunAsync    = state => state.loancunAsync;
+
+
+//loding 图片显示隐藏
+export const lodingAsync    = state => state.lodingAsync;

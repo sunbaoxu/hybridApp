@@ -23,6 +23,7 @@ const state = {
   orderRmpList :localStorage.getItem('orderRmpList')?JSON.parse(localStorage.getItem('orderRmpList')):[],
   toastObj :{async:false},
   UploadImg :'',
-  loancunAsync :''
+  loancunAsync :'',
+  lodingAsync :false
 }
 export default state;

@@ -24,3 +24,8 @@ export const setUploadImg = (state, payload) => {
 export const setLoancunAsync = (state, payload) => {
   state.loancunAsync = payload.str;
 }
+
+//loding 图片显示隐藏
+export const setLodingAsync = (state, payload) => {
+  state.lodingAsync = payload.async;
+}
