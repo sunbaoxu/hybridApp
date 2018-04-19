@@ -192,6 +192,7 @@ export default {
     }
   },
   methods : {
+    ...mapActions(['setToastObj','setLodingAsync']),
     classFn (status) {
       switch (status) {
         case 5:
@@ -211,18 +212,19 @@ export default {
     //根据订单ID查看详细信息
     queryOrderByLoanIDNew () {
       let obj = globalFn.concatObj({
-        loanId : this.$route.query.loanId 
-        // loanId :  '1PWtrLqny02i1pGJn0y' 
+        loanId : this.$route.query.loanId
       });
       api.queryOrderByLoanIDNew(obj).then((res) =>{
-        console.log(res.loanInfo)
+        //隐藏loading
+        this.setLodingAsync(false);
         if(res.respCode =='000'){
           this.obj = res.loanInfo;
-
           if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
             this.listAsync = true;
             this.activePayDetail();
           }
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
@@ -237,18 +239,22 @@ export default {
         if(res.respCode =='000'){
           this.orderObj= res;
           this.alertArr = res.overdueInfoList;
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
       });
     },
-    //主动还款列表
+    //立即还款
     queryUserBankByPhone () {
       let obj = globalFn.concatObj({});
       api.queryUserBankByPhone(obj).then((res) =>{
         if(res.respCode =='000'){
           this.bankAsync = true;
           this.bankObj = res;
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)

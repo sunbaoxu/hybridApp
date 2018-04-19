@@ -226,7 +226,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync','setToastObj']),
+    ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync','setToastObj','setLodingAsync']),
     //打开侧边栏
     openAsideFn (name) {
       //如果没有值，请求数据
@@ -274,9 +274,8 @@ export default {
         pstSign      : this.inentityAsync?'1':'2',
         dnyCode      : '9410'
       });
-
-      
-
+      //显示loading
+      this.setLodingAsync(true);
       this.loanInstallOrder(obj);
     },
     //确定提交订单
@@ -298,9 +297,10 @@ export default {
         if(res.respCode =='000'){
           this.inentityAsync = res.showStatus;
           this.inentityObj = res.borrowers;
-
           this.inentityObj['idNum1'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
           this.inentityObj['relationIdCard1'] = globalFn.plusXing(this.inentityObj.relationIdCard,4,4);
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error,'dfs')
@@ -312,16 +312,10 @@ export default {
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
-          this.$router.push({path:'/order/orderState',
-            query:{
-              loanId : res.loanId
-            }
-          });
+          this.$router.push({path:'/order/orderState',query:{loanId : res.loanId}});
         } else{
-          this.setToastObj({
-            async:true,
-            respMesg:res.respMesg
-          });
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         alert(error)
@@ -336,6 +330,7 @@ export default {
         "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
+        
         if(res.respCode =='000'){
           this.orDetail = res.orDetail;
           this.feeDetail = res.feeDetail;
@@ -357,6 +352,11 @@ export default {
              fenNper  : this.$route.query.fenNper,
              userNper  : this.$route.query.userNper
            });
+
+          //隐藏loading
+          this.setLodingAsync(false);
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
 
       },(error)=>{

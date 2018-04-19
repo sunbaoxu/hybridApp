@@ -54,7 +54,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['setToastObj','setLoancunAsync']),
+    ...mapActions(['setToastObj','setLoancunAsync','setLodingAsync']),
     submit () {
       if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.relationPhone))){ 
         this.setToastObj({
@@ -80,6 +80,7 @@ export default {
           relationIdCard   : this.relationIdCard,
           relationPhone    : this.relationPhone
         });
+      this.setLodingAsync(true);
       this.saveBorrowers(obj);
     },
     //保存借款人
@@ -89,10 +90,8 @@ export default {
           this.setLoancunAsync('true')
           history.go(-1);
         } else {
-          this.setToastObj({
-            async:true,
-            respMesg:res.respMesg
-          });
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
@@ -125,9 +124,6 @@ export default {
     }
   },
   mounted () {
-
-    
-
     if(this.relationship=='0'){
       this.guanxiName = '父亲'
     }else if(this.relationship=='1'){

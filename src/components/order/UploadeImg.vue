@@ -56,7 +56,7 @@ export default {
   },
 
   methods : {
-    ...mapActions(['setUploadImg']),
+    ...mapActions(['setUploadImg','setLodingAsync','setToastObj']),
     goNative:function () {
       window.LabiWinJSI.showImgPickDialog();
     },
@@ -73,6 +73,8 @@ export default {
     },
     saveImg(){
       if (this.isLoad){
+        this.setLodingAsync(true);
+
         let obj =  globalFn.concatObj({
           imgPath1 : this.imgUrl,
           imgPath2 :'',
@@ -81,17 +83,18 @@ export default {
           imgId2   : ''
         });
         this.uploadConfirmation(obj);
-      }else{
-        alert("我去")
       }
     },
-    //下单前合同地址展示
+    //上传图片
     uploadConfirmation (obj) {
       this.isLoad  = false;
       api.uploadConfirmation(obj).then((res) =>{
         if(res.respCode =='000'){
           this.setUploadImg(res.loanId);
           history.back(-1);
+        } else{
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)
