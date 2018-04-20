@@ -30,6 +30,7 @@ module.exports = {
       '@': resolve('src'),
       '$order': resolve('src/components/order'),
       '$business': resolve('src/components/business'),
+      '$bank': resolve('src/components/bank'),
       // '$business': resolve('src/components/business')
     }
   },
