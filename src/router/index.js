@@ -33,8 +33,10 @@ const OrderDetail    = resolve => require(['@/components/order/details/OrderDeta
 
 
 
-//还款详情
+//银行卡list 页
 const ChangeBank    = resolve => require(['@/components/bank/ChangeBank.vue'], resolve);
+//账户信息
+const AccountDetails    = resolve => require(['@/components/bank/AccountDetails.vue'], resolve);
 
 
 Vue.use(Router);
@@ -62,7 +64,10 @@ export default new Router({
 
 
     //银行卡
+    //银行卡list 页
     {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank},
+    //账户信息
+    {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails},
 
 
     //保存借款信息

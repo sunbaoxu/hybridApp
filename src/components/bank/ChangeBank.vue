@@ -32,7 +32,7 @@
           </div>
           <p class="text g-cen-y yes">
             <i></i>
-            <span>华夏银行存管保障中</span>
+            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
           </p>
         </li>
         <li>
@@ -59,7 +59,7 @@
           </div>
           <p class="text g-cen-y etc">
             <i></i>
-            <span>华夏银行存管保障中</span>
+            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
           </p>
         </li>
         <li>
@@ -86,7 +86,7 @@
           </div>
           <p class="text g-cen-y no">
             <i></i>
-            <span>华夏银行存管保障中</span>
+            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
           </p>
         </li>
         <li>
@@ -113,7 +113,7 @@
           </div>
           <p class="text g-cen-y no">
             <i></i>
-            <span>华夏银行存管保障中</span>
+            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
           </p>
         </li>
       </ul>
@@ -129,7 +129,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 export default {
   name: 'bank',
   data () {
@@ -188,7 +187,7 @@ export default {
               padding:0 30px 4px 0;
               span{
                 &:first-child{
-                  font-size: 26px;
+                  font-size: 28px;
                 }
                 &:last-child{
                   background-image: url('/static/images/bank/user-bank.png');
@@ -198,14 +197,14 @@ export default {
               }
             }
             p{
-              font-size: 20px;
+              font-size: 24px;
               color:$col-9;
             }
           }
         }
         .bank-num{
           height: 118px;
-          font-size: 36px;
+          font-size: 40px;
           color:$col-6;
           font-weight: bold;
           span{
@@ -227,25 +226,31 @@ export default {
             width: 26px;
             margin:0 20px;
           }
-          span{
+          a{
             text-decoration: underline;
           }
           &.yes{
-            color:$col-green;
             i{
               background-image: url('/static/images/bank/bank-yes.png');
             }
+            a{
+              color:$col-green;
+            }
           }
           &.no{
-            color:$col-red;
             i{
               background-image: url('/static/images/bank/bank-no.png');
             }
+            a{
+              color:$col-red;
+            }
           }
           &.etc{
-            color:$col-yel;
             i{
               background-image: url('/static/images/bank/bank-etc.png');
+            }
+            a{
+              color:$col-yel;
             }
           }
         }
@@ -257,7 +262,7 @@ export default {
     padding: 0 30px;
     background: $col-f;
     span{
-      font-size: 30px;
+      font-size: 32px;
       color:$col-3;
       &:first-child{
         i{
