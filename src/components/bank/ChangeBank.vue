@@ -7,93 +7,7 @@
     </section>
     <!-- 银行卡列表 -->
     <section class="bank-box">
-      <bank-box class="list-box" page='list' v-for="(m,i) in arr" :key="i" :obj="m"></bank-box>
-      <!-- <ul class="list-box">
-        <li>
-          
-        </li>
-        <li>
-          <dl class="g-cen-y">
-            <dt class="g-back" style="background-image:url(/static/images/order/fuwu-icon.png)"></dt>
-            <dd>
-              <h4 class="g-fen-cen">
-                <span>建设银行</span>
-                <span class="g-back"></span>
-              </h4>
-              <p>136****0678</p>
-            </dd>
-          </dl>
-          <div class="bank-num g-cen-y g-border">
-            <span>3124</span>
-            <span>4242</span>
-            <span class="g-fen-cen">
-              <i></i>
-              <i></i>
-              <i></i>
-              <i></i>
-            </span>
-            <span>4242</span>
-          </div>
-          <p class="text g-cen-y etc">
-            <i></i>
-            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
-          </p>
-        </li>
-        <li>
-          <dl class="g-cen-y">
-            <dt class="g-back" style="background-image:url(/static/images/order/fuwu-icon.png)"></dt>
-            <dd>
-              <h4 class="g-fen-cen">
-                <span>建设银行</span>
-                <span class="g-back"></span>
-              </h4>
-              <p>136****0678</p>
-            </dd>
-          </dl>
-          <div class="bank-num g-cen-y g-border">
-            <span>3124</span>
-            <span>4242</span>
-            <span class="g-fen-cen">
-              <i></i>
-              <i></i>
-              <i></i>
-              <i></i>
-            </span>
-            <span>4242</span>
-          </div>
-          <p class="text g-cen-y no">
-            <i></i>
-            <router-link to="/bank/accountDetails">华夏银行存管保障中</router-link>
-          </p>
-        </li>
-        <li>
-          <dl class="g-cen-y">
-            <dt class="g-back" style="background-image:url(/static/images/order/fuwu-icon.png)"></dt>
-            <dd>
-              <h4 class="g-fen-cen">
-                <span>建设银行</span>
-                <span class="g-back"></span>
-              </h4>
-              <p>136****0678</p>
-            </dd>
-          </dl>
-          <div class="bank-num g-cen-y g-border">
-            <span>3124</span>
-            <span>4242</span>
-            <span class="g-fen-cen">
-              <i></i>
-              <i></i>
-              <i></i>
-              <i></i>
-            </span>
-            <span>4242</span>
-          </div>
-          <p class="text g-cen-y no">
-            <i></i>
-            <span>华夏银行存管保障中</span>
-          </p>
-        </li>
-      </ul> -->
+      <bank-box class="list-box" page='list' v-for="(m,i) in arr" :key="i" :obj="m" @userBtn="userBtn"></bank-box>
     </section>
     <!-- 添加银行卡 -->
     <section class="add-bank g-fen-cen-box">
@@ -102,15 +16,23 @@
       </span>
       <span><i class="iconfont icon-jiao-rig"></i></span>
     </section>
+
+    <!-- 脱敏弹框 -->
+    <alert-back class="alert-back">
+      <h4 class="title">请补充标记为型号的4位数字</h4>
+
+    </alert-back>
   </div>
 </template>
 
 <script>
 import bankBox from '$bank/common/bankBox.vue';
+import alertBack from '@/common/alert/alertBack.vue';
 export default {
   name: 'bank',
   components:{
-    bankBox
+    bankBox,
+    alertBack
   },
   data () {
     return {
@@ -122,7 +44,9 @@ export default {
     }
   },
   methods : {
-    
+    userBtn () {
+
+    }
   }
 }
 </script>
@@ -173,6 +97,13 @@ export default {
           color:$col-9;
         }
       }
+    }
+  }
+  .alert-back{
+    .title{
+      line-height: 100px;
+      text-align: center;
+      font-size: 30px;
     }
   }
 }

@@ -5,7 +5,8 @@
       <dd>
         <h4 class="g-fen-cen">
           <span>建设银行</span>
-          <span class="g-back"></span>
+          <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.type=='user'"></span>
+          <span class="g-back user" v-else-if="obj.type=='user'"></span>
         </h4>
         <p>136****0678</p>
       </dd>
@@ -42,10 +43,15 @@ export default {
     }
   },
   methods : {
+    //跳转我的主卡页
     routerFn () {
       if(this.page == 'list' && this.obj.type=='user'){
         this.$router.push('/bank/userBank');
       }
+    },
+    //点击我的主卡按钮
+    userBtn () {
+      this.$emit('userBtn');
     }
   }
 }
@@ -72,7 +78,7 @@ export default {
           &:first-child{
             font-size: 28px;
           }
-          &:last-child{
+          &.user{
             background-image: url('/static/images/bank/user-bank.png');
             width:96px;
             height: 34px;
