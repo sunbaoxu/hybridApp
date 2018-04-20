@@ -7,7 +7,7 @@
     </section>
     <!-- 银行卡列表 -->
     <section class="bank-box">
-      <bank-box class="list-box" page="list" v-for="(m,i) in arr" :key="i" :obj="m"></bank-box>
+      <bank-box class="list-box" page='list' v-for="(m,i) in arr" :key="i" :obj="m"></bank-box>
       <!-- <ul class="list-box">
         <li>
           
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import bankBox from '$bank/common/bankBox.vue'
+import bankBox from '$bank/common/bankBox.vue';
 export default {
   name: 'bank',
   components:{

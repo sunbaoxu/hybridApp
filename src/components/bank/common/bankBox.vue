@@ -23,7 +23,7 @@
     </div>
     <p class="text g-cen-y yes">
       <i></i>
-      <router-link to="/bank/accountDetails" v-if="obj.type=='user' && page!='list'">华夏银行存管保障中</router-link>
+      <router-link to="/bank/accountDetails" v-if="obj.type=='user' && page!=''">华夏银行存管保障中</router-link>
       <span v-else>华夏银行存管保障中</span>
     </p>
   </div>
@@ -31,11 +31,10 @@
 
 <script>
 export default {
-  name: 'bankBox',
   props:{
     page : {
       type:String,
-      default : 'list'
+      default : ''
     },
     obj : {
       type:Object,
@@ -45,7 +44,7 @@ export default {
   methods : {
     routerFn () {
       if(this.page == 'list' && this.obj.type=='user'){
-        this.$router.push('/');
+        this.$router.push('/bank/userBank');
       }
     }
   }
