@@ -312,13 +312,14 @@ export default {
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
+          this.setLodingAsync(true);
           this.$router.push({path:'/h5-app/order/orderState',query:{loanId : res.loanId}});
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
-        alert(error)
+        this.setToastObj({async:true,respMesg:res.respMesg});
       });
     },
     //查询还款详情以及费用详情(两笔)
