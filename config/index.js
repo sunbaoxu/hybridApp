@@ -43,7 +43,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../h5-app'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/h5-app',
+    assetsPublicPath: '/',
 
     /**
      * Source Maps

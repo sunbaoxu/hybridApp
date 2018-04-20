@@ -43,34 +43,34 @@ export default new Router({
   routes: [
     //商家
     //商家推荐码
-    {path: '/h5-app/business/shangCode',name: '商家推荐码',component: ShangCode},
+    {path: '/business/shangCode',name: '商家推荐码',component: ShangCode},
     //商家列表
-    {path: '/h5-app/business/shangList',name: '商家列表',component: ShangList},
+    {path: '/business/shangList',name: '商家列表',component: ShangList},
     //商家详情
-    {path: '/h5-app/business/shangDetail',name: '商家详情',component: ShangDetail},
+    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail},
 
 
     //订单
     //确认订单
-    {path: '/h5-app/order/orderConfirm',name: '确认订单',component: ConfirmOrder},
+    {path: '/order/orderConfirm',name: '确认订单',component: ConfirmOrder},
     //订单状态
-    {path: '/h5-app/order/orderState',name: '订单状态',component: OrderState},
+    {path: '/order/orderState',name: '订单状态',component: OrderState},
     //订单详情
-    {path: '/h5-app/order/orderDetail',name: '订单详情',component: OrderDetail},
+    {path: '/order/orderDetail',name: '订单详情',component: OrderDetail},
     //还款记录
-    {path: '/h5-app/order/orderRecord',name: '订单还款记录',component: OrderRecord},
+    {path: '/order/orderRecord',name: '订单还款记录',component: OrderRecord},
 
 
     //银行卡
-    {path: '/h5-app/bank/changeBank',name: '银行卡列表',component: ChangeBank},
+    {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank},
 
 
     //保存借款信息
-    {path: '/h5-app/loanBaocun',name: '保存借款信息',component: LoanBaocun},
+    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun},
     //协议页
-    {path: '/h5-app/agreement',name: 'agreement',component: Agreement},
+    {path: '/agreement',name: 'agreement',component: Agreement},
     //上传照片
-    {path: '/h5-app/uploadeImg',name: '上传照片',component: UploadeImg},
+    {path: '/uploadeImg',name: '上传照片',component: UploadeImg},
 
 
 

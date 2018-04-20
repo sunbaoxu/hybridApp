@@ -1,2 +1,0 @@
-webpackJsonp([7],{UhBV:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});t("7+uW");var a={render:function(){var e=this.$createElement;return(this._self._c||e)("div",{staticClass:"bank-wrap"},[this._v("\n  dsfasdfdasf\n")])},staticRenderFns:[]};var s=t("VU/8")({name:"bank",data:function(){return{allAsync:!1}},methods:{}},a,!1,function(e){t("vITm")},"data-v-730bdece",null);n.default=s.exports},vITm:function(e,n){}});
-//# sourceMappingURL=7.b8c782944aa2ba507eab.js.map

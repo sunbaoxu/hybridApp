@@ -267,7 +267,7 @@ export default {
     //立即还款
     submitFn () {
       
-      // this.$router.push('/h5-app/order/orderRecord')
+      // this.$router.push('/order/orderRecord')
     },
     //详情
     downDetail () {
@@ -279,11 +279,11 @@ export default {
     },
     //跳转商家页
     routerFn () {
-      this.$router.push({path:'/h5-app/business/shangList',query:{recoCode:this.obj.recoCode}})
+      this.$router.push({path:'/business/shangList',query:{recoCode:this.obj.recoCode}})
     },
     //跳转协议页
     agreementFn () {
-      this.$router.push({path:'/h5-app/agreement',query:{id:this.obj.id}})
+      this.$router.push({path:'/agreement',query:{id:this.obj.id}})
     }
   },
   mounted () {

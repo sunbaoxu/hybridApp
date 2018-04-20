@@ -5,7 +5,7 @@
         <i class="g-back" style="background-image:url(/static/images/shenfenzheng.png)"></i>
         <span>手持身份证照片</span>
       </div>
-      <router-link to="/h5-app/uploadeImg" class="a">去上传</router-link>
+      <router-link to="/uploadeImg" class="a">去上传</router-link>
     </header>
     <main class="main">
       <!-- 学费 -->
@@ -174,7 +174,7 @@
         </p>
         <p class="tongyi" :class="{'on':identityText =='在校学生'}">
           <router-link 
-            :to="{path:'/h5-app/LoanBaocun',
+            :to="{path:'/LoanBaocun',
               query:{
                 relationIdCard:this.inentityObj.relationIdCard,
                 relationName:this.inentityObj.relationName,
@@ -261,7 +261,7 @@ export default {
     openDetailFn (str) {
       this.setOrderRmpList(this[str].rmpList);
       localStorage.setItem('orderRmpList',JSON.stringify(this[str].rmpList));
-      this.$router.push({path:'/h5-app/order/orderDetail'});
+      this.$router.push({path:'/order/orderDetail'});
     },
     //点击提交订单
     submitFn () {
@@ -313,7 +313,7 @@ export default {
           //成功后上传图片 为空
           this.setUploadImg('');
           this.setLodingAsync(true);
-          this.$router.push({path:'/h5-app/order/orderState',query:{loanId : res.loanId}});
+          this.$router.push({path:'/order/orderState',query:{loanId : res.loanId}});
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});

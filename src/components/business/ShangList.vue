@@ -68,7 +68,7 @@ export default {
     //点击list 跳转url 传参
     routerLink (m) {
       this.$router.push({
-        path:'/h5-app/business/shangDetail',
+        path:'/business/shangDetail',
         query:{
           commodityId:m.id,
           orgId:this.shangObj.id,
