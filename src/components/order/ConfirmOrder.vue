@@ -5,7 +5,7 @@
         <i class="g-back" style="background-image:url(/static/images/shenfenzheng.png)"></i>
         <span>手持身份证照片</span>
       </div>
-      <router-link to="/uploadeImg" class="a">去上传</router-link>
+      <router-link to="/uploadeImg" class="a">{{UploadImg ==''?'去上传':'上传成功'}}</router-link>
     </header>
     <main class="main">
       <!-- 学费 -->
