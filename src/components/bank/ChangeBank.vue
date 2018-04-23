@@ -23,7 +23,7 @@
       <div class="box">
         <p class="bank-title">5633 4534 <span>****</span> 0040 (招商银行)</p>
         <p class="text">
-          <input type="tel" class="code-num" v-Focus v-on:input ="inputFunc" v-model="input1" maxlength="1">
+          <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input1"  maxlength="1">
           <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input2"  maxlength="1">
           <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input3"  maxlength="1">
           <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input4"  maxlength="1">
@@ -81,6 +81,7 @@ export default {
     //监听是否都输入了
     inputFunc () {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
+      let str = this.input1+this.input2+this.input3+this.input4;
 
       this.async= !this.async;
 
@@ -96,22 +97,42 @@ export default {
     //输入光标自动到下一个input
     goNextInput (el) {
         var txts = document.querySelectorAll(el);
-        for(var i = 0; i<txts.length;i++){
+        for(let i = 0; i<txts.length;i++){
           var t = txts[i];
-          t.index = i;
-          t.setAttribute("readonly", true);
-          t.onkeyup=function(){
-              this.value=this.value.replace(/^(.).*$/,'$1');
-              var next = this.index + 1;
-              if(next > txts.length - 1) return;
-              txts[next].removeAttribute("readonly");
-              if (this.value) {
-                txts[next].focus();
+              t.index = i;
+            //光标自动聚焦到前边没有输入的input
+            t.addEventListener('focus',function (){
+              for(let j =0;j<txts.length ;j++){
+                if(j<i){
+                 if(txts[j].value==''){
+                   txts[j].focus();
+                   return;
+                 }
+                }
               }
-          }
+            });
+
+            //输入时，自动跳转到下一个
+            t.addEventListener('keyup',function (){
+              if(window.event.keyCode == 8){
+                this[`input${i+1}`] = '';
+                if(i>0){
+                  txts[i-1].focus();
+                }
+              } else{
+                this.value=this.value.replace(/^(.).*$/,'$1');
+                var next = this.index + 1;
+                if(next > txts.length - 1) {return};
+                if (this.value) {
+                  txts[next].focus();
+                }
+              }
+            });
         }
-        txts[0].removeAttribute("readonly");
-        txts[0].focus();
+    },
+    //自动跳转到前边 
+    jumpUpper () {
+      var txts = document.querySelectorAll(el);
     },
     //重试
     retryFn () {

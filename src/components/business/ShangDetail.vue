@@ -172,7 +172,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.loanCheckInstall(obj).then((res) =>{
-        if(res.respCode != '000'){
+        if(res.respCode == '000'){
           this.routerOrderFn();
         } else{
           //隐藏loading
