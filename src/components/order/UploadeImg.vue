@@ -57,10 +57,10 @@ export default {
 
   methods : {
     ...mapActions(['setUploadImg','setLodingAsync','setToastObj']),
-    goNative:function () {
+    goNative () {
       window.LabiWinJSI.showImgPickDialog();
     },
-    ImgPickCallBack:function (str) {
+    ImgPickCallBack (str) {
       if (str!=null){
         this.isLoad=true;
         this.imgUrl = "data:image/gif;base64,"+str;

@@ -172,34 +172,14 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.loanCheckInstall(obj).then((res) =>{
-        if(res.respCode == '000'){
-          let fenNper ='';
-          if(this.planObj.lowRate>0 && this.planObj.highRate>0){
-            fenNper = this.planObj.userNper
-          } else if(this.planObj.lowRate>0){
-            fenNper = this.planObj.lowNper
-          }else if(this.planObj.highRate>0){
-            fenNper = this.planObj.highNper
-          } else{
-            fenNper =0;
-          }
-
-          this.$router.push({path:'/order/orderConfirm',query:{
-            "bpcId"       :this.planObj.id,
-            "businessType":this.$route.query.businessType,
-            "loanMoney"   :this.moneyValStr,
-            "nper"     : this.planObj.userNper,
-            "planText" : this.planText,
-            "name"     : this.$route.query.cName,
-            "money"    : this.moneyValNum,
-            userNper   : this.planObj.userNper ,//个人还款期数
-            fenNper    ,
-            orgImgPath : this.businessObj.orgImgPath
-          }});
+        if(res.respCode != '000'){
+          this.routerOrderFn();
         } else{
           //隐藏loading
           this.setLodingAsync(false);
-          this.setToastObj({async:true,respMesg:res.respMesg});
+          // this.setToastObj({async:true,respMesg:res.respMesg});
+          window.LabiWinJSI.openNativeWindow("perfectData");
+
         }
       },(error)=>{
         console.log(error)
@@ -223,6 +203,32 @@ export default {
     openMoney () {
       this.moneyAsync = true;
       this.moneyValStr = String(this.moneyValNum);
+    },
+    //跳转下单页
+    routerOrderFn () {
+      let fenNper ='';
+      if(this.planObj.lowRate>0 && this.planObj.highRate>0){
+        fenNper = this.planObj.userNper
+      } else if(this.planObj.lowRate>0){
+        fenNper = this.planObj.lowNper
+      }else if(this.planObj.highRate>0){
+        fenNper = this.planObj.highNper
+      } else{
+        fenNper =0;
+      }
+
+      this.$router.push({path:'/order/orderConfirm',query:{
+        "bpcId"       :this.planObj.id,
+        "businessType":this.$route.query.businessType,
+        "loanMoney"   :this.moneyValStr,
+        "nper"     : this.planObj.userNper,
+        "planText" : this.planText,
+        "name"     : this.$route.query.cName,
+        "money"    : this.moneyValNum,
+        userNper   : this.planObj.userNper ,//个人还款期数
+        fenNper    ,
+        orgImgPath : this.businessObj.orgImgPath
+      }});
     }
   },
   mounted () {

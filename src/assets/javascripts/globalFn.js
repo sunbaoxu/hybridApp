@@ -5,14 +5,14 @@ function getmd5(str) {
 }
 //参数合并
 function concatObj(res) {
-  //  {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"a09ba7b0efc24a4b9ad0d94b15e166c3","reqTime":"2018-04-20 09:45:49","sign":"92b165cb74728a32e13212add8385261","QRcode":"trda001"}
-  let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+  //  {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"dc7cc869d9cc4a18a47a5a910a69269f","reqTime":"2018-04-23 13:01:24","sign":"02a3541883e2de4afe8f142927abce83","QRcode":"trda001"}
+  // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
   // {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"67b2a9c9ffec48d8b5b9bef676e584e7","reqTime":"2018-04-18 10:18:08","sign":"7f26cc97c05bba247c5f6928a4feed97","QRcode":"trda001"}
-  // let loginPhone = '15133303272' ,
-  //     token      = 'a09ba7b0efc24a4b9ad0d94b15e166c3' ;
+  let loginPhone = '15133303272' ,
+      token      = 'dc7cc869d9cc4a18a47a5a910a69269f' ;
 
-  let loginPhone = GetRequestObjs.loginPhone ,
-      token      = GetRequestObjs.token;
+  // let loginPhone = GetRequestObjs.loginPhone ,
+  //     token      = GetRequestObjs.token;
 
   let   reqTime    = getFormateDate(),
         sign       = getmd5(loginPhone+reqTime);
@@ -27,8 +27,8 @@ function concatObj(res) {
     sign
   }
 
-  Object.assign(obj,res,GetRequestObjs);
-  // Object.assign(obj,res);
+  // Object.assign(obj,res,GetRequestObjs);
+  Object.assign(obj,res);
 
   return obj;
 }

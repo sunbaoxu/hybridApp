@@ -296,14 +296,14 @@ export default {
       api.queryBorrowers(obj).then((res) =>{
         if(res.respCode =='000'){
           this.inentityAsync = res.showStatus;
-          this.inentityObj = res.borrowers;
+          this.inentityObj   = res.borrowers;
           this.inentityObj['idNum1'] = globalFn.plusXing(this.inentityObj.idNum,4,4);
           this.inentityObj['relationIdCard1'] = globalFn.plusXing(this.inentityObj.relationIdCard,4,4);
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
     },
     //学贷下订单
