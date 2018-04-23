@@ -18,9 +18,28 @@
     </section>
 
     <!-- 脱敏弹框 -->
-    <alert-back class="alert-back">
-      <h4 class="title">请补充标记为型号的4位数字</h4>
-
+    <alert-back class="alert-back" v-show="alertAsync" @closeAlertFn="alertAsync =false">
+      <h4 class="title g-border">请补充标记为型号的4位数字</h4>
+      <div class="box">
+        <p class="bank-title">5633 4534 <span>****</span> 0040 (招商银行)</p>
+        <p class="text">
+          <input type="tel" class="code-num" v-Focus v-on:input ="inputFunc" v-model="input1" maxlength="1">
+          <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input2"  maxlength="1">
+          <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input3"  maxlength="1">
+          <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input4"  maxlength="1">
+        </p>
+      </div>
+    </alert-back>
+    <!-- 输入数字状态 -->
+    <alert-back class="alert-state-back" v-if="stateAsync">
+      <h4 class="title g-border">提示</h4>
+      <div class="box">
+        <p class="bank-title">主卡设置失败！银行卡号码错误</p>
+      </div>
+      <div class="btns g-border1">
+        <button @click="stateAsync = false">放弃</button>
+        <button @click="retryFn">重试</button>
+      </div>
     </alert-back>
   </div>
 </template>
@@ -40,13 +59,59 @@ export default {
         {type:'user'},
         {type:''},
         {type:''}
-      ]
+      ],
+      input1 :'',
+      input2 :'',
+      input3 :'',
+      input4 :'',
+      alertAsync : false,
+      stateAsync : false,
     }
   },
   methods : {
+    //点击我的主卡
     userBtn () {
-
+      this.retryFn()
+      this.goNextInput('.code-num');
+    },
+    //监听是否都输入了
+    inputFunc () {
+      if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
+      //显示状态
+      this.alertAsync = false;
+      this.stateAsync = true;
+    },
+    //输入光标自动到下一个input
+    goNextInput (el) {
+        var txts = document.querySelectorAll(el);
+        for(var i = 0; i<txts.length;i++){
+          var t = txts[i];
+          t.index = i;
+          t.setAttribute("readonly", true);
+          t.onkeyup=function(){
+              this.value=this.value.replace(/^(.).*$/,'$1');
+              var next = this.index + 1;
+              if(next > txts.length - 1) return;
+              txts[next].removeAttribute("readonly");
+              if (this.value) {
+                txts[next].focus();
+              }
+          }
+        }
+        txts[0].removeAttribute("readonly");
+        txts[0].focus();
+    },
+    //重试
+    retryFn () {
+      this.input1 =''; 
+      this.input2 =''; 
+      this.input3 =''; 
+      this.input4 ='';
+      this.alertAsync = true;
+      this.stateAsync = false;
     }
+  },
+  mounted () {
   }
 }
 </script>
@@ -104,6 +169,47 @@ export default {
       line-height: 100px;
       text-align: center;
       font-size: 30px;
+    }
+    .box{
+      padding:20px 0 46px;
+      .bank-title{
+        font-size: 28px;
+        color:$col-6;
+        text-align: center;
+        line-height: 62px;
+      }
+      .text{
+        display: flex;
+        justify-content: center;
+        height: 120px;
+        input{
+          border:none;
+          margin:0 7px;
+          border-bottom: 2px solid $col-9;
+          width:96px;
+          font-size: 60px;
+          color:$col-3;
+          text-align: center;
+          caret-color:$col-blue;
+        }
+      }
+    }
+    .btns{
+      height: 100px;
+      padding-top:20px;
+      display: flex;
+      button{
+        width:0;
+        flex:1;
+        height: 60px;
+        font-size: 30px;
+        border:none;
+        background:$col-f;
+        &:last-child{
+          color:$col-blue;
+          border-left:1px solid $col-c;
+        }
+      }
     }
   }
 }
