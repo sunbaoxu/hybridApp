@@ -39,7 +39,7 @@
       </h4>
       <!-- 引入滑块 -->
       <div class="slider-box g-border">
-        <el-slider v-model="moneyValNum" :show-tooltip="false" :max="planObj.money" :min="300"></el-slider>
+        <el-slider v-model="moneyValNum" :show-tooltip="false" :max="planObj.money" :min="3000"></el-slider>
         <p class="g-fen-cen"><span>3000</span><span>{{planObj.money}}</span></p>
       </div>
     </section>
@@ -173,13 +173,17 @@ export default {
       this.setLodingAsync(true);
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
-          this.routerOrderFn();
+
+          // alert(JSON.stringify(res))
+          if(res.state == '1'){
+            this.routerOrderFn();
+          } else{
+            window.LabiWinJSI.openNativeWindow("perfectData");
+          }
         } else{
           //隐藏loading
           this.setLodingAsync(false);
-          // this.setToastObj({async:true,respMesg:res.respMesg});
-          window.LabiWinJSI.openNativeWindow("perfectData");
-
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
         console.log(error)

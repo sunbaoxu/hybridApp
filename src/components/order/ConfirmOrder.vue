@@ -118,7 +118,7 @@
             <span>订单总额</span>
             <span>￥{{pageObj.totalMoney}}</span>
           </p>
-          <p>含学费 ￥{{feeDetail.servConsumFee}}+服务费 ￥{{$route.query.money}}</p>
+          <p>含学费 ￥{{$route.query.money}}+服务费 ￥{{feeDetail.servConsumFee}}</p>
         </div>
         <!-- <div class="btn" @click="clickBtnFn" >提交订单</div> -->
         <!-- 订单协议全部选中  允许点击 -->
@@ -272,7 +272,7 @@ export default {
         businessType : this.$route.query.businessType,
         loanId       : this.UploadImg,
         pstSign      : this.inentityAsync?'1':'2',
-        dnyCode      : '9410'
+        // dnyCode      : '9410'
       });
       //显示loading
       this.setLodingAsync(true);
@@ -309,6 +309,7 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
+        // alert(JSON.stringify(res))
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
@@ -342,8 +343,8 @@ export default {
              planText : this.$route.query.planText,
              money    : this.$route.query.money,
              fenNper  : this.$route.query.fenNper,
-             userNper  : this.$route.query.userNper,
-             imgurl :this.$route.query.orgImgPath
+             userNper : this.$route.query.userNper,
+             imgurl   :this.$route.query.orgImgPath
            });
 
           //服务
@@ -360,12 +361,22 @@ export default {
         }
 
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
     },
     //下单前合同地址展示
     bfContractLink (name) {
-      let obj =  globalFn.concatObj({ctSign : '9'});
+      let ctSign = '';
+      if(name == 'asideXueObj'){
+        ctSign = this.inentityAsync =='1'?'12' :'9';
+      } else{
+        ctSign = this.inentityAsync =='2'?'13' :'10';
+      }
+
+      let obj =  globalFn.concatObj({
+            ctSign,
+            pstSign : this.inentityAsync?'1':'2'
+          });
       api.bfContractLink(obj).then((res) =>{
         if(res.respCode =='000'){
           this[name]    = res.contractList;
