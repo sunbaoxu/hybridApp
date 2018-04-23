@@ -59,8 +59,8 @@ export default {
     return {
       arr : [
         {type:'user'},
-        {type:''},
-        {type:''}
+        {type:'etc'},
+        {type:'no'}
       ],
       input1 :'',
       input2 :'',

@@ -6,6 +6,7 @@
         <h4 class="g-fen-cen">
           <span>建设银行</span>
           <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.type=='user'"></span>
+          <span class="g-back no"   @click.stop="userBtn" v-else-if="page == 'list' && obj.type=='no'">设为主卡</span>
           <span class="g-back user" v-else-if="obj.type=='user'"></span>
         </h4>
         <p>136****0678</p>
@@ -22,10 +23,20 @@
       </span>
       <span>4242</span>
     </div>
-    <p class="text g-cen-y yes">
+
+    <!-- 页脚底部 - 认证状态 -->
+    <p class="text g-cen-y yes" v-if="obj.type=='user'">
       <i></i>
-      <router-link to="/bank/accountDetails" v-if="obj.type=='user' && page!=''">华夏银行存管保障中</router-link>
+      <router-link to="/bank/accountDetails" v-if="page!=''">华夏银行存管保障中</router-link>
       <span v-else>华夏银行存管保障中</span>
+    </p>
+    <p class="text g-cen-y etc" v-else-if="obj.type=='etc'">
+      <i></i>
+      <span>银行存管认证中</span>
+    </p>
+    <p class="text g-cen-y no" v-else-if="obj.type=='no'">
+      <i></i>
+      <span>银行存管尚未认证</span>
     </p>
   </div>
 </template>
@@ -82,6 +93,16 @@ export default {
             background-image: url('/static/images/bank/user-bank.png');
             width:96px;
             height: 34px;
+          }
+          &.no{
+            background:$col-blue;
+            color:$col-f;
+            font-size: 26px;
+            border-radius: 30px;
+            width:128px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
           }
         }
       }
