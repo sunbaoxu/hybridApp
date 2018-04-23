@@ -45,8 +45,10 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 import bankBox from '$bank/common/bankBox.vue';
 import alertBack from '@/common/alert/alertBack.vue';
+
 export default {
   name: 'bank',
   components:{
@@ -66,9 +68,11 @@ export default {
       input4 :'',
       alertAsync : false,
       stateAsync : false,
+      async : false
     }
   },
   methods : {
+    ...mapActions(['setToastObj','setLodingAsync']),
     //点击我的主卡
     userBtn () {
       this.retryFn()
@@ -77,9 +81,17 @@ export default {
     //监听是否都输入了
     inputFunc () {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
-      //显示状态
-      this.alertAsync = false;
-      this.stateAsync = true;
+
+      this.async= !this.async;
+
+      if(this.async){
+         //显示状态
+        this.alertAsync = false;
+        this.stateAsync = true;
+      } else{
+        this.alertAsync = false;
+        this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
+      }
     },
     //输入光标自动到下一个input
     goNextInput (el) {
