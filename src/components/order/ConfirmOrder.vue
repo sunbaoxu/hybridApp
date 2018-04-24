@@ -272,7 +272,7 @@ export default {
         businessType : this.$route.query.businessType,
         loanId       : this.UploadImg,
         pstSign      : this.inentityAsync?'1':'2',
-        // dnyCode      : '9410'
+        dnyCode      : '9410'
       });
       //显示loading
       this.setLodingAsync(true);

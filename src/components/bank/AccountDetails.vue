@@ -105,6 +105,9 @@
 </template>
 
 <script>
+import api  from '@/api/api';
+import {mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 export default {
   name: 'bank',
   data () {
@@ -113,7 +116,28 @@ export default {
     }
   },
   methods : {
-    
+    ...mapActions(['setToastObj','setLodingAsync']),
+    //查询存管账户信息接口
+    queryCustodyAccInfo () {
+      let obj =  globalFn.concatObj({});
+      //显示loading
+      this.setLodingAsync(true);
+      api.queryCustodyAccInfo(obj).then((res) =>{
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+         
+        } else{ 
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    }
+
+  },
+  mounted () {
+    //查询存管账户信息接口
+    this.queryCustodyAccInfo();
   }
 }
 </script>

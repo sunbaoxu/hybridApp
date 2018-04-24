@@ -65,6 +65,7 @@ export default {
   acountCertified(params) {return fetch('userAcountController/acountCertified', params,'post')},
   //添加银行卡
   addBankCard(params) {return fetch('userAcountController/addBankCard', params,'post')},
+  
   //查询存管账户信息接口
   queryCustodyAccInfo(params) {return fetch('custodyController/queryCustodyAccInfo', params,'post')},
 

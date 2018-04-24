@@ -6,12 +6,12 @@ function getmd5(str) {
 //参数合并
 function concatObj(res) {
   //    {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"d3ecfe5f02d642a3a3b1daa59070e00a","reqTime":"2018-04-24 15:26:27","sign":"154031e88f0c8a08db7b178526396d8e","loanMoney":"23800","businessType":"5","bpcId":"UHAIDSlWvx2pNzjGjnM","baseUrl":"https://39.107.59.6/gateway2server/"}"baseUrl":"https://123.57.22.1/gateway2server/"}
-  // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
-  let loginPhone = '15133303272' ,
-      token      = 'd3ecfe5f02d642a3a3b1daa59070e00a' ;
+  let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+  // let loginPhone = '15133303272' ,
+  //     token      = 'd3ecfe5f02d642a3a3b1daa59070e00a' ;
 
-  // let loginPhone = GetRequestObjs.loginPhone ,
-  //     token      = GetRequestObjs.token;
+  let loginPhone = GetRequestObjs.loginPhone ,
+      token      = GetRequestObjs.token;
 
   let   reqTime    = getFormateDate(),
         sign       = getmd5(loginPhone+reqTime);
@@ -26,8 +26,8 @@ function concatObj(res) {
     sign
   }
 
-  // Object.assign(obj,res,GetRequestObjs);
-  Object.assign(obj,res);
+  Object.assign(obj,res,GetRequestObjs);
+  // Object.assign(obj,res);
 
   return obj;
 }

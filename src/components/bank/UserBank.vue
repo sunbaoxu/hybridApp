@@ -64,7 +64,6 @@ export default {
         console.log(error);
       });
     },
-
     //跳转 银行卡列表页面
     ChangeBankFn () {
       this.$router.push('/bank/changeBank');
