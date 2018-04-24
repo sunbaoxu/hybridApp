@@ -311,11 +311,18 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
-        // alert(JSON.stringify(res))
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
           this.setLodingAsync(true);
+
+          localStorage.removeItem(`${this.$route.query.bpcId}-xueAsync`);
+          localStorage.removeItem(`${this.$route.query.bpcId}-fuwuAsync1`);
+          localStorage.removeItem(`${this.$route.query.bpcId}-fuwuAsync2`);
+          localStorage.removeItem(`${this.$route.query.bpcId}-asideFuObj`);
+          localStorage.removeItem(`${this.$route.query.bpcId}-asideXueObj`);
+
+
           this.$router.push({path:'/order/orderState',query:{loanId : res.loanId}});
         } else{
           this.setLodingAsync(false);
@@ -410,8 +417,8 @@ export default {
       this.setLoancunAsync('false');
     },
     ///获取是否选中
-    asyncFn (name) {
-      this[name] = localStorage.getItem(name) ? JSON.parse(localStorage.getItem(name)) : false;
+    asyncFn (title,name) {
+      this[title] = localStorage.getItem(name) ? JSON.parse(localStorage.getItem(name)) : false;
     }
   },
   mounted () {
@@ -420,9 +427,9 @@ export default {
     //查询还款详情以及费用详情(两笔)
     this.queryRepayDetails();
 
-    this.asyncFn(`${this.$route.query.bpcId}-xueAsync`);
-    this.asyncFn(`${this.$route.query.bpcId}-fuwuAsync1`);
-    this.asyncFn(`${this.$route.query.bpcId}-fuwuAsync2`);
+    this.asyncFn('xueAsync',`${this.$route.query.bpcId}-xueAsync`);
+    this.asyncFn('fuwuAsync1',`${this.$route.query.bpcId}-fuwuAsync1`);
+    this.asyncFn('fuwuAsync2',`${this.$route.query.bpcId}-fuwuAsync2`);
   }
 }
 </script>
