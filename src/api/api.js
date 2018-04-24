@@ -6,15 +6,15 @@ export default {
   
   //获取还款详情
   activePayRecord(params) {return fetch('activePayController/activePayRecord', params,'post')},
-  //1.主动还款列表
+  //主动还款列表
   activePayDetail(params) {return fetch('activePayController/activePayDetail', params,'post')},
 
 
   
-  //5.学贷下订单
+  //学贷下订单
   loanInstallOrder(params) {return fetch('rulecheckController/loanInstallOrder', params,'post')},
 
-  //上传确认函
+  //上传确认函 -  改为上传照片
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
   //2.保存借款人
   saveBorrowers(params) {return fetch('borrowerController/saveBorrowers', params,'post')},
@@ -44,8 +44,23 @@ export default {
   queryBusinessInfoAndProgram(params) {return fetch('basicFController/queryBusinessInfoAndProgram', params,'post')},
   //根据方案查低高额还款期
   queriesProgramListNew(params) {return fetch('borrowerController/queriesProgramListNew', params,'post')},
-  //4.学贷检查是否可以下单
+  //学贷检查是否可以下单
   loanCheckInstall(params) {return fetch('rulecheckController/loanCheckInstall', params,'post')},
-   //查询共同借款人
-   queryBorrowers(params) {return fetch('borrowerController/queryBorrowers', params,'post')},
+  //查询共同借款人
+  queryBorrowers(params) {return fetch('borrowerController/queryBorrowers', params,'post')},
+
+
+
+
+
+
+
+
+  //个人银行卡
+  //银行卡列表
+  queryAcountCardList(params) {return fetch('userAcountController/queryAcountCardList', params,'post')},
+  //鉴权 -- 输入脱敏卡号
+  acountCertified(params) {return fetch('userAcountController/acountCertified', params,'post')},
+  //添加银行卡
+  addBankCard(params) {return fetch('userAcountController/addBankCard', params,'post')},
 }
