@@ -141,12 +141,11 @@ export default {
     },
     //点击下一步
     submitFn () {
-      let obj =  globalFn.concatObj({
-        loanMoney    :this.moneyValStr,
-        businessType :this.$route.query.businessType,
-        bpcId        :this.planObj.id
+      //基本信息认证
+      let obj = globalFn.concatObj({
+        source : 'loan'
       });
-      this.loanCheckInstall(obj);
+      this.queryAuthInfo(obj);
     },
     //根据方案查低高额还款期
     queriesProgramListNew () {
@@ -167,17 +166,42 @@ export default {
         console.log(error)
       });
     },
-    //学贷检查是否可以下单
-    loanCheckInstall (obj) {
+    //基本信息认证
+    queryAuthInfo (obj) {
       //显示loading
       this.setLodingAsync(true);
+      api.queryAuthInfo(obj).then((res) =>{
+        if(res.respCode == '000'){
+          //校验信息是否完全
+          if(res.authInfoList[0].perfect && res.authInfoList[1].perfect){
+            this.loanCheckInstall();
+          } else{
+            this.setLodingAsync(false);
+            window.LabiWinJSI.openNativeWindow("perfectData");
+          }
+        } else{
+          //隐藏loading
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
+      });
+    },
+    //学贷检查是否可以下单
+    loanCheckInstall () {
+      let obj =  globalFn.concatObj({
+                    loanMoney    :this.moneyValStr,
+                    businessType :this.$route.query.businessType,
+                    bpcId        :this.planObj.id
+                  });
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
-
-          // alert(JSON.stringify(res))
           if(res.state == '1'){
             this.routerOrderFn();
           } else{
+            //隐藏loading
+            this.setLodingAsync(false);
             window.LabiWinJSI.openNativeWindow("perfectData");
           }
         } else{

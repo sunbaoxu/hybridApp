@@ -22,6 +22,13 @@ export default {
   queryUserBankByPhone(params) {return fetch('tradeController/queryUserBankByPhone', params,'post')},
 
 
+
+
+  //2.基本信息认证
+  queryAuthInfo(params) {return fetch('rulecheckController/queryAuthInfo', params,'post')},
+
+
+
   
   //查询还款详情以及费用详情(两笔)
   queryRepayDetails(params) {return fetch('custodyController/queryRepayDetails', params,'post')},

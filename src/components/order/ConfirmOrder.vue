@@ -229,23 +229,23 @@ export default {
     ...mapActions(['setOrderRmpList','setUploadImg','setLoancunAsync','setToastObj','setLodingAsync']),
     //打开侧边栏
     openAsideFn (name) {
+      let obj = localStorage.getItem(`${this.$route.query.bpcId}-${name}`);
       //如果没有值，请求数据
-      if(JSON.stringify(this[name]) == "{}"){
+      if(!obj){
         this.bfContractLink(name);
       } 
       else{
         this.asideAsync = true;
         this.asideName  = name;
-        this.asideArr   = this[name];
+        this.asideArr   = JSON.parse(obj);
       };
       //判断是否全选
-      this.asideAll = name =='asideXueObj' ?this.xueAsync : this.fuwuAsync1 && this.fuwuAsync2
+      this.asideAll = name =='asideXueObj' ?this.xueAsync : this.fuwuAsync1 && this.fuwuAsync2;
     },
     //关闭侧边栏 
     closeAsideFn (arr,name,async) {
-      this[name] = arr;
+      localStorage.setItem(`${this.$route.query.bpcId}-${name}`,JSON.stringify(arr));
       this.asideAsync = false;
-      
       if(name =='asideXueObj'){
         this.xueAsync = async;
       } else{
@@ -285,10 +285,12 @@ export default {
     //学费协议点击 
     xueXieyiFn () {
       this.xueAsync = !this.xueAsync;
+      localStorage.setItem(`${this.$route.query.bpcId}-xueAsync`,`${this.xueAsync}`);
     },
     //服务协议点击
     fuwuFn    (name) {
-      this[name] = !this[name]
+      this[name] = !this[name];
+      localStorage.setItem(`${this.$route.query.bpcId}-${name}`,`${this[name]}`);
     },
     //查询共同借款人(两笔)
     queryBorrowers () {
@@ -383,6 +385,9 @@ export default {
           this[name].map((m)=>{
             m['isCheck'] = false;
           });   
+          //本地储存 协议
+          localStorage.setItem(`${this.$route.query.bpcId}-${name}`,JSON.stringify(res.contractList));
+
           this.asideArr = this[name];
           this.asideAsync = true;
           this.asideName  = name;
@@ -403,6 +408,10 @@ export default {
     shehuiFn (){
       this.inentityAsync = false;
       this.setLoancunAsync('false');
+    },
+    ///获取是否选中
+    asyncFn (name) {
+      this[name] = localStorage.getItem(name) ? JSON.parse(localStorage.getItem(name)) : false;
     }
   },
   mounted () {
@@ -410,6 +419,10 @@ export default {
     this.queryBorrowers();
     //查询还款详情以及费用详情(两笔)
     this.queryRepayDetails();
+
+    this.asyncFn(`${this.$route.query.bpcId}-xueAsync`);
+    this.asyncFn(`${this.$route.query.bpcId}-fuwuAsync1`);
+    this.asyncFn(`${this.$route.query.bpcId}-fuwuAsync2`);
   }
 }
 </script>
