@@ -42,7 +42,8 @@ const AccountDetails    = resolve => require(['@/components/bank/AccountDetails.
 
 
 Vue.use(Router);
-export default new Router({
+
+let router = new Router({
   mode :'history',
   routes: [
     //商家
@@ -82,9 +83,18 @@ export default new Router({
     {path: '/uploadeImg',name: '上传照片',component: UploadeImg},
 
 
-
-
     //404
     {path: '*',name: '404',component: ShangCode},
+
   ]
+});
+
+export {router};
+
+
+router.beforeEach((to, from, next) => {
+  // console.log(to, from, next);
+  // window.LabiWinJSI.pathName(to.path);
+  //执行
+  next();
 });

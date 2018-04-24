@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import {router} from './router'
 
 import axios from 'axios'
 import store from '@/store/index';
@@ -21,6 +21,8 @@ Vue.prototype.$ELEMENT = { size: 'small' };
 Vue.use(Element);
 
 Vue.config.productionTip = false;
+
+
 
 
 
