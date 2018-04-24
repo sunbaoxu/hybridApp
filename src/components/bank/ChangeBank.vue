@@ -195,6 +195,9 @@ export default {
         }
       },(error)=>{
         this.arr = this.res.bankCards;
+        this.arr.map((m,i)=>{
+          return m['arr'] = [m.cardNo.substring(0,4),m.cardNo.substring(4,8),m.cardNo.substring(8,12),m.cardNo.substring(12,16)]
+        })
         return
         console.log(error)
       });

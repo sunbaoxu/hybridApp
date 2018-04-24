@@ -57,10 +57,15 @@ export default {
 
 
   //个人银行卡
+  //查询银行卡
+  queryUserBankInfo(params) {return fetch('custodyController/queryUserBankInfo', params,'post')},
   //银行卡列表
   queryAcountCardList(params) {return fetch('userAcountController/queryAcountCardList', params,'post')},
   //鉴权 -- 输入脱敏卡号
   acountCertified(params) {return fetch('userAcountController/acountCertified', params,'post')},
   //添加银行卡
   addBankCard(params) {return fetch('userAcountController/addBankCard', params,'post')},
+  //查询存管账户信息接口
+  queryCustodyAccInfo(params) {return fetch('custodyController/queryCustodyAccInfo', params,'post')},
+
 }

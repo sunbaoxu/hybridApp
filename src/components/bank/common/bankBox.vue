@@ -7,18 +7,14 @@
           <span>建设银行</span>
           <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.cardSign=='Y'"></span>
           <span class="g-back no"   @click.stop="userBtn" v-else-if="page == 'list' && obj.custodyStatus=='P00'">设为主卡</span>
+          <span class="g-back user" v-else-if="obj.cardSign=='Y'"></span>
         </h4>
         <p>136****0678</p>
       </dd>
     </dl>
     <div class="bank-num g-cen-y g-border">
-      <span v-for="(m,i) in arr" :key="i" v-if="i!=2">{{m}}</span>
-      <span v-else class="g-fen-cen">
-        <i></i>
-        <i></i>
-        <i></i>
-        <i></i>
-      </span>
+      <span v-for="(m,i) in obj.arr" :key="i" v-if="i!=2">{{m}}</span>
+      <span v-else class="g-fen-cen"><i></i><i></i><i></i><i></i></span>
     </div>
 
     <!-- 页脚底部 - 认证状态 -->
@@ -50,11 +46,6 @@ export default {
       default:function(){return {}}
     }
   },
-  data () {
-    return {
-      arr : []
-    }
-  },
   methods : {
     //跳转我的主卡页
     routerFn () {
@@ -66,15 +57,6 @@ export default {
     userBtn () {
       this.$emit('userBtn');
     }
-  },
-  mounted () {
-    this.arr[0] =this.obj.cardNo.substring(0,4); 
-    this.arr[1] =this.obj.cardNo.substring(4,8); 
-    this.arr[2] =this.obj.cardNo.substring(8,12); 
-    this.arr[3] =this.obj.cardNo.substring(12,16); 
-    this.$set(this.arr);
-    
-      console.log(this.arr)
   }
 }
 </script>

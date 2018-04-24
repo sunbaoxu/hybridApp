@@ -1,7 +1,7 @@
 <template>
   <div class="user-box" >
     <section>
-      <bank-box class="list-box" page="router"  :obj="{type:'user'}"></bank-box>
+      <bank-box class="list-box" page="router"  :obj="obj"></bank-box>
     </section>
     <!-- 更换主卡 -->
     <section class="add-bank g-fen-cen-box" @click="ChangeBankFn">
@@ -20,15 +20,58 @@
 </template>
 
 <script>
+import api  from '@/api/api';
+import {mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 import bankBox from '$bank/common/bankBox.vue';
 export default {
   components:{
     bankBox
   },
+  data () {
+    return {
+      obj :{}
+    }
+  },
   methods : {
+    ...mapActions(['setToastObj','setLodingAsync']),
+    //查询银行卡
+    queryUserBankInfo () {
+      let obj =  globalFn.concatObj({});
+      //显示loading
+      this.setLodingAsync(true);
+      api.queryUserBankInfo(obj).then((res) =>{
+        console.log(res)
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+          // this.obj = res;
+            this.obj = {
+              cardSign :'Y',//是否是主卡
+              cardType : '1',
+              cardNo   : '11112222****3265',
+              bank :'华夏银行',
+              bankName : '华夏银行',
+              bindStatus :'B01',
+              custodyStatus : 'P02',
+              bankIcon :'/static/images/order/fuwu-icon.png',
+            };
+
+            this.obj['arr'] = [this.obj.cardNo.substring(0,4),this.obj.cardNo.substring(4,8),this.obj.cardNo.substring(8,12),this.obj.cardNo.substring(12,16)];
+        } else{ 
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    },
+
+    //跳转 银行卡列表页面
     ChangeBankFn () {
       this.$router.push('/bank/changeBank');
     }
+  },
+  mounted () {
+    this.queryUserBankInfo();
   }
 }
 </script>
