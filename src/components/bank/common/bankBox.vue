@@ -1,40 +1,37 @@
 <template>
   <div class="bank-box" @click="routerFn">
     <dl class="g-cen-y">
-      <dt class="g-back" style="background-image:url(/static/images/order/fuwu-icon.png)"></dt>
+      <dt class="g-back" :style="{'background-image':'url('+obj.bankIcon+')'}"></dt>
       <dd>
         <h4 class="g-fen-cen">
           <span>建设银行</span>
-          <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.type=='user'"></span>
-          <span class="g-back no"   @click.stop="userBtn" v-else-if="page == 'list' && obj.type=='no'">设为主卡</span>
-          <span class="g-back user" v-else-if="obj.type=='user'"></span>
+          <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.cardSign=='Y'"></span>
+          <span class="g-back no"   @click.stop="userBtn" v-else-if="page == 'list' && obj.custodyStatus=='P00'">设为主卡</span>
         </h4>
         <p>136****0678</p>
       </dd>
     </dl>
     <div class="bank-num g-cen-y g-border">
-      <span>3124</span>
-      <span>4242</span>
-      <span class="g-fen-cen">
+      <span v-for="(m,i) in arr" :key="i" v-if="i!=2">{{m}}</span>
+      <span v-else class="g-fen-cen">
         <i></i>
         <i></i>
         <i></i>
         <i></i>
       </span>
-      <span>4242</span>
     </div>
 
     <!-- 页脚底部 - 认证状态 -->
-    <p class="text g-cen-y yes" v-if="obj.type=='user'">
+    <p class="text g-cen-y yes" v-if="obj.custodyStatus=='P02'">
       <i></i>
       <router-link to="/bank/accountDetails" v-if="page!=''">华夏银行存管保障中</router-link>
       <span v-else>华夏银行存管保障中</span>
     </p>
-    <p class="text g-cen-y etc" v-else-if="obj.type=='etc'">
+    <p class="text g-cen-y etc" v-else-if="obj.custodyStatus=='P01'">
       <i></i>
       <span>银行存管认证中</span>
     </p>
-    <p class="text g-cen-y no" v-else-if="obj.type=='no'">
+    <p class="text g-cen-y no" v-else-if="obj.custodyStatus=='P00'">
       <i></i>
       <span>银行存管尚未认证</span>
     </p>
@@ -53,10 +50,15 @@ export default {
       default:function(){return {}}
     }
   },
+  data () {
+    return {
+      arr : []
+    }
+  },
   methods : {
     //跳转我的主卡页
     routerFn () {
-      if(this.page == 'list' && this.obj.type=='user'){
+      if(this.page == 'list' && this.obj.cardSign=='Y'){
         this.$router.push('/bank/userBank');
       }
     },
@@ -64,6 +66,15 @@ export default {
     userBtn () {
       this.$emit('userBtn');
     }
+  },
+  mounted () {
+    this.arr[0] =this.obj.cardNo.substring(0,4); 
+    this.arr[1] =this.obj.cardNo.substring(4,8); 
+    this.arr[2] =this.obj.cardNo.substring(8,12); 
+    this.arr[3] =this.obj.cardNo.substring(12,16); 
+    this.$set(this.arr);
+    
+      console.log(this.arr)
   }
 }
 </script>

@@ -173,7 +173,7 @@ export default {
       api.queryAuthInfo(obj).then((res) =>{
         if(res.respCode == '000'){
           //校验信息是否完全
-          if(res.authInfoList[0].perfect && res.authInfoList[1].perfect){
+          if(res.authInfoList[0].perfect || res.authInfoList[1].perfect){
             this.loanCheckInstall();
           } else{
             this.setLodingAsync(false);
@@ -191,10 +191,10 @@ export default {
     //学贷检查是否可以下单
     loanCheckInstall () {
       let obj =  globalFn.concatObj({
-                    loanMoney    :this.moneyValStr,
+                    loanMoney    :this.moneyValNum+'',
                     businessType :this.$route.query.businessType,
                     bpcId        :this.planObj.id
-                  });
+                  }); 
       api.loanCheckInstall(obj).then((res) =>{
         if(res.respCode == '000'){
           if(res.state == '1'){

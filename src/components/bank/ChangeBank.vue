@@ -10,7 +10,7 @@
       <bank-box class="list-box" page='list' v-for="(m,i) in arr" :key="i" :obj="m" @userBtn="userBtn"></bank-box>
     </section>
     <!-- 添加银行卡 -->
-    <section class="add-bank g-fen-cen-box">
+    <section class="add-bank g-fen-cen-box" @click="addBankCard">
       <span class="g-cen-y">
         <i class="iconfont icon-jia"></i>添加银行卡
       </span>
@@ -45,7 +45,9 @@
 </template>
 
 <script>
+import api  from '@/api/api';
 import {mapActions} from 'vuex';
+import globalFn from '@/assets/javascripts/globalFn';
 import bankBox from '$bank/common/bankBox.vue';
 import alertBack from '@/common/alert/alertBack.vue';
 
@@ -57,18 +59,48 @@ export default {
   },
   data () {
     return {
-      arr : [
-        {type:'user'},
-        {type:'etc'},
-        {type:'no'}
-      ],
+      arr : [],
       input1 :'',
       input2 :'',
       input3 :'',
       input4 :'',
       alertAsync : false,
       stateAsync : false,
-      async : false
+      async : false,
+      res : {
+        bankCards : [
+          {
+            cardSign :'Y',//是否是主卡
+            cardType : '1',
+            cardNo   : '11112222****3265',
+            bank :'华夏银行',
+            bankName : '华夏银行',
+            bindStatus :'B01',
+            custodyStatus : 'P02',
+            bankIcon :'/static/images/order/fuwu-icon.png',
+          },
+          {
+            cardSign :'N',//是否是主卡
+            cardType : '1',
+            cardNo   : '54569878****3265',
+            bank :'华夏银行',
+            bankName : '华夏银行',
+            bindStatus :'B01',
+            custodyStatus : 'P00',
+            bankIcon :'/static/images/order/fuwu-icon.png',
+          },
+          {
+            cardSign :'N',//是否是主卡
+            cardType : '1',
+            cardNo   : '47853269****5489',
+            bank :'华夏银行',
+            bankName : '华夏银行',
+            bindStatus :'B01',
+            custodyStatus : 'P01',
+            bankIcon :'/static/images/order/fuwu-icon.png',
+          },
+        ]
+      }
     }
   },
   methods : {
@@ -83,16 +115,25 @@ export default {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
       let str = this.input1+this.input2+this.input3+this.input4;
 
-      this.async= !this.async;
+      let obj =  globalFn.concatObj({
+        cardNo : this.obj.s,
+        bankType : this.obj.bank
+      });
 
-      if(this.async){
-         //显示状态
-        this.alertAsync = false;
-        this.stateAsync = true;
-      } else{
-        this.alertAsync = false;
-        this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
-      }
+      this.acountCertified();
+
+
+
+      // this.async= !this.async;
+
+      // if(this.async){
+      //    //显示状态
+      //   this.alertAsync = false;
+      //   this.stateAsync = true;
+      // } else{
+      //   this.alertAsync = false;
+      //   this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
+      // }
     },
     //输入光标自动到下一个input
     goNextInput (el) {
@@ -130,11 +171,7 @@ export default {
             });
         }
     },
-    //自动跳转到前边 
-    jumpUpper () {
-      var txts = document.querySelectorAll(el);
-    },
-    //重试
+    //初始化 输入框的值
     retryFn () {
       this.input1 =''; 
       this.input2 =''; 
@@ -142,9 +179,65 @@ export default {
       this.input4 ='';
       this.alertAsync = true;
       this.stateAsync = false;
+    },
+    //银行卡列表
+    queryAcountCardList () {
+      //显示loading
+      // this.setLodingAsync(true);
+      let obj =  globalFn.concatObj({});
+
+      api.queryAcountCardList(obj).then((res) =>{
+        if(res.respCode =='000'){
+          // this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
+        } else{
+          // this.setLodingAsync(false);
+          // this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        this.arr = this.res.bankCards;
+        return
+        console.log(error)
+      });
+    },
+    //添加银行卡
+    addBankCard () {
+      //显示loading
+      this.setLodingAsync(true);
+      let obj =  globalFn.concatObj({});
+      api.addBankCard(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.setLodingAsync(false);
+          //跳转到 玖富绑卡页
+          location.href = res.openUrl;
+        } else{
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    },
+    //鉴权 -- 输入脱敏卡号
+    acountCertified (obj) {
+      //显示loading
+      this.setLodingAsync(true);
+      api.acountCertified(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.setLodingAsync(false);
+          // //跳转到 玖富绑卡页
+          // location.href = res.openUrl;
+        } else{
+          // this.setLodingAsync(false);
+          // this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
     }
   },
   mounted () {
+    //银行卡列表
+    this.queryAcountCardList();
   }
 }
 </script>

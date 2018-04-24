@@ -337,7 +337,7 @@ export default {
       let obj =  globalFn.concatObj({
         "bpcId":this.$route.query.bpcId,
         "businessType":this.$route.query.businessType,
-        "loanMoney":this.$route.query.loanMoney,
+        "loanMoney":this.$route.query.money,
         "nper":this.$route.query.nper
       });
       api.queryRepayDetails(obj).then((res) =>{
