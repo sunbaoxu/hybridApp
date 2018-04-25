@@ -173,7 +173,7 @@ export default {
       api.queryAuthInfo(obj).then((res) =>{
         if(res.respCode == '000'){
           //校验信息是否完全
-          if(res.authInfoList[0].perfect && res.authInfoList[1].perfect){
+          if(res.authInfoList[0].perfect || res.authInfoList[1].perfect){
             this.loanCheckInstall();
           } else{
             this.setLodingAsync(false);

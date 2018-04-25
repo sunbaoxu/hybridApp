@@ -5,9 +5,12 @@ function getmd5(str) {
 }
 //参数合并
 function concatObj(res) {
-  //  {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18900000086","token":"93bf076976cd4714943b336d9461d2e1","reqTime":"2018-04-25 11:47:21","sign":"b0b4265b52a8e9a302bad513101e1faf","QRcode":"trda001"}
-  let loginPhone = '18900000086' ,
-      token      = '93bf076976cd4714943b336d9461d2e1';
+  //   {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"a9cf61c8817341a49994ab7cc10602ef","reqTime":"2018-04-25 13:32:31","sign":"9f22d5d524c60fa4db9a7e5c23b64144","loanMoney":"19919.38","bpcId":"UHAIDSlWvx2pNzjGjnM","nper":21,"businessType":"5","loanId":"plgvqsAnRDCs39bEAZb","pstSign":"1","dnyCode":"9410","baseUrl":"https://39.107.59.6/gateway2server/"}
+
+  // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+
+  let loginPhone = '15133303272' ,
+      token      = 'a9cf61c8817341a49994ab7cc10602ef';
 
   // let loginPhone = GetRequestObjs.loginPhone ,
   //     token      = GetRequestObjs.token;

@@ -230,8 +230,10 @@ export default {
     //打开侧边栏
     openAsideFn (name) {
       let obj = localStorage.getItem(`${this.$route.query.bpcId}-${name}`);
+      
       //如果没有值，请求数据
       if(!obj){
+        this.setLodingAsync(true);
         this.bfContractLink(name);
       } 
       else{
@@ -266,7 +268,7 @@ export default {
     //点击提交订单
     submitFn () {
       let obj =  globalFn.concatObj({
-        loanMoney    : this.pageObj.totalMoney,
+        loanMoney    : this.$route.query.money,
         bpcId        : this.$route.query.bpcId,
         nper         : this.orDetail.userNper,
         businessType : this.$route.query.businessType,
@@ -311,6 +313,7 @@ export default {
     //学贷下订单
     loanInstallOrder (obj) {
       api.loanInstallOrder(obj).then((res) =>{
+        alert(JSON.stringify(res))
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');
@@ -322,7 +325,8 @@ export default {
           localStorage.removeItem(`${this.$route.query.bpcId}-asideFuObj`);
           localStorage.removeItem(`${this.$route.query.bpcId}-asideXueObj`);
 
-          window.LabiWinJSI.openNativeWindow("orderCore");
+          this.$router.push({path:'/order/orderState',query:{loanId:res.loanId}})
+          // window.LabiWinJSI.openNativeWindow("orderCore");
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -386,6 +390,7 @@ export default {
             pstSign : this.inentityAsync?'1':'2'
           });
       api.bfContractLink(obj).then((res) =>{
+        this.setLodingAsync(false);
         if(res.respCode =='000'){
           this[name]    = res.contractList;
           this[name].map((m)=>{
@@ -397,6 +402,8 @@ export default {
           this.asideArr = this[name];
           this.asideAsync = true;
           this.asideName  = name;
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
 
       },(error)=>{
