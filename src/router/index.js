@@ -94,7 +94,7 @@ export {router};
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
-  // if(to.name == '订单详情'){
+  // if(to.name == '订单状态'){
   //   window.LabiWinJSI.backNative('backNative');
   // } else{
   //   window.LabiWinJSI.backNative('backWeb');

@@ -106,12 +106,12 @@
         <p>含逾期费 ￥{{orderObj.overAmt}}</p>
       </div>
       <!-- 还款中 -->
-      <div class="g-cen-y huan">
+      <div class="g-cen-y huan" v-else>
         <span>待支付</span>
         <span>￥{{obj.totalRetAmt}}</span>
       </div>
       <div>
-        <button @click="queryUserBankByPhone">立即还款</button>
+        <button @click="queryRepayMethod">立即还款</button>
       </div>
     </footer> 
     <!-- 重新申请 -->
@@ -162,7 +162,7 @@
         </div>
         <div class="btn-box">
           <p>您本月还有<span>{{orderObj.availNum}}</span>次主动还款机会</p>
-          <p><button>立即还款</button></p>
+          <p><button @click="submitFn">立即还款</button></p>
         </div>
         <div class="text-box">{{bankObj.warmMesg}}</div>
       </section>
@@ -193,7 +193,9 @@ export default {
       listAsync : false,
       bankAsync : false,
       bankObj : {} ,
-      startY : 200
+      startY : 200,
+      huaKouType : 'G002',//划扣类型
+      atreObj : {}
     }
   },
   methods : {
@@ -251,7 +253,7 @@ export default {
         console.log(error)
       });
     },
-    //立即还款
+    //查询银行卡（主卡）
     queryUserBankByPhone () {
       let obj = globalFn.concatObj({});
       api.queryUserBankByPhone(obj).then((res) =>{
@@ -265,13 +267,55 @@ export default {
         console.log(error)
       });
     },
+    //还款方式查询接口
+    queryRepayMethod () {
+      let obj = globalFn.concatObj({
+        repayMoney :this.orderObj.scheduleAmt, //还款金额
+        loanID     : this.$route.query.loanId, //订单id
+        receiptType : this.huaKouType //划扣类型
+      });
+      api.queryRepayMethod(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.atreObj = res;
+          this.queryUserBankByPhone();
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
+      });
+    },
+    //立即还款
+    doPay (obj) {
+      api.doPay(obj).then((res) =>{
+        if(res.respCode =='000'){
+          this.setLodingAsync(false);
+          if(this.atreObj.atreMethCode =='1'){
+              location.href = this.atreObj.atreMethUrl;
+          } else{
+            //跳转原生页
+          }
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
+      });
+    },
     //关闭弹框
     closeAlertFn () {
       this.alertAsync = false;
     },
     //立即还款
     submitFn () {
-      
+      let obj = globalFn.concatObj({
+        repayMoney :this.orderObj.scheduleAmt, //还款金额
+        loanID     : this.$route.query.loanId, //订单id
+        receiptType : this.huaKouType, //划扣类型
+        cardNo      : this.bankObj.cardNo //银行卡号
+      });
+      this.setLodingAsync(true);
+      this.doPay(obj);
       // this.$router.push('/order/orderRecord')
     },
     //详情

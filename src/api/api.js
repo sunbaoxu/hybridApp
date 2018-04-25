@@ -18,8 +18,14 @@ export default {
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},
   //2.保存借款人
   saveBorrowers(params) {return fetch('borrowerController/saveBorrowers', params,'post')},
-  //2.查询银行卡（主卡）
+
+  //还款方式查询接口
+  queryRepayMethod(params) {return fetch('activePayController/queryRepayMethod', params,'post')},
+  //查询银行卡（主卡）
   queryUserBankByPhone(params) {return fetch('tradeController/queryUserBankByPhone', params,'post')},
+  //立即还款
+  doPay(params) {return fetch('activePayController/doPay', params,'post')},
+
 
 
 
