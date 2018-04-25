@@ -1,5 +1,7 @@
 <template>
-  <div class="state-wrap" >
+  <div class="state-wrap" :style="{'transform': 'translate(0,-'+startY+'px)'}">
+    <!-- 下拉刷新 -->
+    <down-refresh class="refresh-box" ref="refreshID" @moveRefresh="moveRefresh" @endRefresh="endRefresh"></down-refresh>
     <!-- 协议是否显示 -->
     <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}" @click="agreementFn">
       <i class="iconfont icon-tixing"></i><span>查看协议</span>
@@ -173,10 +175,12 @@ import api  from '@/api/api';
 import {mapActions} from 'vuex';
 import globalFn from '@/assets/javascripts/globalFn';
 import alertBack from '@/common/alert/alertBack.vue';
+import downRefresh from '@/common/refresh/downRefresh.vue';
 export default {
   name: 'state',
   components :{
-    alertBack
+    alertBack,
+    downRefresh
   },
   data () {
     return {
@@ -188,7 +192,8 @@ export default {
       asyncText : '按期' ,
       listAsync : false,
       bankAsync : false,
-      bankObj : {}
+      bankObj : {} ,
+      startY : 200
     }
   },
   methods : {
@@ -284,6 +289,14 @@ export default {
     //跳转协议页
     agreementFn () {
       this.$router.push({path:'/agreement',query:{id:this.obj.id}})
+    },
+    moveRefresh (num) {
+      this.startY = num;
+    },
+    //松开刷新
+    endRefresh () {
+      //根据订单ID查看详细信息
+      this.queryOrderByLoanIDNew();
     }
   },
   mounted () {
@@ -294,7 +307,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .state-wrap{
-  padding:20px 0 100px;
+  padding:0px 0 100px;
+  transform: translate(0,-200px);
+  .refresh-box{
+    margin-bottom: 20px;
+  }
   &>.xiyi{
     color:$col-6;
     padding:0 0 20px 30px;
