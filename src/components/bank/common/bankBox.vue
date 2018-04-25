@@ -5,8 +5,8 @@
       <dd>
         <h4 class="g-fen-cen">
           <span>建设银行</span>
-          <span class="g-back user" @click.stop="userBtn" v-if="page == 'list' && obj.cardSign=='Y'"></span>
-          <span class="g-back no"   @click.stop="userBtn" v-else-if="page == 'list' && obj.custodyStatus=='P00'">设为主卡</span>
+          <span class="g-back user" @click.stop="userBtn(obj)" v-if="page == 'list' && obj.cardSign=='Y'"></span>
+          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.custodyStatus=='P00'">设为主卡</span>
           <span class="g-back user" v-else-if="obj.cardSign=='Y'"></span>
         </h4>
         <p>136****0678</p>
@@ -54,8 +54,8 @@ export default {
       }
     },
     //点击我的主卡按钮
-    userBtn () {
-      this.$emit('userBtn');
+    userBtn (obj) {
+      this.$emit('userBtn',obj);
     }
   }
 }

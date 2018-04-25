@@ -7,25 +7,25 @@
         </li>
         <li>
           <span>账户状态</span>
-          <span class="g-cen-y">已开通<i class="iconfont icon-dui1"></i></span>
+          <span class="g-cen-y">{{obj.accountStatus}}<i class="iconfont icon-dui1"></i></span>
         </li>
         <li>
           <span>账户类型</span>
-          <span>个人</span>
+          <span>{{obj.accountType}}</span>
         </li>
         <li>
           <span>存管账户</span>
-          <span>2342345235234452345234</span>
+          <span>{{obj.accountNum}}</span>
         </li>
         <li>
           <span>客户号</span>
-          <span>ID23423423423</span>
+          <span>{{obj.customerNum}}</span>
         </li>
         <li>
           <span>交易密码</span>
           <span class="g-cen-y">
-            <b>修改</b>
-            <b>重置</b>
+            <a :href="obj.updateUrl">修改</a>
+            <a :href="obj.resetUrl">重置</a>
           </span>
         </li>
       </ul>
@@ -37,15 +37,15 @@
         </li>
         <li>
           <span>客户姓名</span>
-          <span>第三方</span>
+          <span>{{obj.customerName}}</span>
         </li>
         <li>
           <span>身份证</span>
-          <span>5464645646***56446</span>
+          <span>{{obj.idNum}}</span>
         </li>
         <li class="g-border">
           <span>手机号</span>
-          <span>123*****54545</span>
+          <span>{{obj.loginPhone}}</span>
         </li>
       </ul>
       <ul>
@@ -112,7 +112,19 @@ export default {
   name: 'bank',
   data () {
     return {
-      allAsync : false
+      obj :{
+        accountStatus :'已开通',
+        accountMesg   : '个人',
+        accountType   : '个人',
+        accountNum    :'13231231234123',
+        customerNum :'ID23423423423',
+        customerName :'张三',
+        idNum :'123********45645',
+        loginPhone :'123****212',
+        updateUrl :'',
+        resetUrl :'',
+
+      }
     }
   },
   methods : {
@@ -123,6 +135,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.queryCustodyAccInfo(obj).then((res) =>{
+        console.log(res)
         this.setLodingAsync(false);
         if(res.respCode =='000'){
          
@@ -166,7 +179,7 @@ export default {
         color:$col-blue;
         margin-left:10px;
       }
-      b{
+      a{
         border:1px solid $col-blue;
         height: 44px;
         width: 110px;

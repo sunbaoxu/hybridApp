@@ -64,9 +64,8 @@ export default {
       input2 :'',
       input3 :'',
       input4 :'',
-      alertAsync : false,
-      stateAsync : false,
-      async : false,
+      alertAsync : false, //脱敏
+      stateAsync : false,//状态
       res : {
         bankCards : [
           {
@@ -100,40 +99,31 @@ export default {
             bankIcon :'/static/images/order/fuwu-icon.png',
           },
         ]
-      }
+      },
+      bankObj : {}
     }
   },
   methods : {
     ...mapActions(['setToastObj','setLodingAsync']),
     //点击我的主卡
-    userBtn () {
-      this.retryFn()
+    userBtn (obj) {
+      this.retryFn();
       this.goNextInput('.code-num');
+      this.bankObj = obj;
     },
     //监听是否都输入了
     inputFunc () {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
       let str = this.input1+this.input2+this.input3+this.input4;
+      //数组替换
+      this.bankObj.arr.splice(2,1,str);
 
       let obj =  globalFn.concatObj({
-        cardNo : this.obj.s,
-        bankType : this.obj.bank
+        cardNo : this.bankObj.arr.join(''),
+        bankType : this.bankObj.bank
       });
-
+      //鉴权 -- 输入脱敏卡号
       this.acountCertified();
-
-
-
-      // this.async= !this.async;
-
-      // if(this.async){
-      //    //显示状态
-      //   this.alertAsync = false;
-      //   this.stateAsync = true;
-      // } else{
-      //   this.alertAsync = false;
-      //   this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
-      // }
     },
     //输入光标自动到下一个input
     goNextInput (el) {
@@ -225,16 +215,19 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.acountCertified(obj).then((res) =>{
+        this.setLodingAsync(false);
         if(res.respCode =='000'){
-          this.setLodingAsync(false);
-          // //跳转到 玖富绑卡页
-          // location.href = res.openUrl;
+          this.alertAsync = false;
+          this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
         } else{
-          // this.setLodingAsync(false);
-          // this.setToastObj({async:true,respMesg:res.respMesg});
+          this.alertAsync = false;
+          this.stateAsync = true;
         }
       },(error)=>{
         console.log(error);
+        this.setLodingAsync(false);
+        this.alertAsync = false;
+        this.stateAsync = true;
       });
     }
   },

@@ -322,8 +322,7 @@ export default {
           localStorage.removeItem(`${this.$route.query.bpcId}-asideFuObj`);
           localStorage.removeItem(`${this.$route.query.bpcId}-asideXueObj`);
 
-
-          this.$router.push({path:'/order/orderState',query:{loanId : res.loanId}});
+          window.LabiWinJSI.openNativeWindow("orderCore");
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
