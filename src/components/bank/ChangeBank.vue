@@ -191,7 +191,9 @@ export default {
     addBankCard () {
       //显示loading
       this.setLodingAsync(true);
-      let obj =  globalFn.concatObj({});
+      let obj =  globalFn.concatObj({
+        bankUrl : '/bank/changeBank'
+      });
       api.addBankCard(obj).then((res) =>{
         if(res.respCode =='000'){
           this.setLodingAsync(false);
@@ -209,7 +211,9 @@ export default {
     openAcount () {
       //显示loading
       this.setLodingAsync(true);
-      let obj =  globalFn.concatObj({});
+      let obj =  globalFn.concatObj({
+        bankUrl : '/bank/changeBank'
+      });
       api.openAcount(obj).then((res) =>{
         if(res.respCode =='000'){
           //已开户

@@ -104,13 +104,11 @@ export {router};
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
   if(to.name == '订单状态'){
-    // window.LabiWinJSI.backNative('backNative');
-    // window.LabiWinJSI.showList('show');
-    // alert('aaaa')
+    window.LabiWinJSI.backNative('backNative');
+    window.LabiWinJSI.showList('show');
   } else{
-    // window.LabiWinJSI.backNative('backWeb');
-    //window.LabiWinJSI.showList('hide');
-    // alert('bbbbb')
+    window.LabiWinJSI.backNative('backWeb');
+    window.LabiWinJSI.showList('hide');
   }
   //执行
   next();

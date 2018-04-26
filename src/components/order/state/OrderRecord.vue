@@ -18,10 +18,17 @@
           <i class="xian"></i>
           <h4 class="g-fen-cen">
             <span class="g-cen-y"><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
-            <span v-if="m.retStatus =='1'" class="hui">未进行</span>
+            <!-- <span v-if="m.retStatus =='1'" class="hui">未进行</span>
             <span v-else-if="m.retStatus =='2'" class="blue">已还款</span>
             <span v-else-if="m.retStatus =='3'" class="blue">还款中</span>
-            <span v-else class="red">逾期中</span>
+            <span v-else class="red">逾期中</span> -->
+            <span 
+              :class="{
+                'hui':m.retStatus =='1',
+                'blue':m.retStatus =='2'||m.retStatus =='3',
+                'red':m.retStatus =='4'
+              }"
+            >{{m.retMsg}}</span>
           </h4>
           <div>
             <i class="icon"></i>
@@ -49,22 +56,6 @@
             </p>
             <p class="hui">本金(123412元)+利息(80元)</p>
             <p><span>实还金额：</span><span>150.9元</span></p>
-            <p class="yuqi"><span>逾期费用</span><span>150.9元</span></p>
-          </div>
-        </li>
-        <li class="not">
-          <h4 class="g-fen-cen">
-            <span class="g-cen-y"><i class="iconfont icon-clock"></i>2017-03-36</span>
-            <span>未开始</span>
-          </h4>
-          <div>
-            <i class="icon"></i>
-            <p>
-              <span>应还金额：</span>
-              <span>1500.98元</span>
-            </p>
-            <p class="hui">本金(123412元)+利息(80元)</p>
-            <p><span>应还金额：</span><span>150.9元</span></p>
             <p class="yuqi"><span>逾期费用</span><span>150.9元</span></p>
           </div>
         </li> -->
@@ -106,7 +97,9 @@ export default {
         this.setLodingAsync(false);
         if(res.respCode =='000'){
           console.log(res)
-          // this.planArr  = res.loanInfo.rmpList;
+          this.planArr  = res.loanInfo.rmpList;
+
+          return
           this.planArr = [
             {
               retAmtDate :'2017-33-44',
