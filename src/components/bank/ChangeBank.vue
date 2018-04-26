@@ -177,9 +177,21 @@ export default {
         this.setLodingAsync(false);
         if(res.respCode =='000'){
           this.arr = this.res.bankCards;
-          // this.arr.map((m,i)=>{
-          //   return m['arr'] = [m.cardNo.substring(0,4),m.cardNo.substring(4,8),m.cardNo.substring(8,12),m.cardNo.substring(12,16)]
-          // });
+          this.arr.map((m,i)=>{
+            if(m.cardNo.length == 16){
+              m['async'] =true;
+              return m['arr'] = [m.cardNo.substring(0,4),m.cardNo.substring(4,8),m.cardNo.substring(8,12),m.cardNo.substring(12,16)];
+            } else{
+              m['async'] =false;
+              return m['arr'] =  [
+                        m.cardNo.substring(0,4),
+                        m.cardNo.substring(4,8),
+                        [m.cardNo.substring(8,m.cardNo.length-8),
+                        m.cardNo.substring(m.cardNo.length-8,m.cardNo.length-4),
+                        m.cardNo.substring(m.cardNo.length-4,m.cardNo.length)]
+                      ];
+            }
+          });
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -192,7 +204,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       let obj =  globalFn.concatObj({
-        bankUrl : '/bank/changeBank'
+        backUrl : 'http://192.168.94.24:8080/bank/changeBank'
       });
       api.addBankCard(obj).then((res) =>{
         if(res.respCode =='000'){
@@ -212,9 +224,9 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       let obj =  globalFn.concatObj({
-        bankUrl : '/bank/changeBank'
+        backUrl : 'http://192.168.94.24:8080/bank/changeBank'
       });
-      api.openAcount(obj).then((res) =>{
+      api.openAcount(obj).then((res) =>{;;;
         if(res.respCode =='000'){
           //已开户
           if(res.status =='1'){

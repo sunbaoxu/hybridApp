@@ -12,9 +12,16 @@
         <p>136****0678</p>
       </dd>
     </dl>
-    <div class="bank-num g-cen-y g-border">
+    <div class="bank-num g-cen-y g-border" v-if="obj.async">
       <span v-for="(m,i) in obj.arr" :key="i" v-if="i!=2">{{m}}</span>
       <span v-else class="g-fen-cen"><i></i><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="bank-num g-cen-y g-border" v-else>
+      <span v-for="(m,i) in obj.arr" :key="i" v-if="i == 0 || i == 1 ">{{m}}</span>
+      <span v-else class="g-fen-cen flex">
+        {{m[0]}}<span class="g-fen-cen"><i></i><i></i><i></i><i></i></span>{{m[2]}}
+      </span>
     </div>
 
     <!-- 页脚底部 - 认证状态 -->
@@ -113,6 +120,15 @@ export default {
     span{
       margin-right: 40px;
       width:90px;
+      height: 50px;
+      &.flex{
+        flex:1;
+        justify-content: flex-start;
+        span{
+          justify-content: space-between;
+          margin:0 6px;
+        }
+      }
       i{
         width:14px;
         height: 14px;

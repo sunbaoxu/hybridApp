@@ -347,6 +347,15 @@ export default {
     //根据订单ID查看详细信息
     this.queryOrderByLoanIDNew();
     window.listCallBack = this.listCallBack;
+  },
+  //解绑window事件
+  beforeRouteLeave   (to,from,next) {
+    if(from.name == '订单状态'){
+      window.removeEventListener('touchstart',this.$refs.refreshID.touchStart,false);
+      window.removeEventListener('touchmove',this.$refs.refreshID.touchMove,false);
+      window.removeEventListener('touchend',this.$refs.refreshID.touchEnd,false);
+    }
+    next();
   }
 }
 </script>

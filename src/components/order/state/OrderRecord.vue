@@ -15,7 +15,7 @@
     <main class="record-main">
       <!-- 还款计划 -->
       <ul v-if="btnText =='还款计划'">
-        <li v-for="(m,i) in planArr" :key="i" >
+        <li v-for="(m,i) in planArr" :key="i" :class="{'not':m.retStatus =='1'}">
           <i class="xian"></i>
           <h4 class="g-fen-cen">
             <span class="g-cen-y"><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
@@ -102,39 +102,7 @@ export default {
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          console.log(res)
           this.planArr  = res.loanInfo.rmpList;
-
-          return
-          this.planArr = [
-            {
-              retAmtDate :'2017-33-44',
-              retAmt :'12312',
-              retMsg :'sdas',
-              retStatus :'1',
-              onceRetAmt :'232',
-              realAmt :'23123123',
-              overDue :'12312'
-            },
-            {
-              retAmtDate :'2017-33-44',
-              retAmt :'12312',
-              retMsg :'sdas',
-              retStatus :'2',
-              onceRetAmt :'232',
-              realAmt :'23123123',
-              overDue :'12312'
-            },
-            {
-              retAmtDate :'2017-33-44',
-              retAmt :'12312',
-              retMsg :'sdas',
-              retStatus :'4',
-              onceRetAmt :'232',
-              realAmt :'23123123',
-              overDue :'12312'
-            }
-          ]
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
