@@ -29,7 +29,8 @@ export default {
       btnText : '',
       num : 60 ,
       retStatus : '',
-      timer : null
+      timer : null ,
+      businessObj : {}
     }
   },
   methods : {
@@ -45,26 +46,27 @@ export default {
       api.doPay(obj).then((res) =>{
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          this.text   = res.retStatusMs;
-          this.money  = res.repayMoney;
-          this.remark = res.remark;
-          //成功
-          if(res.retStatus == '0'){
-            this.imgUrl ='/static/images/payState/yes.png';
-            this.btnText = '继续还款';
-          } 
-          //还款失败
-          else if(res.retStatus =='1'){
-            this.imgUrl ='/static/images/payState/no.png';
-            this.btnText = '再试一次';
-          } 
-          //处理中
-          else if(res.retStatus =='2'){
-            this.imgUrl ='/static/images/payState/etc.png';
-            this.btnText = '返回';
-            this.websocketFn();
-          }
-          
+          this.businessObj = res;
+          this.initPage(res);
+        } else{
+          this.btnText = '返回';
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
+      });
+    },
+    //立即还款
+    queryActivePay () {
+      this.setLodingAsync(true);
+      let obj = globalFn.concatObj({
+        repayMoney  : this.businessObj.repayMoney,
+        businessId  : this.businessObj.businessId
+      });
+      api.queryActivePay(obj).then((res) =>{
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+          this.initPage(res);    
         } else{
           this.btnText = '返回';
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -79,11 +81,33 @@ export default {
         this.num --;
         if(this.num <=0){
           //立即还款
-          this.doPay();
+          this.queryActivePay();
           clearInterval(this.timer);
           this.num = 60;
         }
       },100)
+    },
+    //初始化 页面展示
+    initPage (res) {
+      this.text   = res.retStatusMs;
+      this.money  = res.repayMoney;
+      this.remark = res.remark;
+      //成功
+      if(res.retStatus == '0'){
+        this.imgUrl ='/static/images/payState/yes.png';
+        this.btnText = '继续还款';
+      } 
+      //还款失败
+      else if(res.retStatus =='1'){
+        this.imgUrl ='/static/images/payState/no.png';
+        this.btnText = '再试一次';
+      } 
+      //处理中
+      else if(res.retStatus =='2'){
+        this.imgUrl ='/static/images/payState/etc.png';
+        this.btnText = '返回';
+        this.websocketFn();
+      }
     },
     //跳转回去
     routerFn (){

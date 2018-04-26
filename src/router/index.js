@@ -104,10 +104,10 @@ export {router};
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
   if(to.name == '订单状态'){
-    window.LabiWinJSI.backNative('backNative');
+    // window.LabiWinJSI.backNative('backNative');
     // alert('aaaa')
   } else{
-    window.LabiWinJSI.backNative('backWeb');
+    // window.LabiWinJSI.backNative('backWeb');
     // alert('bbbbb')
   }
   //执行

@@ -26,12 +26,10 @@ export default {
   //立即还款
   doPay(params) {return fetch('activePayController/doPay', params,'post')},
 
-
-
-
-
-  //2.基本信息认证
+  //基本信息认证
   queryAuthInfo(params) {return fetch('rulecheckController/queryAuthInfo', params,'post')},
+  //根据businessId查询还款状态
+  queryActivePay(params) {return fetch('activePayController/queryActivePay', params,'post')},
 
 
 
