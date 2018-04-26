@@ -30,6 +30,10 @@ export default {
   queryAuthInfo(params) {return fetch('rulecheckController/queryAuthInfo', params,'post')},
   //根据businessId查询还款状态
   queryActivePay(params) {return fetch('activePayController/queryActivePay', params,'post')},
+  //订单中心列表
+  queryLoanInfoListNew(params) {return fetch('afterOrderController/queryLoanInfoListNew', params,'post')},
+  //2.主动还款记录
+  activePayRecord(params) {return fetch('activePayController/activePayRecord', params,'post')},
 
 
 

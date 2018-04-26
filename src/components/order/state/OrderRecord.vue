@@ -14,23 +14,28 @@
     </section>
     <main class="record-main">
       <ul>
-        <li>
+        <li v-for="(m,i) in planArr" :key="i">
           <i class="xian"></i>
           <h4 class="g-fen-cen">
-            <span class="g-cen-y"><i class="iconfont icon-clock"></i>2017-03-36</span>
-            <span>已还清</span>
+            <span class="g-cen-y"><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
+            <span v-if="m.retStatus =='1'" class="hui">未进行</span>
+            <span v-else-if="m.retStatus =='2'" class="blue">已还款</span>
+            <span v-else-if="m.retStatus =='3'" class="blue">还款中</span>
+            <span v-else class="red">逾期中</span>
           </h4>
           <div>
             <i class="icon"></i>
             <p>
               <span>应还金额</span>
-              <span>1500.98元</span>
+              <span>{{m.retAmt}}元</span>
             </p>
-            <p class="hui">本金（123412元第三发）</p>
-            <p><span>应还金额</span><span>150.9元</span></p>
+            <p class="hui">{{m.retMsg}}</p>
+            <p><span>实还金额</span><span>{{m.realAmt}}元</span></p>
+            <p class="yuqi" v-if="m.retStatus =='4'"><span>逾期费用</span><span>{{m.overDue}}元</span></p>
+            <p class="jieqing" v-if="m.retStatus =='3'"><span>提前结清金额</span><span>{{m.onceRetAmt}}元</span></p>
           </div>
         </li>
-        <li>
+        <!-- <li>
           <i class="xian"></i>
           <h4 class="g-fen-cen">
             <span class="g-cen-y"><i class="iconfont icon-clock"></i>2017-03-36</span>
@@ -43,7 +48,7 @@
               <span>1500.98元</span>
             </p>
             <p class="hui">本金(123412元)+利息(80元)</p>
-            <p><span>应还金额：</span><span>150.9元</span></p>
+            <p><span>实还金额：</span><span>150.9元</span></p>
             <p class="yuqi"><span>逾期费用</span><span>150.9元</span></p>
           </div>
         </li>
@@ -62,7 +67,7 @@
             <p><span>应还金额：</span><span>150.9元</span></p>
             <p class="yuqi"><span>逾期费用</span><span>150.9元</span></p>
           </div>
-        </li>
+        </li> -->
       </ul>
     </main>
   </div>
@@ -70,6 +75,7 @@
 
 <script>
 import api  from '@/api/api';
+import {mapActions} from 'vuex';
 import globalFn from '@/assets/javascripts/globalFn';
 export default {
   name: 'state',
@@ -77,32 +83,88 @@ export default {
     return {
       btnText : '还款计划',
       recordObj : {},
-      error : {}
+      error : {} ,
+      planArr : [] ,//计划
+      historyArr : []
     }
   },
   methods : {
+    ...mapActions(['setToastObj','setLodingAsync']),
     clickBtn (str) {
       this.btnText = str;
     },
-    //还款计划
-    getOrderState () {
-      // console.log(n)
-      let sign = globalFn.getmd5('15133303272'+'2018-04-12 15:51:11');
-
-      let obj = {"loanId":"wBN9Frw6omnsS3QhAnj","chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","reqTime":"2018-04-12 19:07:30","sign":"add690535c1bff3791e78f457a0e9e73","token":"b3f10d243c6640a4b9c9740fc0f233ae"}
-      api.getOrderState(obj).then((res) =>{
-         console.log(res.loanInfo.rmpList)
-        if(res.respCode == '000'){
-          this.recordObj = res.loanInfo.rmpList;
+    //根据订单ID查看详细信息
+    queryOrderByLoanIDNew () {
+      let obj = globalFn.concatObj({
+        loanId : this.$route.query.loanId
+      });
+      api.queryOrderByLoanIDNew(obj).then((res) =>{
+        //隐藏loading
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+          console.log(res)
+          // this.planArr  = res.loanInfo.rmpList;
+          this.planArr = [
+            {
+              retAmtDate :'2017-33-44',
+              retAmt :'12312',
+              retMsg :'sdas',
+              retStatus :'1',
+              onceRetAmt :'232',
+              realAmt :'23123123',
+              overDue :'12312'
+            },
+            {
+              retAmtDate :'2017-33-44',
+              retAmt :'12312',
+              retMsg :'sdas',
+              retStatus :'2',
+              onceRetAmt :'232',
+              realAmt :'23123123',
+              overDue :'12312'
+            },
+            {
+              retAmtDate :'2017-33-44',
+              retAmt :'12312',
+              retMsg :'sdas',
+              retStatus :'4',
+              onceRetAmt :'232',
+              realAmt :'23123123',
+              overDue :'12312'
+            }
+          ]
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
-        console.log(error,'dfs')
+        console.log(error)
       });
-    }
+    },
+    //主动还款记录
+    activePayRecord () {
+      let obj = globalFn.concatObj({
+        loanId : this.$route.query.loanId
+      });
+      api.activePayRecord(obj).then((res) =>{
+        //隐藏loading
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+          this.obj = res.loanInfo;
+          if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
+            this.listAsync = true;
+            this.activePayDetail();
+          }
+        } else{
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error)
+      });
+    },
   },
   mounted () {
     //默认请求还款计划
-    // this.getOrderState()
+    this.queryOrderByLoanIDNew();
   }
 }
 </script>
@@ -168,7 +230,15 @@ export default {
               }
             }
             &:last-child{
-              color:$col-blue;
+              &.blue{
+                color:$col-blue;
+              }
+              &.hui{
+                color:$col-9;
+              }
+              &.red{
+                color:$col-red;
+              }
             }
           }
         }
@@ -202,6 +272,13 @@ export default {
               span{
                 &:last-child{
                   color:$col-red;
+                }
+              }
+            }
+            &.jieqing{
+              span{
+                &:first-child{
+                  width: 200px;
                 }
               }
             }

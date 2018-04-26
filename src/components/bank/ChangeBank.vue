@@ -177,6 +177,7 @@ export default {
       let obj =  globalFn.concatObj({});
 
       api.queryAcountCardList(obj).then((res) =>{
+        console.log(res)
         if(res.respCode =='000'){
           // this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
         } else{

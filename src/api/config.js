@@ -7,6 +7,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
      
 // } 
 //配置接口地址
+//研发
+// axios.defaults.baseURL = 'http://192.168.70.11:2080/gateway2server/';
 //A
 // axios.defaults.baseURL = 'http://101.201.77.80:9810/gateway2server/';
 //B
