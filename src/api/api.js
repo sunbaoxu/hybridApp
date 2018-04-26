@@ -65,6 +65,8 @@ export default {
 
 
   //个人银行卡
+  //开户接口
+  openAcount(params) {return fetch('userAcountController/openAcount', params,'post')},
   //查询银行卡
   queryUserBankInfo(params) {return fetch('custodyController/queryUserBankInfo', params,'post')},
   //银行卡列表

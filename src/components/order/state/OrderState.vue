@@ -338,11 +338,15 @@ export default {
     endRefresh () {
       //根据订单ID查看详细信息
       this.queryOrderByLoanIDNew();
+    },
+    listCallBack () {
+      this.$router.push({path:'/order/orderRecord',query:{loanId:this.$route.query.loanId}})
     }
   },
   mounted () {
     //根据订单ID查看详细信息
     this.queryOrderByLoanIDNew();
+    window.listCallBack = this.listCallBack;
   }
 }
 </script>

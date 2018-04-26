@@ -92,6 +92,9 @@ export default {
     ...mapActions(['setToastObj','setLodingAsync']),
     clickBtn (str) {
       this.btnText = str;
+      if(str == '还款历史' && this.historyArr.length <=0){
+        this.activePayRecord();
+      }
     },
     //根据订单ID查看详细信息
     queryOrderByLoanIDNew () {
@@ -149,11 +152,7 @@ export default {
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          this.obj = res.loanInfo;
-          if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
-            this.listAsync = true;
-            this.activePayDetail();
-          }
+          this.historyArr = res.payRecordList;
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }

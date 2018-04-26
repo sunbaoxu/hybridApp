@@ -172,24 +172,18 @@ export default {
     },
     //银行卡列表
     queryAcountCardList () {
-      //显示loading
-      // this.setLodingAsync(true);
       let obj =  globalFn.concatObj({});
-
       api.queryAcountCardList(obj).then((res) =>{
-        console.log(res)
+        this.setLodingAsync(false);
         if(res.respCode =='000'){
-          // this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});
+          this.arr = this.res.bankCards;
+          // this.arr.map((m,i)=>{
+          //   return m['arr'] = [m.cardNo.substring(0,4),m.cardNo.substring(4,8),m.cardNo.substring(8,12),m.cardNo.substring(12,16)]
+          // });
         } else{
-          // this.setLodingAsync(false);
-          // this.setToastObj({async:true,respMesg:res.respMesg});
+          this.setToastObj({async:true,respMesg:res.respMesg});
         }
       },(error)=>{
-        this.arr = this.res.bankCards;
-        this.arr.map((m,i)=>{
-          return m['arr'] = [m.cardNo.substring(0,4),m.cardNo.substring(4,8),m.cardNo.substring(8,12),m.cardNo.substring(12,16)]
-        })
-        return
         console.log(error)
       });
     },
@@ -203,6 +197,32 @@ export default {
           this.setLodingAsync(false);
           //跳转到 玖富绑卡页
           location.href = res.openUrl;
+        } else{
+          this.setLodingAsync(false);
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    },
+    //开户接口
+    openAcount () {
+      //显示loading
+      this.setLodingAsync(true);
+      let obj =  globalFn.concatObj({});
+      api.openAcount(obj).then((res) =>{
+        if(res.respCode =='000'){
+          //已开户
+          if(res.status =='1'){
+            //银行卡列表
+            this.queryAcountCardList();
+          } 
+          //未开户
+          else if(res.status =='2'){
+            this.setLodingAsync(false);
+            //跳转到 玖富绑卡页
+            location.href = res.openUrl;
+          }
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -233,8 +253,8 @@ export default {
     }
   },
   mounted () {
-    //银行卡列表
-    this.queryAcountCardList();
+    //开户接口
+    this.openAcount();
   }
 }
 </script>
