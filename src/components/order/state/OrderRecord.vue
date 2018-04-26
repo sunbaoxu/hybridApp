@@ -13,15 +13,12 @@
       </nav>
     </section>
     <main class="record-main">
-      <ul>
-        <li v-for="(m,i) in planArr" :key="i">
+      <!-- 还款计划 -->
+      <ul v-if="btnText =='还款计划'">
+        <li v-for="(m,i) in planArr" :key="i" >
           <i class="xian"></i>
           <h4 class="g-fen-cen">
             <span class="g-cen-y"><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
-            <!-- <span v-if="m.retStatus =='1'" class="hui">未进行</span>
-            <span v-else-if="m.retStatus =='2'" class="blue">已还款</span>
-            <span v-else-if="m.retStatus =='3'" class="blue">还款中</span>
-            <span v-else class="red">逾期中</span> -->
             <span 
               :class="{
                 'hui':m.retStatus =='1',
@@ -36,29 +33,38 @@
               <span>应还金额</span>
               <span>{{m.retAmt}}元</span>
             </p>
-            <p class="hui">{{m.retMsg}}</p>
+            <p class="hui">本金({{m.reInterest}}元)+利息({{m.rePrincipal}}元)</p>
             <p><span>实还金额</span><span>{{m.realAmt}}元</span></p>
             <p class="yuqi" v-if="m.retStatus =='4'"><span>逾期费用</span><span>{{m.overDue}}元</span></p>
             <p class="jieqing" v-if="m.retStatus =='3'"><span>提前结清金额</span><span>{{m.onceRetAmt}}元</span></p>
           </div>
         </li>
-        <!-- <li>
+      </ul>
+      <!-- 还款历史 -->
+      <ul v-else-if="btnText =='还款历史'">
+        <li v-for="(m,i) in historyArr" :key="i">
           <i class="xian"></i>
           <h4 class="g-fen-cen">
-            <span class="g-cen-y"><i class="iconfont icon-clock"></i>2017-03-36</span>
-            <span>逾期中</span>
+            <span class="g-cen-y"><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
+            <span 
+              :class="{
+                'hui':m.retStatus =='0',
+                'blue':m.retStatus =='2',
+                'red':m.retStatus =='1'
+              }"
+            >{{m.retMsg}}</span>
           </h4>
           <div>
             <i class="icon"></i>
             <p>
-              <span>应还金额：</span>
-              <span>1500.98元</span>
+              <span>还款金额：</span>
+              <span>{{m.retAmt}}元</span>
             </p>
-            <p class="hui">本金(123412元)+利息(80元)</p>
-            <p><span>实还金额：</span><span>150.9元</span></p>
-            <p class="yuqi"><span>逾期费用</span><span>150.9元</span></p>
+            <p><span>还款方式：</span><span>{{m.receiptDesc}}</span></p>
+            <p class="hui" v-if="m.remark !=''">{{m.remark}}</p>
+            <p class="hui" v-if="m.reqMsg !=''">{{m.reqMsg}}</p>
           </div>
-        </li> -->
+        </li>
       </ul>
     </main>
   </div>
@@ -139,13 +145,23 @@ export default {
     //主动还款记录
     activePayRecord () {
       let obj = globalFn.concatObj({
-        loanId : this.$route.query.loanId
+        loanID : this.$route.query.loanId
       });
       api.activePayRecord(obj).then((res) =>{
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          this.historyArr = res.payRecordList;
+          // this.historyArr = res.payRecordList;
+          this.historyArr = [{
+              retAmtDate :'2017-33-44',
+              retAmt :'12312',
+              retMsg :'sdas',
+              retStatus :'4',
+              onceRetAmt :'232',
+              realAmt :'23123123',
+              overDue :'12312',
+              retStatusMsg :'处理中'
+            }]
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -171,6 +187,7 @@ export default {
     background: $col-f;
     width:100%;
     height: 116px;
+    z-index: 22;
     .nav{
       width: 100%;
       span{
@@ -200,6 +217,11 @@ export default {
         overflow: hidden;
         padding-bottom: 26px;
         position: relative;
+        &:last-child{
+          &>.xian{
+            display: none;
+          }
+        }
         &>.xian{
           height: 100%;
           width: 2px;
