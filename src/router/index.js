@@ -32,6 +32,11 @@ const OrderDetail    = resolve => require(['@/components/order/details/OrderDeta
 
 
 
+//划扣结果
+const DelimitState    = resolve => require(['@/components/order/payState/DelimitState.vue'], resolve);
+
+
+
 
 //银行卡list 页
 const ChangeBank    = resolve => require(['@/components/bank/ChangeBank.vue'], resolve);
@@ -66,6 +71,10 @@ let router = new Router({
     {path: '/order/orderRecord',name: '订单还款记录',component: OrderRecord},
 
 
+    //划扣 支付结果页
+    {path: '/order/delimitState',name: '划扣结果',component: DelimitState},
+
+
     //银行卡
     //银行卡list 页
     {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank},
@@ -94,11 +103,13 @@ export {router};
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
-  // if(to.name == '订单状态'){
-  //   window.LabiWinJSI.backNative('backNative');
-  // } else{
-  //   window.LabiWinJSI.backNative('backWeb');
-  // }
+  if(to.name == '订单状态'){
+    window.LabiWinJSI.backNative('backNative');
+    // alert('aaaa')
+  } else{
+    window.LabiWinJSI.backNative('backWeb');
+    // alert('bbbbb')
+  }
   //执行
   next();
 });

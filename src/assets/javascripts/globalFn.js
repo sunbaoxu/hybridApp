@@ -7,13 +7,13 @@ function getmd5(str) {
 function concatObj(res) {
   // {"chanName":"website","chanType":"APP4.11.6","entranceID":"41","loginPhone":"15133303272","reqTime":"2018-04-25 17:43:13","sign":"d368215db9d1cb90907bb82e7844f1f8","token":"32196a89ccf44af89327fee9a6315547"}
 
-  let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+  // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
 
-  // let loginPhone = '15133303272' ,
-  //     token      = '32196a89ccf44af89327fee9a6315547';
+  let loginPhone = '15133303272' ,
+      token      = '32196a89ccf44af89327fee9a6315547';
 
-  let loginPhone = GetRequestObjs.loginPhone ,
-      token      = GetRequestObjs.token;
+  // let loginPhone = GetRequestObjs.loginPhone ,
+  //     token      = GetRequestObjs.token;
 
   let   reqTime    = getFormateDate(),
         sign       = getmd5(loginPhone+reqTime);
@@ -28,8 +28,8 @@ function concatObj(res) {
     sign
   }
 
-  Object.assign(obj,res,GetRequestObjs);
-  // Object.assign(obj,res);
+  // Object.assign(obj,res,GetRequestObjs);
+  Object.assign(obj,res);
 
   return obj;
 }

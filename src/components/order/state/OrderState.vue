@@ -55,8 +55,8 @@
     <main class="main-state">
       <section class="huankuan">
         <ul>
-          <li v-if="orderObj.settleFlag =='1'">
-            <div class="g-cen-y" @click="clickAsyncFn('按期')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='按期','icon-dui':asyncText !='按期'}"></i></div>
+          <li v-if="orderObj.scheduleFlag =='0'">
+            <div class="g-cen-y" @click="clickAsyncFn('按期','onTimeType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='按期','icon-dui':asyncText !='按期'}"></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
                 <span class="g-cen-y">按期还款<i v-if="orderObj.overFlag =='0'">已逾期</i></span>
@@ -68,8 +68,8 @@
               </p>
             </div>
           </li>
-          <li v-if="orderObj.scheduleFlag == '1'">
-            <div class="g-cen-y" @click="clickAsyncFn('提前')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='提前','icon-dui':asyncText !='提前'}"></i></div>
+          <li v-if="orderObj.settleFlag == '0'">
+            <div class="g-cen-y" @click="clickAsyncFn('提前','settleType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='提前','icon-dui':asyncText !='提前'}"></i></div>
             <div class="g-col-cen-y">
               <p class="g-fen-x">
                 <span>提前结清</span>
@@ -194,7 +194,7 @@ export default {
       bankAsync : false,
       bankObj : {} ,
       startY : 200,
-      huaKouType : 'G002',//划扣类型
+      huaKouType : '',//划扣类型
       atreObj : {}
     }
   },
@@ -246,6 +246,15 @@ export default {
         if(res.respCode =='000'){
           this.orderObj= res;
           this.alertArr = res.overdueInfoList;
+          //按期
+          if(res.scheduleFlag == '0'){
+            this.huaKouType = res.onTimeType;
+          } 
+          //提前结清
+          else if(res.settleFlag == '0'){
+            this.huaKouType = res.settleType;
+          }
+
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -277,24 +286,8 @@ export default {
       api.queryRepayMethod(obj).then((res) =>{
         if(res.respCode =='000'){
           this.atreObj = res;
+          //查询银行卡（主卡）
           this.queryUserBankByPhone();
-        } else{
-          this.setToastObj({async:true,respMesg:res.respMesg});
-        }
-      },(error)=>{
-        console.log(error)
-      });
-    },
-    //立即还款
-    doPay (obj) {
-      api.doPay(obj).then((res) =>{
-        if(res.respCode =='000'){
-          this.setLodingAsync(false);
-          if(this.atreObj.atreMethCode =='1'){
-              location.href = this.atreObj.atreMethUrl;
-          } else{
-            //跳转原生页
-          }
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -308,14 +301,17 @@ export default {
     },
     //立即还款
     submitFn () {
-      let obj = globalFn.concatObj({
-        repayMoney :this.orderObj.scheduleAmt, //还款金额
-        loanID     : this.$route.query.loanId, //订单id
-        receiptType : this.huaKouType, //划扣类型
-        cardNo      : this.bankObj.cardNo //银行卡号
-      });
-      this.setLodingAsync(true);
-      this.doPay(obj);
+      if(this.atreObj.atreMethCode =='1'){
+        location.href = this.atreObj.atreMethUrl;
+      } else{
+        //划扣结果页
+        this.$router.push({path:'/order/delimitState',query:{
+          repayMoney  : this.orderObj.scheduleAmt, //还款金额
+          loanID      : this.$route.query.loanId, //订单id
+          receiptType : this.huaKouType, //划扣类型
+          cardNo      : this.bankObj.cardNo //银行卡号
+        }});  
+      }
       // this.$router.push('/order/orderRecord')
     },
     //详情
@@ -323,8 +319,9 @@ export default {
       this.alertAsync = true;
     },
     //更改状态
-    clickAsyncFn (str) {
+    clickAsyncFn (str,name) {
       this.asyncText = str;
+      this.huaKouType = this.orderObj[name];
     },
     //跳转商家页
     routerFn () {
