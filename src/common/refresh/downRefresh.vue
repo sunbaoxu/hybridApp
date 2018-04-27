@@ -28,16 +28,22 @@ export default {
       this.diff = (e.targetTouches[0].pageY - this.startY)/2;
       if(this.diff >20 && this.diff <150 ){
         this.$emit('moveRefresh',200-this.diff);
+        this.text = '下拉刷新...';
       } else if(this.diff >150 && this.diff <=200){
         this.text = '放开以刷新...';
         this.$emit('moveRefresh',200-this.diff);
-      }  else if(this.diff <=20){
+      } 
+       else if(this.diff <=20){
         if(this.diff <=0){
           this.diff = 0;
         }
         this.$emit('moveRefresh',200-this.diff);
-      } else{
+      } 
+      else if(this.diff >200){
         this.diff = 200;
+      }
+      else if(this.diff <=0){
+        this.diff = 0;
       }
     },
     touchEnd (e){
@@ -46,19 +52,20 @@ export default {
         //隐藏loading
         this.setLodingAsync(true);
         this.$emit('endRefresh');
+        this.text = '正在载入...';
       } else if(this.diff >0){
         num =200 - this.diff;
       } else{
         return 
       }
 
-      this.text = '正在载入...';
       let timer = setInterval (()=>{
         num = num+3;
         if(num >=200){
           num = 200;
           this.$emit('moveRefresh',num);
           clearInterval(timer);
+          this.diff = 0;
         } else{
           this.$emit('moveRefresh',num);
         }
