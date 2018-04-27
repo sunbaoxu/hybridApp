@@ -1,6 +1,7 @@
 <template>
   <div class="account-wrap" >
-    <section class="box">
+    <div>
+      <section class="box">
       <ul>
         <li>
           <h4>基本信息</h4>
@@ -60,7 +61,7 @@
           <span>签约时间</span>
           <span>dsfaa56456</span>
         </li>
-        <li>
+        <!-- <li>
           <span>是否授权放款</span>
           <span>dsfaa56456</span>
         </li>
@@ -95,11 +96,12 @@
         <li>
           <span>冻结额度</span>
           <span>dsfaa56456</span>
-        </li>
+        </li> -->
       </ul>
     </section>
+    </div>
     <footer class="footer-text">
-      <img src="/static/images/bank/footer-huaxia.png" alt="">
+      <img src="/static/images/bank/footer-huaxia.png">
     </footer>
   </div>
 </template>
@@ -112,19 +114,7 @@ export default {
   name: 'bank',
   data () {
     return {
-      obj :{
-        accountStatus :'已开通',
-        accountMesg   : '个人',
-        accountType   : '个人',
-        accountNum    :'13231231234123',
-        customerNum :'ID23423423423',
-        customerName :'张三',
-        idNum :'123********45645',
-        loginPhone :'123****212',
-        updateUrl :'',
-        resetUrl :'',
-
-      }
+      obj :{}
     }
   },
   methods : {
@@ -156,6 +146,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .account-wrap{
+  // position: relative;
+  &>div{
+    padding-bottom: 200px;
+  }
   .box{
     background: $col-f;
     padding:0 30px 20px;
@@ -194,6 +188,11 @@ export default {
   }
   .footer-text{
     padding:40px 30px;
+    position: absolute;
+    width:100%;
+    box-sizing: border-box;
+    bottom:0;
+    left:0;
     img{
       display: block;
       width: 100%;

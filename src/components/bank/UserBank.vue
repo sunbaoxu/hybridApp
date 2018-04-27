@@ -12,9 +12,7 @@
     </section>
     <!-- 提示文字 -->
     <section class="text-box">
-      <h4>温馨提示</h4>
-      <p>请斯大林副科级十大发多少大厦法定盛大
-        发售的撒发生佛挡杀佛第三方第三方第三方大厦法定舒服点是否大师傅是否大师傅第三方</p>
+      {{obj.warmMesg}}
     </section>
   </div>
 </template>
@@ -41,22 +39,27 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.queryUserBankInfo(obj).then((res) =>{
-        console.log(res)
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          // this.obj = res;
-            this.obj = {
-              cardSign :'Y',//是否是主卡
-              cardType : '1',
-              cardNo   : '11112222****3265',
-              bank :'华夏银行',
-              bankName : '华夏银行',
-              bindStatus :'B01',
-              custodyStatus : 'P02',
-              bankIcon :'/static/images/order/fuwu-icon.png',
-            };
+          this.obj = res;
+            if(this.obj.cardNo.length == 16){
+              this.obj['arr'] = [
+                this.obj.cardNo.substring(0,4),
+                this.obj.cardNo.substring(4,8),
+                this.obj.cardNo.substring(8,12),
+                this.obj.cardNo.substring(12,16)
+              ];
+            } else{
+             this.obj['arr'] =  [
+                        this.obj.cardNo.substring(0,4),
+                        this.obj.cardNo.substring(4,8),
+                        [this.obj.cardNo.substring(8,this.obj.cardNo.length-8),
+                        this.obj.cardNo.substring(this.obj.cardNo.length-8,this.obj.cardNo.length-4),
+                        this.obj.cardNo.substring(this.obj.cardNo.length-4,this.obj.cardNo.length)]
+                      ];
+            }
 
-            this.obj['arr'] = [this.obj.cardNo.substring(0,4),this.obj.cardNo.substring(4,8),this.obj.cardNo.substring(8,12),this.obj.cardNo.substring(12,16)];
+            
         } else{ 
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
