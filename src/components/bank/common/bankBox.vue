@@ -5,8 +5,8 @@
       <dd>
         <h4 class="g-fen-cen">
           <span>{{obj.bankName}}</span>
-          <span class="g-back user" @click.stop="userBtn(obj)" v-if="page == 'list' && obj.cardSign=='Y'"></span>
-          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.custodyStatus=='B01'" >设为主卡</span>
+          <span class="g-back user" @click.stop="userBtn(obj)" v-if="page == 'list' && obj.cardSign=='Y' && obj.bindStatus=='B01'"></span>
+          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.bindStatus=='B01'" >设为主卡</span>
           <span class="g-back user" v-else-if="obj.cardSign=='Y'"></span>
         </h4>
         <!-- <p>136****0678</p> -->

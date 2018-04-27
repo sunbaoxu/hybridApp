@@ -21,7 +21,8 @@
     <alert-back class="alert-back" v-show="alertAsync" @closeAlertFn="alertAsync =false">
       <h4 class="title g-border">请补充标记为型号的4位数字</h4>
       <div class="box">
-        <p class="bank-title">5633 4534 <span>****</span> 0040 (招商银行)</p>
+        <p class="bank-title" >{{bankObj.cardNo}} ({{bankObj.bankName}})</p>
+        <!-- <p class="bank-title">5633 4534 <span>****</span> 0040 ({{bankObj.bankName}})</p> -->
         <p class="text">
           <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input1"  maxlength="1">
           <input type="tel" class="code-num" v-on:input ="inputFunc" v-model="input2"  maxlength="1">
@@ -67,38 +68,6 @@ export default {
       alertAsync : false, //脱敏
       stateAsync : false,//状态
       res : {
-        bankCards : [
-          {
-            cardSign :'Y',//是否是主卡
-            cardType : '1',
-            cardNo   : '11112222****3265',
-            bank :'华夏银行',
-            bankName : '华夏银行',
-            bindStatus :'B01',
-            custodyStatus : 'P02',
-            bankIcon :'/static/images/order/fuwu-icon.png',
-          },
-          {
-            cardSign :'N',//是否是主卡
-            cardType : '1',
-            cardNo   : '54569878****3265',
-            bank :'华夏银行',
-            bankName : '华夏银行',
-            bindStatus :'B01',
-            custodyStatus : 'P00',
-            bankIcon :'/static/images/order/fuwu-icon.png',
-          },
-          {
-            cardSign :'N',//是否是主卡
-            cardType : '1',
-            cardNo   : '47853269****5489',
-            bank :'华夏银行',
-            bankName : '华夏银行',
-            bindStatus :'B01',
-            custodyStatus : 'P01',
-            bankIcon :'/static/images/order/fuwu-icon.png',
-          },
-        ]
       },
       bankObj : {}
     }
@@ -115,19 +84,15 @@ export default {
     inputFunc () {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
       let str = this.input1+this.input2+this.input3+this.input4;
-      //数组替换
-      if(this.bankObj.async){
-        this.bankObj.arr.splice(2,1,str);
-      } else{
-        this.bankObj.arr.splice(3,1,str);
-      }
+      //字符串替换
+      var s = this.bankObj.cardNo.replace('****',str);
       
       let obj =  globalFn.concatObj({
-        cardNo : this.bankObj.arr.join(''),
+        cardNo : s,
         bankType : this.bankObj.bank
       });
       //鉴权 -- 输入脱敏卡号
-      this.acountCertified();
+      this.acountCertified(obj);
     },
     //输入光标自动到下一个input
     goNextInput (el) {
@@ -263,6 +228,7 @@ export default {
           this.alertAsync = false;
           this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
         } else{
+          console.log(res)
           this.alertAsync = false;
           this.stateAsync = true;
         }
