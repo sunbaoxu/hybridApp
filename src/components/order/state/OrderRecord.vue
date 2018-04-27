@@ -90,6 +90,7 @@ export default {
     clickBtn (str) {
       this.btnText = str;
       if(str == '还款历史' && this.historyArr.length <=0){
+        //主动还款记录
         this.activePayRecord();
       }
     },
@@ -119,17 +120,7 @@ export default {
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          // this.historyArr = res.payRecordList;
-          this.historyArr = [{
-              retAmtDate :'2017-33-44',
-              retAmt :'12312',
-              retMsg :'sdas',
-              retStatus :'4',
-              onceRetAmt :'232',
-              realAmt :'23123123',
-              overDue :'12312',
-              retStatusMsg :'处理中'
-            }]
+          this.historyArr = res.payRecordList;
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -147,7 +138,6 @@ export default {
 <style lang="scss" scoped>
 .record-wrap{
   background: $col-f;
-  padding-bottom: 30px;
   .nav-box{
     position: fixed;
     top:0;
