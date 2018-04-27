@@ -116,8 +116,12 @@ export default {
       if(this.input1 =='' || this.input2 =='' || this.input3 =='' || this.input4 ==''){return false};
       let str = this.input1+this.input2+this.input3+this.input4;
       //数组替换
-      this.bankObj.arr.splice(2,1,str);
-
+      if(this.bankObj.async){
+        this.bankObj.arr.splice(2,1,str);
+      } else{
+        this.bankObj.arr.splice(3,1,str);
+      }
+      
       let obj =  globalFn.concatObj({
         cardNo : this.bankObj.arr.join(''),
         bankType : this.bankObj.bank
