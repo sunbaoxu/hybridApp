@@ -77,11 +77,11 @@
       </section>
     </main>
     <!-- 借款人信息 -->
-    <section class="list-box" v-if="loancunAsync=='true'">
+    <section class="list-box" v-if="loancunAsync == 'true'">
       <ul>
         <li class="g-fen-cen-box g-border">
           <span>借款人信息</span>
-          <i class="iconfont icon-wenhao"></i>
+          <i class="iconfont icon-wenhao" @click="loanRuleAsync = true"></i>
         </li>
         <li class="g-fen-cen-box g-border">
           <span>主借款人</span>
@@ -185,6 +185,17 @@
         </p>
       </main>
     </alert-back>
+
+    <!-- 借款规则 - 文字介绍 -->
+    <alert-back class="order-alert-back" v-if="loanRuleAsync" @closeAlertFn=" loanRuleAsync = false">
+      <h4 class="title">提示</h4>
+      <div class="cont g-border">
+        根据国家监管要求，您不能作为申请借款的主体，但可经您的父母授权，有您的父亲或母亲作为主借款人进行申请，由您本人继续操作，我司后续会与您的父亲或母亲核实确认。
+      </div>
+      <div class="btn-boxs" >
+        <button @click="loanRuleAsync = false">我知道了</button>
+      </div>
+    </alert-back>
   </div>
 </template>
 
@@ -212,6 +223,7 @@ export default {
       xueAsync   : false ,//学费协议是否勾选
       fuwuAsync1 : false,//服务是否勾选
       fuwuAsync2 : false,//服务是否勾选
+      loanRuleAsync : false,//借款规则弹框
       orDetail  :{} ,//学费订单
       feeDetail :{},//服务
       orderObj : {} ,
