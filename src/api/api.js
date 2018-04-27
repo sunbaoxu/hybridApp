@@ -77,6 +77,6 @@ export default {
   addBankCard(params) {return fetch('userAcountController/addBankCard', params,'post')},
   
   //查询存管账户信息接口
-  queryCustodyAccInfo(params) {return fetch('custodyController/queryCustodyAccInfo', params,'post')},
+  queryCustodyAccInfo(params) {return fetch('userAcountController/queryCustodyAccInfo', params,'post')},
 
 }
