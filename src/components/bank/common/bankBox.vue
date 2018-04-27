@@ -4,12 +4,12 @@
       <dt class="g-back" :style="{'background-image':'url('+obj.bankIcon+')'}"></dt>
       <dd>
         <h4 class="g-fen-cen">
-          <span>建设银行</span>
+          <span>{{obj.bankName}}</span>
           <span class="g-back user" @click.stop="userBtn(obj)" v-if="page == 'list' && obj.cardSign=='Y'"></span>
-          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.custodyStatus=='P00'">设为主卡</span>
+          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.custodyStatus=='B01'" >设为主卡</span>
           <span class="g-back user" v-else-if="obj.cardSign=='Y'"></span>
         </h4>
-        <p>136****0678</p>
+        <!-- <p>136****0678</p> -->
       </dd>
     </dl>
     <div class="bank-num g-cen-y g-border" v-if="obj.async">
@@ -25,16 +25,16 @@
     </div>
 
     <!-- 页脚底部 - 认证状态 -->
-    <p class="text g-cen-y yes" v-if="obj.custodyStatus=='P02'">
+    <p class="text g-cen-y yes" v-if="obj.bindStatus=='B02'">
       <i></i>
       <router-link to="/bank/accountDetails" v-if="page!=''">华夏银行存管保障中</router-link>
       <span v-else>华夏银行存管保障中</span>
     </p>
-    <p class="text g-cen-y etc" v-else-if="obj.custodyStatus=='P01'">
+    <p class="text g-cen-y etc" v-else-if="obj.bindStatus=='B01'">
       <i></i>
       <span>银行存管认证中</span>
     </p>
-    <p class="text g-cen-y no" v-else-if="obj.custodyStatus=='P00'">
+    <p class="text g-cen-y no" v-else-if="obj.bindStatus=='B03'">
       <i></i>
       <span>银行存管尚未认证</span>
     </p>

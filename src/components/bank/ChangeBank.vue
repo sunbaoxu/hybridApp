@@ -178,9 +178,11 @@ export default {
     queryAcountCardList () {
       let obj =  globalFn.concatObj({});
       api.queryAcountCardList(obj).then((res) =>{
+        console.log(res)
+        //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          this.arr = this.res.bankCards;
+          this.arr = res.bankCards;
           this.arr.map((m,i)=>{
             if(m.cardNo.length == 16){
               m['async'] =true;
@@ -208,7 +210,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       let obj =  globalFn.concatObj({
-        backUrl : 'http://192.168.94.24:8080/bank/changeBank'
+        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
       });
       api.addBankCard(obj).then((res) =>{
         if(res.respCode =='000'){
@@ -228,7 +230,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       let obj =  globalFn.concatObj({
-        backUrl : 'http://192.168.94.24:8080/bank/changeBank'
+        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
       });
       api.openAcount(obj).then((res) =>{;;;
         if(res.respCode =='000'){
