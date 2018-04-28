@@ -243,7 +243,14 @@ export default {
         fenNper = this.planObj.highNper
       } else{
         fenNper =0;
-      }
+      };
+
+      //避免点击返回键，再次进入
+      // localStorage.removeItem(`${this.planObj.id}-xueAsync`);
+      // localStorage.removeItem(`${this.planObj.id}-fuwuAsync1`);
+      // localStorage.removeItem(`${this.planObj.id}-fuwuAsync2`);
+      // localStorage.removeItem(`${this.planObj.id}-asideFuObj`);
+      // localStorage.removeItem(`${this.planObj.id}-asideXueObj`);
 
       this.$router.push({path:'/order/orderConfirm',query:{
         "bpcId"       :this.planObj.id,
