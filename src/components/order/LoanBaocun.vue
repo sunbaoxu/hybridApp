@@ -67,7 +67,7 @@ export default {
         
       } 
       else if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.relationIdCard))) {
-        // !(/(^(\\d{14}|\\d{17})(\\d|[X])$)/.test(this.relationIdCard))
+        // !(/(^(\d{14}|\d{17})(\d|[X])$)/.test(this.relationIdCard))
         this.setToastObj({
           async:true,
           respMesg:'身份证号输入不正确'
