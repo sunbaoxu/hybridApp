@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrap" >
+  <div class="account-wrap" ref="wrap" :class="{'on':heightAsync}">
     <div class="account-main">
       <section class="box">
         <ul>
@@ -100,7 +100,7 @@
         </ul>
       </section>
     </div>
-    <footer class="footer-text">
+    <footer class="footer-text" ref="footerBox">
       <img src="/static/images/bank/footer-huaxia.png">
     </footer>
   </div>
@@ -114,7 +114,8 @@ export default {
   name: 'bank',
   data () {
     return {
-      obj :{}
+      obj :{},
+      heightAsync :false
     }
   },
   methods : {
@@ -135,19 +136,31 @@ export default {
       },(error)=>{
         console.log(error);
       });
-    }
+    },
+    //判断设备高度
+    getHeight () {
+      let H = document.documentElement.clientHeight,
+          h = this.$refs.wrap.clientHeight,
+          fh= this.$refs.footerBox.scrollHeight ;
 
+          if(h>=H-fh){
+            this.heightAsync =true;
+            this.$refs.wrap.style.paddingBottom=`${fh*2 + 40}px`;
+          }
+    }
   },
   mounted () {
     //查询存管账户信息接口
     this.queryCustodyAccInfo();
+    this.getHeight();
   }
 }
 </script>
 <style lang="scss" scoped>
 .account-wrap{
-  position: relative;
-  min-height: 1136px;
+  &.on{
+    position: relative;
+  }
   &>.account-main{
     .box{
       background: $col-f;
@@ -188,7 +201,10 @@ export default {
   }
   .footer-text{
     padding:40px 30px;
-    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    left:0;
+    width:100%;
     img{
       display: block;
       width: 100%;
