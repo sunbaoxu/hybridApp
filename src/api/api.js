@@ -78,5 +78,9 @@ export default {
   
   //查询存管账户信息接口
   queryCustodyAccInfo(params) {return fetch('userAcountController/queryCustodyAccInfo', params,'post')},
+  //修改
+  changeAccountPwd(params) {return fetch('userAcountController/changeAccountPwd', params,'post')},
+  //重置
+  resetAccountPwd(params) {return fetch('userAcountController/resetAccountPwd', params,'post')},
 
 }

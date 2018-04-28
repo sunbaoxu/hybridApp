@@ -25,8 +25,8 @@
           <li>
             <span>交易密码</span>
             <span class="g-cen-y">
-              <a :href="obj.updateUrl">修改</a>
-              <a :href="obj.resetUrl">重置</a>
+              <b @click="changeAccountPwd">修改</b>
+              <b @click="resetAccountPwd">重置</b>
             </span>
           </li>
         </ul>
@@ -55,11 +55,11 @@
           </li>
           <li>
             <span>开户时间</span>
-            <span>231123123？23423</span>
+            <span v-if="obj.othInfos">{{obj.othInfos[0].othInfoMesg}}</span>
           </li>
           <li>
             <span>签约时间</span>
-            <span>dsfaa56456</span>
+            <span v-if="obj.othInfos">{{obj.othInfos[1].othInfoMesg}}</span>
           </li>
           <!-- <li>
             <span>是否授权放款</span>
@@ -120,6 +120,13 @@ export default {
   },
   methods : {
     ...mapActions(['setToastObj','setLodingAsync']),
+    //初始化
+    init () {
+      //查询存管账户信息接口
+      this.queryCustodyAccInfo();
+      //判断设备高度
+      this.getHeight();
+    },
     //查询存管账户信息接口
     queryCustodyAccInfo () {
       let obj =  globalFn.concatObj({});
@@ -130,6 +137,48 @@ export default {
         this.setLodingAsync(false);
         if(res.respCode =='000'){
           this.obj =res;
+        } else{ 
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    },
+    //修改
+    changeAccountPwd () {
+      let obj =  globalFn.concatObj({
+        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
+      });
+      //显示loading
+      this.setLodingAsync(true);
+      api.changeAccountPwd(obj).then((res) =>{
+        
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+
+          console.log(res)
+          location.href = res.openUrl;
+          // this.obj =res;
+        } else{ 
+          this.setToastObj({async:true,respMesg:res.respMesg});
+        }
+      },(error)=>{
+        console.log(error);
+      });
+    },
+    //重置
+    resetAccountPwd () {
+      let obj =  globalFn.concatObj({
+        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
+      });
+      //显示loading
+      this.setLodingAsync(true);
+      api.resetAccountPwd(obj).then((res) =>{
+        console.log(res)
+        this.setLodingAsync(false);
+        if(res.respCode =='000'){
+          location.href = res.openUrl;
+          // this.obj =res;
         } else{ 
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -150,9 +199,7 @@ export default {
     }
   },
   mounted () {
-    //查询存管账户信息接口
-    this.queryCustodyAccInfo();
-    this.getHeight();
+    this.init();
   }
 }
 </script>
@@ -185,7 +232,7 @@ export default {
           color:$col-blue;
           margin-left:10px;
         }
-        a{
+        b{
           border:1px solid $col-blue;
           height: 44px;
           width: 110px;
