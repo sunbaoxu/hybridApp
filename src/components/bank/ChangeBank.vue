@@ -1,9 +1,11 @@
 <template>
-  <div class="bank-wrap" >
+  <div class="bank-wrap">
     <!-- 提醒文字 -->
-    <section class="remind-box">
+    <section class="remind-box" v-for="(m,i) in 2" :key="i" :class="{'remind-box1':i==1}">
       <p class="icon-box"><i class="iconfont icon-tixing"></i></p>
-      <p class="text-box">您已经开通华夏银行存管账户，并绑定以下银行卡，请选择一张您的常用银行卡，补全银行卡信息进行认证。认证成功的银行卡将作为您的还款银行卡。</p>
+      <p class="text-box" v-if="arr.length >0">您已经开通华夏银行存管账户，并绑定以下银行卡，请选择一张您的常用银行卡，补全银行卡信息进行认证。认证成功的银行卡将作为您的还款银行卡。</p>
+      <p class="text-box" v-else>请添加一张您本人名下的常用储蓄卡，并设定为您的主卡。
+目前支持的银行共9家包括：中国银行、工商银行、建设银行、交通银行、中信银行、兴业银行、光大银行、邮政储蓄、广发银行。</p>
     </section>
     <!-- 银行卡列表 -->
     <section class="bank-box">
@@ -245,7 +247,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bank-wrap{
-  padding-top:140px;
+  // padding-top:140px;
   .remind-box{
     padding:20px 30px;
     background:$col-yel;
@@ -256,6 +258,9 @@ export default {
     top:0;
     width: 100%;
     z-index: 5;
+    &.remind-box1{
+      position: relative;
+    }
     .icon-box{
       padding-right:20px;
       i{

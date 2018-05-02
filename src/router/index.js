@@ -57,7 +57,7 @@ let router = new Router({
     //商家列表
     {path: '/business/shangList',name: '商家列表',component: ShangList,meta:{title:'商品列表'}},
     //商家详情
-    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail,meta:{title:'分期详情'}},
+    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail,meta:{title:'分期申请'}},
 
 
     //订单
@@ -103,19 +103,19 @@ export {router};
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
-  if(to.name == '订单状态'){
-    window.LabiWinJSI.backNative('backNative');
-    window.LabiWinJSI.showList('show');
+  // if(to.name == '订单状态'){
+  //   window.LabiWinJSI.backNative('backNative');
+  //   window.LabiWinJSI.showList('show');
     
-  } else{
-    window.LabiWinJSI.backNative('backWeb');
-    window.LabiWinJSI.showList('hide');
-  }
-  //遍历meta改变title
-  if (to.meta.title) {
-    window.LabiWinJSI.setNativeTitle(to.meta.title);
-    document.title = to.meta.title;
-  }
+  // } else{
+  //   window.LabiWinJSI.backNative('backWeb');
+  //   window.LabiWinJSI.showList('hide');
+  // }
+  // //遍历meta改变title
+  // if (to.meta.title) {
+  //   window.LabiWinJSI.setNativeTitle(to.meta.title);
+  //   document.title = to.meta.title;
+  // }
   //执行
   next();
 });
