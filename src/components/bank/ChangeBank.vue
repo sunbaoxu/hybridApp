@@ -227,6 +227,7 @@ export default {
         if(res.respCode =='000'){
           this.alertAsync = false;
           this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
+          this.queryAcountCardList()
         } else{
           console.log(res)
           this.alertAsync = false;
