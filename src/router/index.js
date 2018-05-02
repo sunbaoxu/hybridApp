@@ -77,19 +77,19 @@ let router = new Router({
 
     //银行卡
     //银行卡list 页
-    {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank,meta:{title:'银行卡列表'}},
+    {path: '/bank/changeBank',name: '设定主卡',component: ChangeBank,meta:{title:'设定主卡'}},
     //我的主卡
-    {path: '/bank/userBank',name: '我的主卡',component: UserBank,meta:{title:'分期详情'}},
+    {path: '/bank/userBank',name: '我的主卡',component: UserBank,meta:{title:'我的主卡'}},
     //账户信息
-    {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails,meta:{title:'分期详情'}},
+    {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails,meta:{title:'账户信息'}},
 
 
     //保存借款信息
-    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun,meta:{title:'分期详情'}},
+    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun,meta:{title:'保存借款信息'}},
     //协议页
-    {path: '/agreement',name: 'agreement',component: Agreement,meta:{title:'分期详情'}},
+    {path: '/agreement',name: 'agreement',component: Agreement,meta:{title:'协议列表'}},
     //上传照片
-    {path: '/uploadeImg',name: '上传照片',component: UploadeImg,meta:{title:'分期详情'}},
+    {path: '/uploadeImg',name: '上传照片',component: UploadeImg,meta:{title:'上传照片'}},
 
 
     //404
@@ -103,19 +103,19 @@ export {router};
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
-  if(to.name == '订单状态'){
-    window.LabiWinJSI.backNative('backNative');
-    window.LabiWinJSI.showList('show');
+  // if(to.name == '订单状态'){
+  //   window.LabiWinJSI.backNative('backNative');
+  //   window.LabiWinJSI.showList('show');
     
-  } else{
-    window.LabiWinJSI.backNative('backWeb');
-    window.LabiWinJSI.showList('hide');
-  }
-  //遍历meta改变title
-  if (to.meta.title) {
-    window.LabiWinJSI.setNativeTitle(to.meta.title);
-    document.title = to.meta.title;
-  }
+  // } else{
+  //   window.LabiWinJSI.backNative('backWeb');
+  //   window.LabiWinJSI.showList('hide');
+  // }
+  // //遍历meta改变title
+  // if (to.meta.title) {
+  //   window.LabiWinJSI.setNativeTitle(to.meta.title);
+  //   document.title = to.meta.title;
+  // }
   //执行
   next();
 });
