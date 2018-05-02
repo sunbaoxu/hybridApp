@@ -53,47 +53,47 @@ let router = new Router({
   routes: [
     //商家
     //商家推荐码
-    {path: '/business/shangCode',name: '商家推荐码',component: ShangCode},
+    {path: '/business/shangCode',name: '商家推荐码',component: ShangCode,meta:{title:'商家推荐码'}},
     //商家列表
-    {path: '/business/shangList',name: '商家列表',component: ShangList},
+    {path: '/business/shangList',name: '商家列表',component: ShangList,meta:{title:'商品列表'}},
     //商家详情
-    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail},
+    {path: '/business/shangDetail',name: '商家详情',component: ShangDetail,meta:{title:'分期详情'}},
 
 
     //订单
     //确认订单
-    {path: '/order/orderConfirm',name: '确认订单',component: ConfirmOrder},
+    {path: '/order/orderConfirm',name: '确认订单',component: ConfirmOrder,meta:{title:'确认订单'}},
     //订单状态
-    {path: '/order/orderState',name: '订单状态',component: OrderState},
+    {path: '/order/orderState',name: '订单状态',component: OrderState,meta:{title:'订单详情'}},
     //订单详情
-    {path: '/order/orderDetail',name: '订单详情',component: OrderDetail},
+    {path: '/order/orderDetail',name: '订单详情',component: OrderDetail,meta:{title:'还款详情'}},
     //还款记录
-    {path: '/order/orderRecord',name: '订单还款记录',component: OrderRecord},
+    {path: '/order/orderRecord',name: '订单还款记录',component: OrderRecord,meta:{title:'还款记录详情'}},
 
 
     //划扣 支付结果页
-    {path: '/order/delimitState',name: '划扣结果',component: DelimitState},
+    {path: '/order/delimitState',name: '划扣结果',component: DelimitState,meta:{title:'支付结果'}},
 
 
     //银行卡
     //银行卡list 页
-    {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank},
+    {path: '/bank/changeBank',name: '银行卡列表',component: ChangeBank,meta:{title:'银行卡列表'}},
     //我的主卡
-    {path: '/bank/userBank',name: '我的主卡',component: UserBank},
+    {path: '/bank/userBank',name: '我的主卡',component: UserBank,meta:{title:'分期详情'}},
     //账户信息
-    {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails},
+    {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails,meta:{title:'分期详情'}},
 
 
     //保存借款信息
-    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun},
+    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun,meta:{title:'分期详情'}},
     //协议页
-    {path: '/agreement',name: 'agreement',component: Agreement},
+    {path: '/agreement',name: 'agreement',component: Agreement,meta:{title:'分期详情'}},
     //上传照片
-    {path: '/uploadeImg',name: '上传照片',component: UploadeImg},
+    {path: '/uploadeImg',name: '上传照片',component: UploadeImg,meta:{title:'分期详情'}},
 
 
     //404
-    {path: '*',name: '404',component: ShangCode},
+    {path: '*',name: '404',component: ShangCode,meta:{title:'商家推荐码'}},
 
   ]
 });
@@ -110,6 +110,12 @@ router.beforeEach((to, from, next) => {
   //   window.LabiWinJSI.backNative('backWeb');
   //   window.LabiWinJSI.showList('hide');
   // }
+  //遍历meta改变title
+  console.log(to)
+  if (to.meta.title) {
+    console.log(to.meta.title)
+    document.title = to.meta.title
+  }
   //执行
   next();
 });
