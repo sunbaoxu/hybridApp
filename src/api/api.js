@@ -12,7 +12,7 @@ export default {
 
   
   //学贷下订单
-  loanInstallOrder(params) {return fetch('rulecheckController/loanInstallOrder', params,'post')},
+  loanInstallOrderXf(params) {return fetch('rulecheckController/loanInstallOrderXf', params,'post')},
 
   //上传确认函 -  改为上传照片
   uploadConfirmation(params) {return fetch('/beforeOrder/uploadConfirmationNew', params,'post')},

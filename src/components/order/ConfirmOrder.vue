@@ -290,7 +290,7 @@ export default {
       });
       //显示loading
       this.setLodingAsync(true);
-      this.loanInstallOrder(obj);
+      this.loanInstallOrderXf(obj);
     },
     //确定提交订单
     clickBtnFn () {
@@ -323,8 +323,8 @@ export default {
       });
     },
     //学贷下订单
-    loanInstallOrder (obj) {
-      api.loanInstallOrder(obj).then((res) =>{
+    loanInstallOrderXf (obj) {
+      api.loanInstallOrderXf(obj).then((res) =>{
         if(res.respCode =='000'){
           //成功后上传图片 为空
           this.setUploadImg('');

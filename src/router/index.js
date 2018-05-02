@@ -103,19 +103,19 @@ export {router};
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next);
-  // if(to.name == '订单状态'){
-  //   window.LabiWinJSI.backNative('backNative');
-  //   window.LabiWinJSI.showList('show');
+  if(to.name == '订单状态'){
+    window.LabiWinJSI.backNative('backNative');
+    window.LabiWinJSI.showList('show');
     
-  // } else{
-  //   window.LabiWinJSI.backNative('backWeb');
-  //   window.LabiWinJSI.showList('hide');
-  // }
-  // //遍历meta改变title
-  // if (to.meta.title) {
-  //   window.LabiWinJSI.setNativeTitle(to.meta.title);
-  //   document.title = to.meta.title;
-  // }
+  } else{
+    window.LabiWinJSI.backNative('backWeb');
+    window.LabiWinJSI.showList('hide');
+  }
+  //遍历meta改变title
+  if (to.meta.title) {
+    window.LabiWinJSI.setNativeTitle(to.meta.title);
+    document.title = to.meta.title;
+  }
   //执行
   next();
 });
