@@ -172,7 +172,7 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       let obj =  globalFn.concatObj({
-        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
+        backUrl : `${location.origin}/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
       });
       api.addBankCard(obj).then((res) =>{
         if(res.respCode =='000'){

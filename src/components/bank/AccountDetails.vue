@@ -146,18 +146,14 @@ export default {
     //修改
     changeAccountPwd () {
       let obj =  globalFn.concatObj({
-        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
+        backUrl : `${location.origin}/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
       });
       //显示loading
       this.setLodingAsync(true);
       api.changeAccountPwd(obj).then((res) =>{
-        
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-
-          console.log(res)
           location.href = res.openUrl;
-          // this.obj =res;
         } else{ 
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -168,16 +164,14 @@ export default {
     //重置
     resetAccountPwd () {
       let obj =  globalFn.concatObj({
-        backUrl : `http://192.168.94.24:8080/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
+        backUrl : `${location.origin}/bank/changeBank?loginPhone=${globalFn.concatObj({}).loginPhone}&token=${globalFn.concatObj({}).token}`
       });
       //显示loading
       this.setLodingAsync(true);
       api.resetAccountPwd(obj).then((res) =>{
-        console.log(res)
         this.setLodingAsync(false);
         if(res.respCode =='000'){
           location.href = res.openUrl;
-          // this.obj =res;
         } else{ 
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
