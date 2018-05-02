@@ -7,17 +7,17 @@ function getmd5(str) {
 function concatObj(res) {
   // {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"eee7e5826cc84373bad760de67afbd95","reqTime":"2018-05-02 17:06:04","sign":"15b8259804f077855e6568d30478b051","QRcode":"trda001","baseUrl":"https://39.107.59.6/gateway2server/"}
 
-  // let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
+  let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
 
-  let loginPhone = '18703421287' ,
-      token      = '64955775833e4b0b835d35361f8f163f';
+  // let loginPhone = '18703421287' ,
+  //     token      = '64955775833e4b0b835d35361f8f163f';
 
   
   // let loginPhone = '15133303272' ,
   //     token      = 'eee7e5826cc84373bad760de67afbd95';
 
-  // let loginPhone = GetRequestObjs.loginPhone ,
-  //     token      = GetRequestObjs.token;
+  let loginPhone = GetRequestObjs.loginPhone ,
+      token      = GetRequestObjs.token;
 
   let   reqTime    = getFormateDate(),
         sign       = getmd5(loginPhone+reqTime);
@@ -32,8 +32,8 @@ function concatObj(res) {
     sign
   }
 
-  // Object.assign(obj,res,GetRequestObjs);
-  Object.assign(obj,res);
+  Object.assign(obj,res,GetRequestObjs);
+  // Object.assign(obj,res);
 
   return obj;
 }
