@@ -7,7 +7,7 @@
     </section>
     <!-- 银行卡列表 -->
     <section class="bank-box">
-      <bank-box class="list-box" page='list' v-for="(m,i) in arr" :key="i" :obj="m" @userBtn="userBtn"></bank-box>
+      <bank-box class="list-box" v-for="(m,i) in arr" :key="i" :obj="m" @userBtn="userBtn"></bank-box>
     </section>
     <!-- 添加银行卡 -->
     <section class="add-bank g-fen-cen-box" @click="addBankCard">

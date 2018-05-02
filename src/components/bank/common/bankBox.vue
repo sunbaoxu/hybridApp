@@ -5,8 +5,8 @@
       <dd>
         <h4 class="g-fen-cen">
           <span>{{obj.bankName}}</span>
-          <span class="g-back user" @click.stop="userBtn(obj)" v-if="page == 'list' && obj.cardSign=='Y' && obj.bindStatus=='B01'"></span>
-          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="page == 'list' && obj.bindStatus=='B01'" >设为主卡</span>
+          <span class="g-back user" @click.stop="userBtn(obj)" v-if="obj.cardSign=='Y' && obj.bindStatus=='B01'"></span>
+          <span class="g-back no"   @click.stop="userBtn(obj)" v-else-if="obj.bindStatus=='B01'" >设为主卡</span>
           <span class="g-back user" v-else-if="obj.cardSign=='Y'"></span>
         </h4>
         <!-- <p>136****0678</p> -->
@@ -27,8 +27,8 @@
     <!-- 页脚底部 - 认证状态 -->
     <p class="text g-cen-y yes" v-if="obj.bindStatus=='B02'">
       <i></i>
-      <router-link to="/bank/accountDetails" v-if="page!=''">华夏银行存管保障中</router-link>
-      <span v-else>华夏银行存管保障中</span>
+      <!-- <router-link to="/bank/accountDetails" v-if="page!=''">华夏银行存管保障中</router-link> -->
+      <span>华夏银行存管保障中</span>
     </p>
     <p class="text g-cen-y etc" v-else-if="obj.bindStatus=='B01'">
       <i></i>
@@ -44,10 +44,6 @@
 <script>
 export default {
   props:{
-    page : {
-      type:String,
-      default : ''
-    },
     obj : {
       type:Object,
       default:function(){return {}}
@@ -56,8 +52,11 @@ export default {
   methods : {
     //跳转我的主卡页
     routerFn () {
-      if(this.page == 'list' && this.obj.cardSign=='Y'){
-        this.$router.push('/bank/userBank');
+      // if(this.page == 'list' && this.obj.cardSign=='Y'){
+      //   this.$router.push('/bank/userBank');
+      // }
+      if(this.obj.cardSign=='Y'){
+        this.$router.push('/bank/accountDetails');
       }
     },
     //点击我的主卡按钮
