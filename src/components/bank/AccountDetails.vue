@@ -8,11 +8,11 @@
           </li>
           <li>
             <span>账户状态</span>
-            <span class="g-cen-y">{{obj.accountStatus}}<i class="iconfont icon-dui1"></i></span>
+            <span class="g-cen-y">{{obj.accountMesg}}</span>
           </li>
           <li>
             <span>账户类型</span>
-            <span>{{obj.accountType}}</span>
+            <span>{{obj.accountTypeMesg}}</span>
           </li>
           <li>
             <span>存管账户</span>
@@ -133,7 +133,6 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.queryCustodyAccInfo(obj).then((res) =>{
-        console.log(res)
         this.setLodingAsync(false);
         if(res.respCode =='000'){
           this.obj =res;

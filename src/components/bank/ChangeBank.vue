@@ -67,8 +67,6 @@ export default {
       input4 :'',
       alertAsync : false, //脱敏
       stateAsync : false,//状态
-      res : {
-      },
       bankObj : {}
     }
   },
@@ -143,7 +141,6 @@ export default {
     queryAcountCardList () {
       let obj =  globalFn.concatObj({});
       api.queryAcountCardList(obj).then((res) =>{
-        console.log(res)
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
@@ -223,18 +220,17 @@ export default {
       //显示loading
       this.setLodingAsync(true);
       api.acountCertified(obj).then((res) =>{
-        this.setLodingAsync(false);
         if(res.respCode =='000'){
           this.alertAsync = false;
           this.setToastObj({async:true,respMesg:'恭喜！银行卡主卡设置成功'});
-          this.queryAcountCardList()
+          //银行卡列表
+          this.queryAcountCardList();
         } else{
-          console.log(res)
+          this.setLodingAsync(false);
           this.alertAsync = false;
           this.stateAsync = true;
         }
       },(error)=>{
-        console.log(error);
         this.setLodingAsync(false);
         this.alertAsync = false;
         this.stateAsync = true;
