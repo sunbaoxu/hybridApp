@@ -147,6 +147,7 @@ export default {
         }
         h4{
           font-size: 24px;
+          width:60%;
         }
         div{
           display: flex;

@@ -32,7 +32,7 @@ export default {
     //用户输入内容
     changFn () {
       //含有特殊字符 ，替换掉
-      this.text = this.text.replace(/[^u4e00-u9fa5w]/g,'');
+      this.text = this.text.replace(/[^\w\/]/ig,'');
       if(this.text.length >=6 && this.text.length <=11){
         this.btnAsync = true;
       } else{
