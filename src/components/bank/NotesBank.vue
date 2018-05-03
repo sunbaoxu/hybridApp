@@ -68,11 +68,11 @@ export default {
     padding:0 30px;
     color:$col-3;
     h6{
-      font-size: 12px;
+      font-size: 24px;
       line-height: 60px;
     }
     p{
-      font-size: 12px;
+      font-size: 24px;
       line-height: 40px;
       padding-bottom: 20px;
     }
@@ -99,7 +99,7 @@ export default {
       button{
         background: $col-red;
         width: 100%;
-        height: 80px;
+        height: 100px;
         color:$col-f;
         font-size: 24px;
         border:0;

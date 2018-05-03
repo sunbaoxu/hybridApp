@@ -1,5 +1,5 @@
 <template>
-  <div class="bank-wrap">
+  <div class="bank-wrap" :class="{'on':pageAsync}">
     <!-- 提醒文字 -->
     <section class="remind-box" v-for="(m,i) in 2" :key="i" :class="{'remind-box1':i==1}">
       <p class="icon-box"><i class="iconfont icon-tixing"></i></p>
@@ -69,6 +69,7 @@ export default {
       input4 :'',
       alertAsync : false, //脱敏
       stateAsync : false,//状态
+      pageAsync : false,
       bankObj : {}
     }
   },
@@ -201,6 +202,8 @@ export default {
         if(res.respCode =='000'){
           //已开户
           if(res.status =='1'){
+            //显示页面
+            this.pageAsync = true;
             //银行卡列表
             this.queryAcountCardList();
           } 
@@ -249,7 +252,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bank-wrap{
-  // padding-top:140px;
+  opacity: 0;
+  &.on{
+    opacity: 1;
+  }
   .remind-box{
     padding:20px 30px;
     background:$col-yel;
