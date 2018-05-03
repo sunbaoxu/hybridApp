@@ -513,14 +513,15 @@ export default {
     height: 10px;
     .el-slider__bar{
       height: 100%;
+      background:$col-blue;
     }
     .el-slider__button-wrapper{
-      width:26px;
-      height: 26px;
-      top:-10px;
+      width:40px;
+      height: 40px;
+      top:-14px;
       .el-slider__button{
-        height:34px;
-        width:34px;
+        height:40px;
+        width:40px;
         background:url('/static/images/slide-icon.png') no-repeat center center;
         background-size:100%;
         border:none;
