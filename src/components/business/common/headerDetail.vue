@@ -8,7 +8,7 @@
         </dd>
       </dl>
       <p class="text" :class="{'g-text-ove2':!moreAsync}">{{obj.remark}}</p>
-      <p class="more g-cen-cen" @click="clickMore">
+      <p class="more g-cen-cen" @click="clickMore" >
         <i class="iconfont icon-jiao-bot" :class="{'on':!moreAsync}"></i>
         <span>{{moreText}}</span>
       </p>
