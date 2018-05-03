@@ -5,12 +5,12 @@ function getmd5(str) {
 }
 //参数合并
 function concatObj(res) {
-  // {"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"15133303272","token":"eee7e5826cc84373bad760de67afbd95","reqTime":"2018-05-02 17:06:04","sign":"15b8259804f077855e6568d30478b051","QRcode":"trda001","baseUrl":"https://39.107.59.6/gateway2server/"}
+  // {"source":"my","chanName":"website","chanType":"APP4.11.6","entranceID":"41","loginPhone":"18700086649","reqTime":"2018-05-03 15:05:09","sign":"c528a1827896eda33630291b5fca1830","token":"63ad4de38a324a4a8844de7d86b10049"}
 
   let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
 
-  // let loginPhone = '18703421287' ,
-  //     token      = '64955775833e4b0b835d35361f8f163f';
+  // let loginPhone = '18700086649' ,
+  //     token      = '63ad4de38a324a4a8844de7d86b10049';
 
   
   // let loginPhone = '15133303272' ,

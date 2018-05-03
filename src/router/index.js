@@ -44,6 +44,8 @@ const ChangeBank    = resolve => require(['@/components/bank/ChangeBank.vue'], r
 const UserBank    = resolve => require(['@/components/bank/UserBank.vue'], resolve);
 //账户信息
 const AccountDetails    = resolve => require(['@/components/bank/AccountDetails.vue'], resolve);
+//存管账户授权确认
+const NotesBank    = resolve => require(['@/components/bank/NotesBank.vue'], resolve);
 
 
 Vue.use(Router);
@@ -82,6 +84,8 @@ let router = new Router({
     {path: '/bank/userBank',name: '我的主卡',component: UserBank,meta:{title:'我的主卡'}},
     //账户信息
     {path: '/bank/accountDetails',name: '账户信息',component: AccountDetails,meta:{title:'账户信息'}},
+    //存管账户授权确认
+    {path: '/bank/notesBank',name: '存管账户授权确认',component: NotesBank,meta:{title:'存管账户授权确认'}},
 
 
     //保存借款信息

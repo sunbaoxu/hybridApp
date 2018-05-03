@@ -180,7 +180,8 @@ export default {
         if(res.respCode =='000'){
           this.setLodingAsync(false);
           //跳转到 玖富绑卡页
-          location.href = res.openUrl;
+          this.$router.push({path:'/bank/notesBank',query:{url:res.openUrl}});
+          // location.href = res.openUrl;
         } else{
           this.setLodingAsync(false);
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -207,7 +208,8 @@ export default {
           else if(res.status =='2'){
             this.setLodingAsync(false);
             //跳转到 玖富绑卡页
-            location.href = res.openUrl;
+            this.$router.push({path:'/bank/notesBank',query:{url:res.openUrl}});
+            // location.href = res.openUrl;
           }
         } else{
           this.setLodingAsync(false);
