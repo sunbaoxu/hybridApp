@@ -20,7 +20,10 @@
       </P>
     </section>
     <section class="btn-box">
-      <button :class="{'on': relationship!='' && relationName!='' && relationPhone!='' && relationIdCard!=''}" @click="submit" :disabled="relationship=='' && relationName=='' && relationPhone=='' && relationIdCard==''">保存</button>
+      <button 
+        :class="{'on': relationship!='' && relationName!='' && relationPhone!='' && relationIdCard!=''}" 
+        @click="submit" :disabled="relationship=='' && relationName=='' && relationPhone=='' && relationIdCard==''"
+      >{{$route.query.relationPhone!=''||$route.query.relationName!=''||$route.query.relationship!=''||$route.query.relationIdCard!='' ?'更换':'保存'}}</button>
     </section>
     <section class="text-box">
       <h4>温馨提示：</h4>

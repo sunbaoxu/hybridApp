@@ -7,10 +7,7 @@
           <p class="g-text-ove1">商家地址：{{obj.orgAddrDetailed}}</p>
         </dd>
       </dl>
-      <p  
-        class="text"
-        :class="{'g-text-ove2':!moreAsync}"
-      >{{obj.remark}}</p>
+      <p class="text" :class="{'g-text-ove2':!moreAsync}">{{obj.remark}}</p>
       <p class="more g-cen-cen" @click="clickMore">
         <i class="iconfont icon-jiao-bot" :class="{'on':!moreAsync}"></i>
         <span>{{moreText}}</span>
