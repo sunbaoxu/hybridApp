@@ -3,8 +3,8 @@
     <p>
       <input 
         type="text" 
-        placeholder="请输入商家推荐码" 
-        v-model="text" 
+        placeholder="请输入推荐码(6-11位字母或数字)" 
+        v-model="text"
         v-on:input ="changFn"
         maxlength="11">
         <i class="iconfont icon-guanbi guan" @click="text =''" :class="{'on':text!=''}"></i>
@@ -31,6 +31,8 @@ export default {
     ...mapActions(['setToastObj','setLodingAsync']),
     //用户输入内容
     changFn () {
+      //含有特殊字符 ，替换掉
+      this.text = this.text.replace(/[^u4e00-u9fa5w]/g,'');
       if(this.text.length >=6 && this.text.length <=11){
         this.btnAsync = true;
       } else{
