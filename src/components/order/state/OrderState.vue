@@ -1,172 +1,176 @@
 <template>
-  <div class="state-wrap" :style="{'transform': 'translate(0,-'+startY+'px)'}">
-    <!-- 下拉刷新 -->
-    <down-refresh class="refresh-box" ref="refreshID" @moveRefresh="moveRefresh" @endRefresh="endRefresh"></down-refresh>
-    <!-- 协议是否显示 -->
-    <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}" @click="agreementFn">
-      <i class="iconfont icon-tixing"></i><span>查看协议</span>
-    </p>
-    <!-- 头部主体内容 -->
-    <header class="header-state">
-      <!-- 订单 信息 -->
-      <section class="detail">
-        <dl>
-          <dt class="g-back" :style="{'background-image':'url('+obj.orgImgPath+')'}"></dt>
-          <dd>
-            <h4 class="g-fen-cen">
-              <span>{{obj.cName}}</span>
-              <span
-              :class="classFn(obj.retStatus)"
-              >{{obj.retMsg}}</span>
-            </h4>
-            <p class="bianhao">订单编号：{{obj.loanCode}}</p>
-            <p class="date">交易时间：{{obj.createDate}}</p>
-          </dd>
-        </dl>
-      </section>
-      <!-- 订单期数 -->
-      <section class="g-border qishu">
-        <ul class="g-fen-cen">
-          <li class="g-col-cen-cen-box">
-            <span>分期期数</span>
-            <span>{{obj.totalNper}}期</span>
-          </li>
-          <li class="g-col-cen-cen-box">
-            <span>分期金额（元）</span>
-            <span>￥{{obj.loanMoney}}</span>
-          </li>
-          <li class="g-col-cen-cen-box">
-            <span>个人还款期数</span>
-            <span>{{obj.personalNper}}期</span>
-          </li>
-        </ul>
-      </section>
-      <!-- 订单逾期 -->
-      <section class="yuqi g-fen-cen" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
-        <span>当前应还（元）：</span>
-        <span>￥{{obj.totalRetAmt}}</span>
-      </section>
-      <!-- 订单结算 -->
-      <section class="jiesuan g-fen-cen" v-else-if="obj.retStatus =='7'">
-        <span class="g-cen-y"><i class="iconfont icon-jie"></i>结算证明</span>
-        <span>下载</span>
-      </section>
-    </header>
-    <main class="main-state">
-      <section class="huankuan">
-        <ul>
-          <li v-if="orderObj.scheduleFlag =='0'">
-            <div class="g-cen-y" @click="clickAsyncFn('按期','onTimeType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='按期','icon-dui':asyncText !='按期'}"></i></div>
-            <div class="g-col-cen-y">
-              <p class="g-fen-x">
-                <span class="g-cen-y">按期还款<i v-if="orderObj.overFlag =='0'">已逾期</i></span>
-                <span class="hui">￥{{orderObj.scheduleAmt}}</span>
-              </p>
-              <p class="g-fen-x">
-                <span>账单已逾期，快去还款吧</span>
-                <span>共{{orderObj.scheduleNper}}期</span>
-              </p>
-            </div>
-          </li>
-          <li v-if="orderObj.settleFlag == '0'">
-            <div class="g-cen-y" @click="clickAsyncFn('提前','settleType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='提前','icon-dui':asyncText !='提前'}"></i></div>
-            <div class="g-col-cen-y">
-              <p class="g-fen-x">
-                <span>提前结清</span>
-                <span>￥1323.23</span>
-              </p>
-              <p class="g-fen-x">
-                <span>可提前结清所有借款</span>
-                <span>共9期</span>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </section>
-      <!-- 提示性文字 -->
-      <section class="tishi">
-        <h4>温馨提醒：</h4>
-        <p v-if="listAsync">{{orderObj.reasonMesg}}</p>
-        <p v-else>{{obj.notify}}</p>
-      </section>
-    </main>
-    <!-- 立即还款 -->
-    <footer class="footer-state footer-money" v-if="obj.retStatus =='4'|| obj.retStatus =='3'">
-      <!-- 逾期中 -->
-      <div class="g-col-cen-y" v-if="obj.retStatus =='4'">
-        <div class="g-fen-y" >
-          <p>
-            <span>待支付</span>
-            <span>￥{{orderObj.overdueTotalAmt}}</span>
-          </p>
-          <p @click="downDetail" class="g-cen-y">
-            详情<i class="iconfont icon-jiao-rig"></i>
-          </p>
+  <div class="state-wrap" >
+    <section :style="{'transform': 'translate(0,-'+startY+'px)'}" class="state-wrap-box">
+      <!-- 下拉刷新 -->
+      <down-refresh class="refresh-box" ref="refreshID" @moveRefresh="moveRefresh" @endRefresh="endRefresh"></down-refresh>
+      <!-- 协议是否显示 -->
+      <p class="xiyi g-cen-y" :class="{'on':obj.retStatus =='3' || obj.retStatus =='4'}" @click="agreementFn">
+        <i class="iconfont icon-tixing"></i><span>查看协议</span>
+      </p>
+      <!-- 头部主体内容 -->
+      <header class="header-state">
+        <!-- 订单 信息 -->
+        <section class="detail">
+          <dl>
+            <dt class="g-back" :style="{'background-image':'url('+obj.orgImgPath+')'}"></dt>
+            <dd>
+              <h4 class="g-fen-cen">
+                <span>{{obj.cName}}</span>
+                <span
+                :class="classFn(obj.retStatus)"
+                >{{obj.retMsg}}</span>
+              </h4>
+              <p class="bianhao">订单编号：{{obj.loanCode}}</p>
+              <p class="date">交易时间：{{obj.createDate}}</p>
+            </dd>
+          </dl>
+        </section>
+        <!-- 订单期数 -->
+        <section class="g-border qishu">
+          <ul class="g-fen-cen">
+            <li class="g-col-cen-cen-box">
+              <span>分期期数</span>
+              <span>{{obj.totalNper}}期</span>
+            </li>
+            <li class="g-col-cen-cen-box">
+              <span>分期金额（元）</span>
+              <span>￥{{obj.loanMoney}}</span>
+            </li>
+            <li class="g-col-cen-cen-box">
+              <span>个人还款期数</span>
+              <span>{{obj.personalNper}}期</span>
+            </li>
+          </ul>
+        </section>
+        <!-- 订单逾期 -->
+        <section class="yuqi g-fen-cen" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
+          <span>当前应还（元）：</span>
+          <span>￥{{obj.totalRetAmt}}</span>
+        </section>
+        <!-- 订单结算 -->
+        <section class="jiesuan g-fen-cen" v-else-if="obj.retStatus =='7'">
+          <span class="g-cen-y"><i class="iconfont icon-jie"></i>结算证明</span>
+          <span>下载</span>
+        </section>
+      </header>
+      <main class="main-state">
+        <section class="huankuan">
+          <ul>
+            <li v-if="orderObj.scheduleFlag =='0'">
+              <div class="g-cen-y" @click="clickAsyncFn('按期','onTimeType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='按期','icon-dui':asyncText !='按期'}"></i></div>
+              <div class="g-col-cen-y">
+                <p class="g-fen-x">
+                  <span class="g-cen-y">按期还款<i v-if="orderObj.overFlag =='0'">已逾期</i></span>
+                  <span class="hui">￥{{orderObj.scheduleAmt}}</span>
+                </p>
+                <p class="g-fen-x">
+                  <span>账单已逾期，快去还款吧</span>
+                  <span>共{{orderObj.scheduleNper}}期</span>
+                </p>
+              </div>
+            </li>
+            <li v-if="orderObj.settleFlag == '0'">
+              <div class="g-cen-y" @click="clickAsyncFn('提前','settleType')"><i class="iconfont" :class="{'icon-dui1 on':asyncText =='提前','icon-dui':asyncText !='提前'}"></i></div>
+              <div class="g-col-cen-y">
+                <p class="g-fen-x">
+                  <span>提前结清</span>
+                  <span>￥1323.23</span>
+                </p>
+                <p class="g-fen-x">
+                  <span>可提前结清所有借款</span>
+                  <span>共9期</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <!-- 提示性文字 -->
+        <section class="tishi" v-if="orderObj.reasonMesg !='' || obj.notify!=''">
+          <h4>温馨提醒：</h4>
+          <p v-if="listAsync">{{orderObj.reasonMesg}}</p>
+          <p v-else>{{obj.notify}}</p>
+        </section>
+      </main>
+    </section>
+    <section class="fixed-box">
+      <!-- 立即还款 -->
+      <footer class="footer-state footer-money" v-if="obj.retStatus =='4'|| obj.retStatus =='3'">
+        <!-- 逾期中 -->
+        <div class="g-col-cen-y" v-if="obj.retStatus =='4'">
+          <div class="g-fen-y" >
+            <p>
+              <span>待支付</span>
+              <span>￥{{orderObj.overdueTotalAmt}}</span>
+            </p>
+            <p @click="downDetail" class="g-cen-y">
+              详情<i class="iconfont icon-jiao-rig"></i>
+            </p>
+          </div>
+          <p>含逾期费 ￥{{orderObj.overAmt}}</p>
         </div>
-        <p>含逾期费 ￥{{orderObj.overAmt}}</p>
+        <!-- 还款中 -->
+        <div class="g-cen-y huan" v-else>
+          <span>待支付</span>
+          <span>￥{{obj.totalRetAmt}}</span>
+        </div>
+        <div>
+          <button @click="queryRepayMethod">立即还款</button>
+        </div>
+      </footer> 
+      <!-- 重新申请 -->
+      <footer class="footer-state" v-else-if="obj.retStatus =='5' ||obj.retStatus =='6' ||obj.retStatus =='7' ">
+        <button @click="routerFn">重新申请</button>
+      </footer>
+      <!-- 引入弹框组件 -->
+      <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
+        <h4 class="title">详情</h4>
+        <section class="box g-border">
+          <ul v-ScrollMove>
+            <li v-for="(m,i) in alertArr" :key="i">
+              <i class="xian"></i>
+              <h5 class="g-fen-cen">
+                <span><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
+                <span>{{m.overdueMess}}</span>
+              </h5>
+              <p>应还本息：{{m.retAmt}}元</p>
+              <p>逾期费用：{{m.overdueAmt}}元</p>
+            </li>
+          </ul>
+        </section>
+        <section class="money g-fen-cen">
+          <span>合计(含逾期费)</span>
+          <span>{{orderObj.overdueTotalAmt}}元</span>
+        </section>
+      </alert-back>
+      <!-- 银行卡 支付 -->
+      <div class="bank-back" v-if="bankAsync" @click.self="bankAsync =false">
+        <section class="main">
+          <h4 class="title g-border">还款确认</h4>
+          <div class="money-box">
+            <P>我已经确认并同意还款</P>
+            <p>17.26元</p>
+          </div>
+          <div class="from-box">
+            <p class="g-border1 g-fen-cen-box">
+              <span>还款方式</span>
+              <span>银行划扣</span>
+            </p>
+            <p class="g-border1 g-fen-cen-box">
+              <span>还款银行卡</span>
+              <span class="g-cen-y">
+                <i class="g-back" :style="{'background-image':'url('+bankObj.bankIcon+')'}"></i>
+                {{bankObj.bankName}}
+              </span>
+            </p>
+          </div>
+          <div class="btn-box">
+            <p>您本月还有<span>{{orderObj.availNum}}</span>次主动还款机会</p>
+            <p><button @click="submitFn">立即还款</button></p>
+          </div>
+          <div class="text-box">{{bankObj.warmMesg}}</div>
+        </section>
       </div>
-      <!-- 还款中 -->
-      <div class="g-cen-y huan" v-else>
-        <span>待支付</span>
-        <span>￥{{obj.totalRetAmt}}</span>
-      </div>
-      <div>
-        <button @click="queryRepayMethod">立即还款</button>
-      </div>
-    </footer> 
-    <!-- 重新申请 -->
-    <footer class="footer-state" v-else-if="obj.retStatus =='5' ||obj.retStatus =='6' ||obj.retStatus =='7' ">
-      <button @click="routerFn">重新申请</button>
-    </footer>
-    <!-- 引入弹框组件 -->
-    <alert-back class="alert-back" @closeAlertFn="closeAlertFn" v-if="alertAsync">
-      <h4 class="title">详情</h4>
-      <section class="box g-border">
-        <ul v-ScrollMove>
-          <li v-for="(m,i) in alertArr" :key="i">
-            <i class="xian"></i>
-            <h5 class="g-fen-cen">
-              <span><i class="iconfont icon-clock"></i>{{m.retAmtDate}}</span>
-              <span>{{m.overdueMess}}</span>
-            </h5>
-            <p>应还本息：{{m.retAmt}}元</p>
-            <p>逾期费用：{{m.overdueAmt}}元</p>
-          </li>
-        </ul>
-      </section>
-      <section class="money g-fen-cen">
-        <span>合计(含逾期费)</span>
-        <span>{{orderObj.overdueTotalAmt}}元</span>
-      </section>
-    </alert-back>
-    <!-- 银行卡 支付 -->
-    <div class="bank-back" v-if="bankAsync" @click.self="bankAsync =false">
-      <section class="main">
-        <h4 class="title g-border">还款确认</h4>
-        <div class="money-box">
-          <P>我已经确认并同意还款</P>
-          <p>17.26元</p>
-        </div>
-        <div class="from-box">
-          <p class="g-border1 g-fen-cen-box">
-            <span>还款方式</span>
-            <span>银行划扣</span>
-          </p>
-          <p class="g-border1 g-fen-cen-box">
-            <span>还款银行卡</span>
-            <span class="g-cen-y">
-              <i class="g-back" :style="{'background-image':'url('+bankObj.bankIcon+')'}"></i>
-              {{bankObj.bankName}}
-            </span>
-          </p>
-        </div>
-        <div class="btn-box">
-          <p>您本月还有<span>{{orderObj.availNum}}</span>次主动还款机会</p>
-          <p><button @click="submitFn">立即还款</button></p>
-        </div>
-        <div class="text-box">{{bankObj.warmMesg}}</div>
-      </section>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -185,8 +189,10 @@ export default {
   data () {
     return {
       stateObj : {},
-      obj :{},
-      orderObj : {},
+      obj :{
+        notify : ''
+      },
+      orderObj : {reasonMesg : ''},
       alertAsync : false,//详情弹框
       alertArr   : [] , //详情数据
       asyncText : '按期' ,
@@ -200,19 +206,21 @@ export default {
   },
   methods : {
     ...mapActions(['setToastObj','setLodingAsync']),
+    //动态变换class
     classFn (status) {
       switch (status) {
-        case 5:
+        case '6':
           return 'state-hui'
-        case '3':
-        case '4':
         case '1':
+        case '2':
           return 'state-ori'
-        case 2:
-        case 6:
+        case '4':
+        case '5':
           return 'state-red'
-        case '8':
-        case 7:
+        case '-1':
+        case '-2':
+        case '7':
+        case '3':
           return 'state-blue'
       }
     },
@@ -225,10 +233,15 @@ export default {
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
+          console.log(res)
           this.obj = res.loanInfo;
           if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
             this.listAsync = true;
             this.activePayDetail();
+          }
+          //判断是否显示还款记录 
+          if(this.obj.retStatus =='7' || this.obj.retStatus =='4'|| this.obj.retStatus =='3'|| this.obj.retStatus =='-1'){
+            window.LabiWinJSI.showList('show');
           }
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
@@ -360,9 +373,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.state-wrap{
+.state-wrap-box{
   padding:0px 0 100px;
   transform: translate(0,-200px);
+  position: fixed;
+  height: 100%;
+  width:100%;
   .refresh-box{
     margin-bottom: 20px;
   }
@@ -553,6 +569,8 @@ export default {
       color:$col-9;
     }
   }
+}
+.fixed-box{
   .alert-back{
     .title{
       line-height: 100px;
@@ -630,6 +648,7 @@ export default {
     width:100%;
     bottom:0;
     left:0;
+    height: 100px;
     button{
       height: 100px;
       font-size: 36px;
