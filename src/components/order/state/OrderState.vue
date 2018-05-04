@@ -55,7 +55,7 @@
         <!-- 订单结算 -->
         <section class="jiesuan g-fen-cen" v-else-if="obj.retStatus =='7'">
           <span class="g-cen-y"><i class="iconfont icon-jie"></i>结算证明</span>
-          <span>下载</span>
+          <span @click="downloadFn">下载</span>
         </section>
       </header>
       <main class="main-state">
@@ -349,6 +349,7 @@ export default {
     agreementFn () {
       this.$router.push({path:'/agreement',query:{id:this.obj.id}})
     },
+    //给位移赋值
     moveRefresh (num) {
       this.startY = num;
     },
@@ -357,8 +358,13 @@ export default {
       //根据订单ID查看详细信息
       this.queryOrderByLoanIDNew();
     },
+    //跳转到订单记录页
     listCallBack () {
       this.$router.push({path:'/order/orderRecord',query:{loanId:this.$route.query.loanId}})
+    },
+    //下载结清证明
+    downloadFn () {
+      
     }
   },
   mounted () {
