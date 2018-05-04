@@ -84,7 +84,7 @@ export default {
       line-height: 40px;
       font-size: 20px;
       color:$col-6;
-      // margin-bottom: 20px;
+      margin-bottom: 20px;
 
       display: -webkit-box;
     }
