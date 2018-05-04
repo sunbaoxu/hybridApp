@@ -88,8 +88,8 @@ let router = new Router({
     {path: '/bank/notesBank',name: '存管账户授权确认',component: NotesBank,meta:{title:'存管账户授权确认'}},
 
 
-    //保存借款信息
-    {path: '/loanBaocun',name: '保存借款信息',component: LoanBaocun,meta:{title:'保存借款信息'}},
+    //主借款人
+    {path: '/loanBaocun',name: '主借款人',component: LoanBaocun,meta:{title:'主借款人'}},
     //协议页
     {path: '/agreement',name: 'agreement',component: Agreement,meta:{title:'协议列表'}},
     //上传照片
