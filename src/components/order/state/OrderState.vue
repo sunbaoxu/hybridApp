@@ -36,7 +36,12 @@
               <span>分期金额（元）</span>
               <span>￥{{obj.loanMoney}}</span>
             </li>
-            <li class="g-col-cen-cen-box">
+            <!-- 两种 还款日与还款期数 -->
+            <li class="g-col-cen-cen-box" v-if="obj.retStatus =='4'||obj.retStatus =='3'">
+              <span>下一还款日</span>
+              <span>{{obj.retAmtDate}}</span>
+            </li>
+            <li class="g-col-cen-cen-box" v-else>
               <span>个人还款期数</span>
               <span>{{obj.personalNper}}期</span>
             </li>
