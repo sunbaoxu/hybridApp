@@ -7,8 +7,8 @@
           <p class="g-text-ove1">商家地址：{{obj.orgAddrDetailed}}</p>
         </dd>
       </dl>
-      <p class="text" :class="{'g-text-ove2':!moreAsync}" ref="remarkId">{{obj.remark}}</p>
-      <p class="more g-cen-cen" @click="clickMore" >
+      <p class="text" :class="{'g-text-ove2':moreAsync}" ref="remarkId">{{obj.remark}}</p>
+      <p class="more g-cen-cen" @click="clickMore">
         <i class="iconfont icon-jiao-bot" :class="{'on':!moreAsync}"></i>
         <span>{{moreText}}</span>
       </p>
@@ -27,7 +27,8 @@ export default {
   data () {
     return {
       moreAsync : false,
-      moreText  : '查看更多'
+      moreText  : '查看更多',
+      clickAsync : false
     }
   },
   methods : {
@@ -36,15 +37,14 @@ export default {
       this.moreText  = this.moreAsync ? '收起更多' :'查看更多';
     },
     stringFn (str) {
-      console.log(str);
-      if(str!=undefined){
-        // setTimeout(()=>{
-        //   let h = this.$refs.remarkId.offsetHeight;
-        //   this.moreAsync = h>80 ?true:false;
-
-        //   return this.moreAsync;
-        // },10);
-      }
+      // if(str!=undefined && !this.clickAsync){
+      //   setTimeout(()=>{
+      //     let h = this.$refs.remarkId.offsetHeight;
+      //     this.moreAsync = h>80 ?true:false;
+      //     console.log(h)
+      //     if(h>=80){this.clickAsync = true;};
+      //   },10);
+      // }
     }
   }
 }
@@ -59,6 +59,7 @@ export default {
       display: flex;
       width:100%;
       height: 100px;
+      margin-bottom: 28px;
       dt{
         width: 100px;
         height: 100px;
@@ -80,12 +81,11 @@ export default {
       }
     }
     &>.text{
-      // padding: 28px 26px 0;
+      padding:0 26px;
       line-height: 40px;
       font-size: 20px;
       color:$col-6;
       margin-bottom: 20px;
-
       display: -webkit-box;
     }
     .more{
