@@ -20,6 +20,8 @@ axios.defaults.baseURL = 'http://39.107.202.87:7720/gateway2server/';
 
 //axios.defaults.baseURL = 'https://www.labifenqi.com/gateway2server/'; 
 
+// axios.defaults.baseURL = JSON.parse(localStorage.getItem('GetRequestObj')).baseUrl;
+
 
 //POST传参序列化(添加请求拦截器)
 

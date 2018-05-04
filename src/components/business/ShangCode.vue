@@ -45,7 +45,7 @@ export default {
       this.setLodingAsync(true);
 
       let obj =  globalFn.concatObj({QRcode :this.text});
-
+      
       api.queryBusinessInfoAndProgram(obj).then((res) =>{
         if(res.respCode =='000'){
           this.$router.push({path:'/business/shangList',query:{recoCode:this.text}});

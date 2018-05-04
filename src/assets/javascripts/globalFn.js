@@ -13,11 +13,11 @@ function concatObj(res) {
   //     token      = '63ad4de38a324a4a8844de7d86b10049';
 
   
-  // let loginPhone = '15133303272' ,
-  //     token      = 'eee7e5826cc84373bad760de67afbd95';
+  let loginPhone = '15133303272' ,
+      token      = 'eee7e5826cc84373bad760de67afbd95';
 
-  let loginPhone = GetRequestObjs.loginPhone ,
-      token      = GetRequestObjs.token;
+  // let loginPhone = GetRequestObjs.loginPhone ,
+  //     token      = GetRequestObjs.token;
 
   let   reqTime    = getFormateDate(),
         sign       = getmd5(loginPhone+reqTime);

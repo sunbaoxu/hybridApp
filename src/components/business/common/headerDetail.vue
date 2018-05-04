@@ -7,7 +7,7 @@
           <p class="g-text-ove1">商家地址：{{obj.orgAddrDetailed}}</p>
         </dd>
       </dl>
-      <p class="text" :class="{'g-text-ove2':!moreAsync}">{{obj.remark}}</p>
+      <p class="text" :class="{'g-text-ove2':!moreAsync}" ref="remarkId">{{obj.remark}}</p>
       <p class="more g-cen-cen" @click="clickMore" >
         <i class="iconfont icon-jiao-bot" :class="{'on':!moreAsync}"></i>
         <span>{{moreText}}</span>
@@ -34,6 +34,17 @@ export default {
     clickMore () {
       this.moreAsync = !this.moreAsync;
       this.moreText  = this.moreAsync ? '收起更多' :'查看更多';
+    },
+    stringFn (str) {
+      console.log(str);
+      if(str!=undefined){
+        // setTimeout(()=>{
+        //   let h = this.$refs.remarkId.offsetHeight;
+        //   this.moreAsync = h>80 ?true:false;
+
+        //   return this.moreAsync;
+        // },10);
+      }
     }
   }
 }
@@ -69,11 +80,12 @@ export default {
       }
     }
     &>.text{
-      padding: 28px 26px 0;
-      line-height: 46px;
+      // padding: 28px 26px 0;
+      line-height: 40px;
       font-size: 20px;
       color:$col-6;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
+
       display: -webkit-box;
     }
     .more{
