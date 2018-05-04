@@ -27,7 +27,6 @@ export default {
       let obj =  globalFn.concatObj({
           loanId : this.$route.query.id
         });
-
       api.afContractLink(obj).then((res) =>{
         if(res.respCode =='000'){
           this.arr = res.contractList;

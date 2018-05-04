@@ -238,16 +238,15 @@ export default {
         //隐藏loading
         this.setLodingAsync(false);
         if(res.respCode =='000'){
-          console.log(res)
           this.obj = res.loanInfo;
           if(this.obj.retStatus =='3' || this.obj.retStatus =='4' ){
             this.listAsync = true;
             this.activePayDetail();
           }
           //判断是否显示还款记录 
-          if(this.obj.retStatus =='7' || this.obj.retStatus =='4'|| this.obj.retStatus =='3'|| this.obj.retStatus =='-1'){
-            window.LabiWinJSI.showList('show');
-          }
+          // if(this.obj.retStatus =='7' || this.obj.retStatus =='4'|| this.obj.retStatus =='3'|| this.obj.retStatus =='-1'){
+          //   window.LabiWinJSI.showList('show');
+          // }
         } else{
           this.setToastObj({async:true,respMesg:res.respMesg});
         }
@@ -347,7 +346,7 @@ export default {
     },
     //跳转协议页
     agreementFn () {
-      this.$router.push({path:'/agreement',query:{id:this.obj.id}})
+      this.$router.push({path:'/agreement',query:{id:this.obj.id}});
     },
     //给位移赋值
     moveRefresh (num) {

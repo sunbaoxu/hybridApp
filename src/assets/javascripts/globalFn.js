@@ -5,7 +5,7 @@ function getmd5(str) {
 }
 //参数合并
 function concatObj(res) {
-  //{"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18911894265","token":"9a2e1be5a4184a9b9bd5aea811d75688","reqTime":"2018-05-04 14:17:41","sign":"30fd543ec8b3f2f152df827e145b8e82","loanId":"bfrovJOX579vbjISQhr"}
+  //{"chanName":"website","chanType":"APP4.11.4","entranceID":"41","loginPhone":"18911894265","token":"9a2e1be5a4184a9b9bd5aea811d75688","reqTime":"2018-05-04 16:47:57","sign":"9b4eebf95bc83f32c0aacde1bc99c3d1","loanId":"9SDeEAM7LP3mE6mh0ez"}
 
   let GetRequestObjs = JSON.parse(localStorage.getItem('GetRequestObj'));
 
